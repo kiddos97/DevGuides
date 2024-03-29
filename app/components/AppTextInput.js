@@ -1,37 +1,45 @@
 import React from 'react'
 import { SafeAreaView, Text, View, StyleSheet, TextInput} from 'react-native'
+import color from '../../config/color'
 
 const AppTextInput = () => {
   return (
     
-   <SafeAreaView>
-    <View style={style.usernameContainer}>
+   <>
+    <View style={styles.usernameContainer}>
       <TextInput
-      placeholder='User Name'/>
+      placeholder='User Name'
+      placeholderTextColor={color.AppBackgroundColor}
+      />
       </View>
-      <View style={style.passwordContainer}>
-        <TextInput placeholder='password'/>
+      <View style={styles.passwordContainer}>
+        <TextInput
+        placeholder='password'
+        placeholderTextColor={color.AppBackgroundColor}/>
       </View>
-   </SafeAreaView>
+      </>
+   
   )
 }
 
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 
   usernameContainer: {
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: color.borderColor,
     padding: 20,
     borderRadius: 35,
-    margin: 10
+    margin: 10,
+    backgroundColor:color.TextbackgroundColor
   },
   passwordContainer: {
     borderWidth: 2,
-    borderColor: 'black',
     padding: 20,
+    borderColor:color.borderColor,
     borderRadius: 35,
-    margin: 10
+    margin: 10,
+    backgroundColor:color.TextbackgroundColor
   }
 
 });

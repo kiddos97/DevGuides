@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   usernameContainer: {
     borderWidth: 2,
     borderColor: color.borderColor,
-    padding: 20,
+    padding:20,
     borderRadius: 35,
     margin: 10,
     backgroundColor:color.TextbackgroundColor

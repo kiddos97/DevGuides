@@ -2,6 +2,7 @@
 import { SafeAreaView, View, StyleSheet,Text, Image } from 'react-native'
 import AppTextInput from '../components/AppTextInput'
 import color from '../../config/color'
+import Button from '../components/Button'
 
 const LoginScreen = () => {
   return (
@@ -15,7 +16,10 @@ const LoginScreen = () => {
             </View>
             <View style={styles.UserContainer}>
                 <AppTextInput/>
-                </View>    
+                </View>
+                <View style={styles.LoginContainer}>
+                    <Button/>
+                    </View>    
     </SafeAreaView>
   
   )
@@ -26,6 +30,10 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         backgroundColor:color.AppBackgroundColor
+    },
+    LoginContainer:{
+        padding:20,
+        marginTop:50,
     },
     logo:{
         width:100,

@@ -1,11 +1,10 @@
-import React from 'react'
-import {View, Text, StyleSheet} from 'react-native'
-import SearchComponent from '../components/SearchComponent'
 
-const HomeScreen = () => {
+import {View, Text, StyleSheet} from 'react-native'
+
+const AccountScreen = () => {
   return (
     <View style={styles.container}>
-    <SearchComponent/>
+    <Text>Hi</Text>
     </View>
   )
 }
@@ -13,8 +12,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
     container:{
         padding:10,
-        marginVertical:55
+        marginVertical:70
     }
 })
-
-export default HomeScreen
+export default AccountScreen

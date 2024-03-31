@@ -9,10 +9,10 @@ import AccountScreen from '../screen/AccountScreen';
 const TabNavigation = () => {
     const Tab = createBottomTabNavigator();
   return (
-   
+ 
   <Tab.Navigator initialRouteName='Home'>
     <Tab.Screen 
-        name="Home"
+        name="page"
      component={HomeScreen}
      options={{
         headerShown: false,
@@ -26,6 +26,8 @@ const TabNavigation = () => {
         headerShown:false
       }}/>
       </Tab.Navigator>
+  
+
 
   )
 }

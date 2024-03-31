@@ -3,11 +3,12 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import color from '../../config/color';
 import { LinearGradient } from 'expo-linear-gradient';
 
-const Button = () => {
+
+const Button = ({navigation}) => {
   return (
    <View>
     <View>
-        <TouchableOpacity onPress={() => console.log('Login button pressed')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
         <LinearGradient
         // Button Linear Gradient
         colors={[color.buttonColor2, color.buttonColor3]}

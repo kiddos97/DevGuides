@@ -4,7 +4,7 @@ import AppTextInput from '../components/AppTextInput'
 import color from '../../config/color'
 import Button from '../components/Button'
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   return (
    
     <SafeAreaView style={styles.container}>
@@ -18,7 +18,7 @@ const LoginScreen = () => {
                 <AppTextInput/>
                 </View>
                 <View style={styles.LoginContainer}>
-                    <Button/>
+                    <Button navigation={navigation}/>
                     </View>    
     </SafeAreaView>
   

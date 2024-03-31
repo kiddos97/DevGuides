@@ -5,11 +5,15 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AccountScreen from '../screen/AccountScreen';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import color from '../../config/color';
+import { useState, useEffect} from 'react'
+import { ActivityIndicator } from 'react-native';
 
 
 
 const TabNavigation = () => {
   const Tab = createMaterialBottomTabNavigator();
+
+
   return (
  
   <Tab.Navigator 

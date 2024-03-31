@@ -1,17 +1,33 @@
 
-import { SafeAreaView, View, StyleSheet,Text, Image } from 'react-native'
+import { SafeAreaView, View, StyleSheet,Text, Image, ActivityIndicator } from 'react-native'
 import AppTextInput from '../components/AppTextInput'
 import color from '../../config/color'
 import Button from '../components/Button'
+import { useState } from 'react'
 
-const LoginPress = ({navigation}) => {
-    navigation.navigate('Home')
-}
-const RegisterPress = () => {
-    console.log('register button pressed')
-}
+
 
 const LoginScreen = ({navigation}) => {
+    const [isLoading, setLoading] = useState(false)
+
+ 
+      
+
+    const LoginPress = () => {
+        setLoading(true); // Set loading to true when login button is pressed
+    // Simulate login process with setTimeout
+    setTimeout(() => {
+      setLoading(false); // Set loading to false after some time (simulating successful login)
+      navigation.navigate('Home');
+    }, 2000); // Adjust the time as needed
+    }
+    const RegisterPress = () => {
+        console.log('register button pressed')
+    }
+
+    
+
+
   return (
    
     <SafeAreaView style={styles.container}>
@@ -25,7 +41,11 @@ const LoginScreen = ({navigation}) => {
                 <AppTextInput/>
                 </View>
                 <View style={styles.LoginContainer}>
+                    {isLoading ? ( 
+                    <ActivityIndicator size='large' color={color.white} />) : (
                     <Button LoginPress={LoginPress} RegisterPress={RegisterPress}/>
+                    )
+                    }
                     </View>    
     </SafeAreaView>
   

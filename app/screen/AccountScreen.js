@@ -1,5 +1,6 @@
 
 import {View, Text, StyleSheet} from 'react-native'
+import color from '../../config/color';
 
 const AccountScreen = () => {
   return (
@@ -12,7 +13,8 @@ const AccountScreen = () => {
 const styles = StyleSheet.create({
     container:{
         padding:10,
-        marginVertical:70
+        marginVertical:70,
+       
     }
 })
 export default AccountScreen

@@ -1,33 +1,36 @@
 import React from 'react'
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity, TouchableHighlight} from 'react-native'
 import color from '../../config/color';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useState } from 'react';
 
+const Button = ({ LoginPress, RegisterPress}) => {
 
-const Button = ({navigation}) => {
+    
+
+  
   return (
    <View>
     <View>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-        <LinearGradient
-        // Button Linear Gradient
-        colors={[color.buttonColor2, color.buttonColor3]}
-        start= {{x: 0.1, y: 0.2}}
-        style={styles.buttonContainer}>
-        <Text style={styles.text}>Login</Text>
-      </LinearGradient>
-        </TouchableOpacity>
+        <TouchableHighlight
+        activeOpacity={4}
+        underlayColor={color.buttonColor1}
+        style={styles.buttonContainer}
+        onPress={LoginPress}
+        >
+            <Text style={styles.text}>Login</Text>
+        </TouchableHighlight>
     </View>
     <View>
-        <TouchableOpacity onPress={() => console.log('Register button pressed')}>
-        <LinearGradient
-        // Button Linear Gradient
-        colors={[color.buttonColor2, color.buttonColor3]}
-        start= {{x: 0.1, y: 0.2}}
-        style={styles.buttonContainer1}>
-        <Text style={styles.text}>Register</Text>
-      </LinearGradient>
-        </TouchableOpacity>
+        <TouchableHighlight 
+        activeOpacity={4}
+        underlayColor={color.buttonColor1}
+        style={styles.buttonContainer1}
+        onPress={RegisterPress}>
+        <View>
+            <Text style={styles.text}>Register</Text>
+        </View>
+        </TouchableHighlight>
     </View>
     <View style={styles.textContainer}>
         <TouchableOpacity onPress={() => console.log('forgot username pressed')}>
@@ -47,16 +50,14 @@ const styles = StyleSheet.create({
         borderWidth:2,
         borderRadius: 35,
         padding:20,
-        backgroundColor:color.buttonColor1
+        borderColor: color.white
     },
     buttonContainer1:{
         borderWidth:2,
         borderRadius: 35,
+        borderColor:color.white,
         padding:20,
         marginTop:15,
-        shadowOpacity:0.3,
-        shadowRadius: 3,
-        shadowOffset:{width:-2, height: 4}
     },
     textContainer:{
         marginTop:15,

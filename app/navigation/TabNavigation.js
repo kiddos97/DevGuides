@@ -1,22 +1,28 @@
 
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screen/HomeScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AccountScreen from '../screen/AccountScreen';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import color from '../../config/color';
+
 
 
 const TabNavigation = () => {
-    const Tab = createBottomTabNavigator();
+  const Tab = createMaterialBottomTabNavigator();
   return (
  
-  <Tab.Navigator initialRouteName='Home'>
+  <Tab.Navigator 
+  initialRouteName='Home'
+  activeColor={color.white}
+  barStyle={{ backgroundColor: color.AppBackgroundColor }}>
     <Tab.Screen 
         name="Homepage"
      component={HomeScreen}
      options={{
         headerShown: false,
-        tabBarLabel:'Home'
+        tabBarLabel:'Home',
+        tabBarIcon:() => <MaterialCommunityIcons name='home' size={25}/>
      }}
      />
       <Tab.Screen

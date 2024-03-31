@@ -4,6 +4,13 @@ import AppTextInput from '../components/AppTextInput'
 import color from '../../config/color'
 import Button from '../components/Button'
 
+const LoginPress = ({navigation}) => {
+    navigation.navigate('Home')
+}
+const RegisterPress = () => {
+    console.log('register button pressed')
+}
+
 const LoginScreen = ({navigation}) => {
   return (
    
@@ -18,7 +25,7 @@ const LoginScreen = ({navigation}) => {
                 <AppTextInput/>
                 </View>
                 <View style={styles.LoginContainer}>
-                    <Button navigation={navigation}/>
+                    <Button LoginPress={LoginPress} RegisterPress={RegisterPress}/>
                     </View>    
     </SafeAreaView>
   

@@ -1,12 +1,9 @@
 
-import HomeScreen from '../screen/HomeScreen';
-import { NavigationContainer } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AccountScreen from '../screen/AccountScreen';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import color from '../../config/color';
-import { useState, useEffect} from 'react'
-import { ActivityIndicator } from 'react-native';
+
 
 
 
@@ -26,7 +23,7 @@ const TabNavigation = () => {
      options={{
         headerShown: false,
         tabBarLabel:'Home',
-        tabBarIcon:() => <MaterialCommunityIcons name='home' size={25}/>
+        tabBarIcon:() => <MaterialCommunityIcons name='home' color={color.white} size={25}/>
      }}
      />
       <Tab.Screen

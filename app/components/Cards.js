@@ -2,43 +2,56 @@ import React ,{useState} from 'react'
 import {Text, View, StyleSheet, Image} from 'react-native'
 import person from '../assets/person.jpg'
 import color from '../../config/color';
-const Cards = ({title,image, backgroundcolor}) => {
+import { TouchableOpacity } from 'react-native-gesture-handler';
+const Cards = ({title,image,backgroundColor,navigation}) => {
+    const handlePress = () => {
+        console.log(title)
+    }
     
   return (
-   <View style={[styles.container,{ backgroundcolor }]}>
+    <TouchableOpacity onPress={handlePress}>
+ <View style={[styles.container,{backgroundColor}]}>
     {image && ( <View style={styles.imagecontainer}>
         <Image
     style={styles.image}
     source={image}/>
      </View>)}
-   <Text>{title}</Text>
+     <View style={styles.Textcontainer}>
+     <Text style={styles.text}>{title}</Text>
+     </View>
     </View>
+    </TouchableOpacity>
+  
   )
 }
 
 const styles = StyleSheet.create({
     container:{
-        borderWidth: 1,
+        borderWidth: 2,
         borderRadius:8,
-        padding: 1,
+        borderColor:color.white,
+        padding: 10,
+        backgroundColor:color.TextbackgroundColor
        
     },
     imagecontainer:{
         flexDirection:'row',
-        justifyContent:'space-between'
+        justifyContent:'center'
     },
     image:{
-        width:30,
-        height:30,
+        width:100,
+        height:100,
         borderRadius: 35
     },
     text:{
-        color:color.white
+        color:color.AppBackgroundColor,
+        fontWeight:'bold',
+        textAlign:'center'
     },
     Textcontainer:{
         margin:10
     },
-    messagecontainer:{
+    messagetext:{
         marginVertical:5
     }
 })

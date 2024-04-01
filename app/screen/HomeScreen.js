@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text, StyleSheet,  TouchableHighlight, TouchableOpacity, FlatList, Platform,StatusBar, ActivityIndicator, Image,ImageBackground} from 'react-native'
+import {View, Text, StyleSheet,  TouchableHighlight, TouchableOpacity, FlatList, Platform,StatusBar, ActivityIndicator, Image,ImageBackground, ScrollView} from 'react-native'
 import Cards from '../components/Cards'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -8,14 +8,14 @@ import color from '../../config/color';
 import person from '../assets/person.jpg';
 import background from '../assets/background.jpg';
 import javascript from '../assets/javascript.png';
-import react from '../assets/react/png';
+import react from '../assets/react.png';
 import python from '../assets/python.png';
 
 
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    image:python,
+    image: python,
     title: 'Python',
   },
   {
@@ -32,7 +32,7 @@ const DATA = [
 
 
 const Separator = () => {
-  return <View style={{padding:100}}/>
+  return <View style={{marginRight:10}}/>
 }
 
 const HomeScreen = ({navigation}) => {
@@ -46,6 +46,7 @@ const HomeScreen = ({navigation}) => {
     <ImageBackground
     style={styles.screen}
     source={background}>
+      <ScrollView>
       <View style={styles.container}>
         <View style={styles.Textcontainer}>
         <TouchableWithoutFeedback onPress={handlePress}>
@@ -70,17 +71,16 @@ const HomeScreen = ({navigation}) => {
     </Text>
    </View>
    <View style={styles.newcontainer}>
-    <Text style={styles.newsText}>News</Text>
-    <View style={styles.newscard}>
+    <Text style={styles.newsText}>Quick Topics</Text>
     <FlatList
       data={DATA}
+     horizontal
       keyExtractor={item => item.id}
-      numColumns={3}
-      renderItem={({item}) => <Cards title={item.title}/>}
+      renderItem={({item}) => <Cards navigation={navigation} image={item.image} title={item.title} backgroundColor={color.white}/>}
       ItemSeparatorComponent={Separator}/>
-    </View>
    </View>
     </View>
+      </ScrollView>
     </ImageBackground>
   )
 }
@@ -147,11 +147,8 @@ const styles = StyleSheet.create({
     fontSize:20,
     fontWeight:'bold',
     color:color.AppBackgroundColor,
-    marginBottom:5
+    marginBottom:10
   },
-  newscard:{
-    paddingRight:10
-  }
 })
 
 export default HomeScreen

@@ -16,24 +16,23 @@ const TabNavigation = () => {
   <Tab.Navigator 
   initialRouteName='Home'
   activeColor={color.white}
+  labeled={false}
   barStyle={{ 
-    backgroundColor: color.backgroundColor
+    backgroundColor: 'transparent',
+    borderTopWidth: 0,
+    position: 'absolute',
+    left: 50,
+    right: 50,
+    bottom: 20,
+    height: 100
   }}>
     <Tab.Screen 
         name="Homepage"
      component={HomeScreen}
      options={{
-        headerShown: false,
-        tabBarLabel:'Home',
         tabBarIcon:() => <MaterialCommunityIcons name='home' color={color.white} size={25}/>
      }}
      />
-      <Tab.Screen
-      name="Account"
-      component={AccountScreen}
-      options={{
-        headerShown:false
-      }}/>
       </Tab.Navigator>
   
 

@@ -22,7 +22,7 @@ const SearchComponent = () => {
 const styles = StyleSheet.create({
 
     iconContainer:{
-        padding:1
+        padding:10
     },
     searchContainer:{
 
@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
         padding: 5,
         borderRadius:35,
         justifyContent:'space-between',
-        backgroundColor:color.white
+        backgroundColor:color.white,
+        width:150,
 
     }
 

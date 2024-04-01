@@ -1,12 +1,12 @@
 import React from 'react'
-import {View, Text, StyleSheet,  TouchableHighlight, TouchableOpacity, FlatList, Platform,StatusBar, ActivityIndicator} from 'react-native'
-import SearchComponent from '../components/SearchComponent'
+import {View, Text, StyleSheet,  TouchableHighlight, TouchableOpacity, FlatList, Platform,StatusBar, ActivityIndicator, Image,ImageBackground} from 'react-native'
 import Cards from '../components/Cards'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import color from '../../config/color';
-
+import person from '../assets/person.jpg';
+import background from '../assets/background.jpg';
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -25,16 +25,24 @@ const Separator = () => {
   return <View style={styles.separator}/>
   
 }
+
+
 const HomeScreen = () => {
 
 
   return (
-
-    
-    <View style={styles.container}>
-      <View style={styles.searchcontainer}>
-      <SearchComponent/>
-      </View>
+    <ImageBackground
+    style={styles.screen}
+    source={background}>
+      <View style={styles.container}>
+        <View style={styles.Textcontainer}>
+          <TouchableWithoutFeedback onPress={() => console.log('pressed')}>
+          <MaterialCommunityIcons name='menu' color={color.white} size={30}/>
+          </TouchableWithoutFeedback>
+        <View style={styles.test}>
+        <Text style={styles.title}>DEVGUIDE</Text>
+        </View>
+        </View>
     <View style={styles.cardcontainer}>
       <FlatList
       data={DATA}
@@ -43,26 +51,52 @@ const HomeScreen = () => {
       ItemSeparatorComponent={Separator}/>
     </View>
     </View>
+    </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
     container:{
-        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-        marginVertical:55,
-        backgroundColor:color.AppBackgroundColor,
-        flex:1
+      marginVertical:50
     },
     cardcontainer:{
       marginTop:20,
-      padding:10
+      padding:10,
+     
+    },
+    imagecontainer:{
+      width:50,
+      height:50,
+      marginRight:20
     },
     separator:{
       height:5
     },
     searchcontainer:{
-      padding:20
-    }
+      padding:20,
+      marginVertical:55,
+      flexDirection:'row'
+    },
+    screen:{
+      paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+      flex:1
+  },
+  Textcontainer:{
+    marginTop:30,
+    flexDirection:'row',
+    padding:10
+  },
+  title:{
+    fontWeight:'bold',
+    textAlign:'center',
+    color:color.white,
+    fontSize:20,
+    marginLeft:60
+  },
+  test:{
+    alignSelf:'center',
+    marginHorizontal:60
+  }
 })
 
 export default HomeScreen

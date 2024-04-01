@@ -50,6 +50,8 @@ const styles = StyleSheet.create({
     container:{
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
         marginVertical:55,
+        backgroundColor:color.AppBackgroundColor,
+        flex:1
     },
     cardcontainer:{
       marginTop:20,

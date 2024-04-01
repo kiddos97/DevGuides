@@ -1,6 +1,7 @@
 import React from 'react'
 import { TextInput, View, StyleSheet, TouchableOpacity } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import color from '../../config/color';
 
 const SearchComponent = () => {
   return (
@@ -29,7 +30,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 5,
         borderRadius:35,
-        justifyContent:'space-between'
+        justifyContent:'space-between',
+        backgroundColor:color.white
+
     }
 
 })

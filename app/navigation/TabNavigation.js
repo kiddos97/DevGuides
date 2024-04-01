@@ -3,7 +3,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AccountScreen from '../screen/AccountScreen';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import color from '../../config/color';
-
+import HomeScreen from '../screen/HomeScreen';
 
 
 
@@ -16,7 +16,9 @@ const TabNavigation = () => {
   <Tab.Navigator 
   initialRouteName='Home'
   activeColor={color.white}
-  barStyle={{ backgroundColor: color.AppBackgroundColor }}>
+  barStyle={{ 
+    backgroundColor: color.backgroundColor
+  }}>
     <Tab.Screen 
         name="Homepage"
      component={HomeScreen}

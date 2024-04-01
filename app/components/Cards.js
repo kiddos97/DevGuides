@@ -1,23 +1,18 @@
-import React from 'react'
+import React ,{useState} from 'react'
 import {Text, View, StyleSheet, Image} from 'react-native'
 import person from '../assets/person.jpg'
 import color from '../../config/color';
-const Cards = ({title}) => {
+const Cards = ({title,image, backgroundcolor}) => {
+    
   return (
-   <View style={styles.container}>
-    <View style={styles.imagecontainer}>
-    <Image
+   <View style={[styles.container,{ backgroundcolor }]}>
+    {image && ( <View style={styles.imagecontainer}>
+        <Image
     style={styles.image}
-    source={person}/>
-    <Text style={styles.text}>01/01/2001 1:00pm</Text>
+    source={image}/>
+     </View>)}
+   <Text>{title}</Text>
     </View>
-    <View style={styles.Textcontainer}>
-    <Text style={styles.text}>{title}</Text>
-    <View style={styles.messagecontainer}>
-    <Text style={styles.text}>{title}</Text>
-    </View>
-    </View>
-   </View>
   )
 }
 

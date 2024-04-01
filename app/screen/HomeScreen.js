@@ -7,34 +7,39 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import color from '../../config/color';
 import person from '../assets/person.jpg';
 import background from '../assets/background.jpg';
-import {DrawerActions } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
+import javascript from '../assets/javascript.png';
+import react from '../assets/react/png';
+import python from '../assets/python.png';
+
+
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
+    image:python,
+    title: 'Python',
   },
   {
     id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
+    image:react,
+    title: 'React Native',
   },
   {
     id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
+    image:javascript,
+    title: 'Javascript',
   },
 ];
+
+
 const Separator = () => {
-  return <View style={styles.separator}/>
-  
+  return <View style={{padding:100}}/>
 }
-
-
 
 const HomeScreen = ({navigation}) => {
 
 
   const handlePress = () => {
-  
+    
     navigation.openDrawer();
   }
   return (
@@ -50,31 +55,61 @@ const HomeScreen = ({navigation}) => {
         <Text style={styles.title}>DEVGUIDE</Text>
         </View>
         </View>
-    <View style={styles.cardcontainer}>
-      <FlatList
+        <View style={styles.link}>
+          <TouchableOpacity onPress={() => console.log('text pressed')}><Text style={styles.linkText}>Resources</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log('text pressed')}><Text style={styles.linkText}>Community</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log('text pressed')}><Text style={styles.linkText}>Code</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log('text pressed')}><Text style={styles.linkText}>Learning Path</Text></TouchableOpacity>
+        </View>
+   <View style={styles.bodyContainer}>
+    <Text style={styles.bodyText}>Welcome to DevGuide the 
+    Ultimate source to connect new developers to the software world!</Text>
+    <View style={{height:10}}></View>
+    <Text style={styles.bodyText}>
+      Here you are able to connect and work with other like-minded developers, from all different skills. Connect, meet and code!!!
+    </Text>
+   </View>
+   <View style={styles.newcontainer}>
+    <Text style={styles.newsText}>News</Text>
+    <View style={styles.newscard}>
+    <FlatList
       data={DATA}
       keyExtractor={item => item.id}
+      numColumns={3}
       renderItem={({item}) => <Cards title={item.title}/>}
       ItemSeparatorComponent={Separator}/>
     </View>
+   </View>
     </View>
     </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create({
+  bodyContainer:{
+    padding:10
+  },
+  bodyText:{
+    fontSize:15
+  },
     container:{
       marginVertical:50
-    },
-    cardcontainer:{
-      marginTop:20,
-      padding:10,
-     
     },
     imagecontainer:{
       width:50,
       height:50,
       marginRight:20
+    },
+    link:{
+      marginVertical:30,
+      flexDirection:'row',
+      justifyContent:'space-evenly'
+    },
+    linkText:{
+      textAlign:'center',
+      color:color.AppBackgroundColor,
+      fontSize:15,
+      fontWeight:'bold'
     },
     separator:{
       height:5
@@ -103,6 +138,19 @@ const styles = StyleSheet.create({
   test:{
     alignSelf:'center',
     marginHorizontal:60
+  },
+  newcontainer:{
+    marginVertical:30,
+    padding:10,
+  },
+  newsText:{
+    fontSize:20,
+    fontWeight:'bold',
+    color:color.AppBackgroundColor,
+    marginBottom:5
+  },
+  newscard:{
+    paddingRight:10
   }
 })
 

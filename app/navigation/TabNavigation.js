@@ -15,7 +15,7 @@ const TabNavigation = () => {
   return (
  
   <Tab.Navigator 
-  initialRouteName='Home'
+  initialRouteName='Homepage'
   activeColor={color.white}
   labeled={false}
   barStyle={{ 
@@ -31,14 +31,14 @@ const TabNavigation = () => {
         name="Homepage"
      component={HomeScreen}
      options={{
-        tabBarIcon:() => <MaterialCommunityIcons name='home' color={color.white} size={25}/>
+        tabBarIcon:() => <MaterialCommunityIcons name='home' color={color.AppBackgroundColor} size={25}/>
      }}
      />
      <Tab.Screen 
      name='Message'
      component={MessageScreen}
      options={{
-      tabBarIcon: () => <AntDesign name='message1' color={color.white} size={25}/>
+      tabBarIcon: () => <AntDesign name='message1' color={color.AppBackgroundColor} size={25}/>
      }}/>
       </Tab.Navigator>
   

@@ -13,7 +13,7 @@ export default function App() {
 
 
     <NavigationContainer>
-    <DrawerNavigation/>
+    <StackNavigation/>
     </NavigationContainer>
 
 

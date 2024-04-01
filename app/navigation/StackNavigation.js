@@ -5,6 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import LoginScreen from '../screen/LoginScreen';
 import TabNavigation from './TabNavigation';
 import color from '../../config/color';
+import DrawerNavigation from './DrawerNavigation';
 
 const Stack = createStackNavigator();
 
@@ -20,7 +21,7 @@ const StackNavigation = () => {
       />
       <Stack.Screen
         name='Home'
-        component={TabNavigation}
+        component={DrawerNavigation}
         options={{
           headerShown: false
         }}

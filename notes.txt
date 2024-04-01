@@ -1,0 +1,6 @@
+   <FlatList
+      data={DATA}
+      keyExtractor={item => item.id}
+      renderItem={({item}) => <Cards title={item.title}/>}
+      ItemSeparatorComponent={Separator}/>
+    </View>

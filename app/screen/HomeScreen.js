@@ -7,6 +7,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import color from '../../config/color';
 import person from '../assets/person.jpg';
 import background from '../assets/background.jpg';
+import {DrawerActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -27,17 +29,22 @@ const Separator = () => {
 }
 
 
-const HomeScreen = () => {
+
+const HomeScreen = ({navigation}) => {
 
 
+  const handlePress = () => {
+  
+    navigation.openDrawer();
+  }
   return (
     <ImageBackground
     style={styles.screen}
     source={background}>
       <View style={styles.container}>
         <View style={styles.Textcontainer}>
-          <TouchableWithoutFeedback onPress={() => console.log('pressed')}>
-          <MaterialCommunityIcons name='menu' color={color.white} size={30}/>
+        <TouchableWithoutFeedback onPress={handlePress}>
+            <MaterialCommunityIcons name="menu" color={color.white} size={30} />
           </TouchableWithoutFeedback>
         <View style={styles.test}>
         <Text style={styles.title}>DEVGUIDE</Text>

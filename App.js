@@ -6,14 +6,14 @@ import HomeScreen from './app/screen/HomeScreen';
 import TabNavigation from './app/navigation/TabNavigation';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import StackNavigation from './app/navigation/StackNavigation';
-
+import DrawerNavigation from './app/navigation/DrawerNavigation';
 
 export default function App() {
   return (
 
 
     <NavigationContainer>
-    <StackNavigation/>
+    <DrawerNavigation/>
     </NavigationContainer>
 
 

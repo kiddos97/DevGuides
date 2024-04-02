@@ -7,7 +7,9 @@ const SearchComponent = () => {
   return (
    <View style={styles.searchContainer}>
     <TextInput
-    placeholder='Search.....'/>
+    style={styles.textinput}
+    placeholder='Search.....'
+    placeholderTextColor={color.white}/>
     <View style={styles.iconContainer}>
         <TouchableOpacity onPress={() => console.log('Search button pressed')}>
         <AntDesign
@@ -25,16 +27,20 @@ const styles = StyleSheet.create({
         padding:10
     },
     searchContainer:{
-
         flexDirection:'row',
-        borderWidth: 1,
+        borderWidth: 2,
         padding: 5,
         borderRadius:35,
         justifyContent:'space-between',
-        backgroundColor:color.white,
-        width:150,
+        backgroundColor:'rgba(0,0,0,0.3)',
+        borderColor:color.AppBackgroundColor
 
-    }
+    },
+    textinput: {
+        color: color.white,
+        fontSize: 18,
+    },
+
 
 })
 export default SearchComponent

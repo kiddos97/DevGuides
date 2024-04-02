@@ -1,12 +1,15 @@
 import React, {useState} from 'react'
-import {View, Text, StyleSheet, Platform, StatusBar, TouchableOpacity, FlatList,SafeAreaView} from 'react-native'
+import {View, Text, StyleSheet, Platform, StatusBar, TouchableOpacity, FlatList,SafeAreaView, ScrollView} from 'react-native'
 import color from '../../config/color';
 import { message } from '../../Message/Message';
+import SearchComponent from '../components/SearchComponent';
 
 
 import ListItem from '../../List/ListItem';
 
 import ListItemDelete from '../../List/ListItemDelete'
+
+
 
 const MessageScreen = () => {
 
@@ -20,9 +23,17 @@ const handleDelete = (selectedMessage) => {
   
   setMessages(newMessages);
 };
+
+
+
   return (
-    <SafeAreaView style={styles.screen}>
-    <FlatList
+    <View style={styles.screen}>
+      <View style={styles.container}>
+      <View style={styles.heading}>
+        <Text style={styles.headingText}>Messages</Text>
+        <SearchComponent/>
+      </View>
+      <FlatList
       data={messages}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
@@ -59,21 +70,40 @@ const handleDelete = (selectedMessage) => {
   
   
   ])}}
+  scrollToEnd
     />
-  </SafeAreaView>
+    </View>
+  </View>
   )
 }
 
 const styles = StyleSheet.create({
+  container:{
+    padding:5
+  },
     screen:{
       paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-      flex:1
-       
+      flex:1,
+      backgroundColor:color.TextbackgroundColor,
+    },
+    heading:{
+      marginBottom:20,
+      marginVertical:50,
+      padding:10
+    },
+    headingText:{
+      textAlign:'center',
+      fontSize:25,
+      fontWeight:'bold',
+      marginBottom:15,
+      color:color.AppBackgroundColor
+
     },
     text:{
       color:'#fff',
       fontWeight:'bold',
       fontSize:15
-      }
+      },
+   
 })
 export default MessageScreen

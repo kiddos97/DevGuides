@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, Text, StyleSheet, Platform, StatusBar} from 'react-native'
+import {View, Text, StyleSheet, Platform, StatusBar, TouchableOpacity, FlatList,SafeAreaView} from 'react-native'
 import color from '../../config/color';
 import { message } from '../../Message/Message';
 
@@ -7,6 +7,9 @@ import { message } from '../../Message/Message';
 import ListItem from '../../List/ListItem';
 
 import ListItemDelete from '../../List/ListItemDelete'
+
+const MessageScreen = () => {
+
 
 const [messages, setMessages] = useState(message);
 const [refreshing,setRefreshing] = useState(false);
@@ -17,7 +20,6 @@ const handleDelete = (selectedMessage) => {
   
   setMessages(newMessages);
 };
-const MessageScreen = () => {
   return (
     <SafeAreaView style={styles.screen}>
     <FlatList

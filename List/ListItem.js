@@ -3,7 +3,7 @@ import { View, StyleSheet, Image,Text, TouchableHighlight } from 'react-native'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import colors from '../../config/colors';
+import colors from '../config/color';
 
 const ListItem = ({ title, subTitle, image, IconComponent,onPress, renderRightActions,renderLeftActions}) => {
 

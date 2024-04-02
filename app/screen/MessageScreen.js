@@ -1,9 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {View, Text, StyleSheet, Platform, StatusBar} from 'react-native'
 import color from '../../config/color';
 import { message } from '../../Message/Message';
-import person from '../assets/person.jpg';
-import person1 from '../assets/person1.jpg'
+
 
 import ListItem from '../../List/ListItem';
 
@@ -53,7 +52,7 @@ const MessageScreen = () => {
         id: 2, title: 'Emmanuel Imarhiagbe', description: 'Hey how is it going',image:require('../assets/person.jpg')
     },
     {
-      id: 1, title: 'Isa Kuhn', description: 'Are you home, please tell me you are home',image:require('../assets/person1.jpg')
+      id: 1, title: 'Isa Kuhn', description: 'Are you home, please tell me you are home',image:require('../assets/profile.jpg')
   },
   
   

@@ -28,7 +28,7 @@ const DrawerNavigation = () => {
     name="Account" 
     component={AccountScreen}  
     options={{ 
-      drawerLabel: 'Account' }} />
+      drawerLabel: 'Account',color:color.white }} />
     </Drawer.Navigator>
     
   )

@@ -23,12 +23,19 @@ const DrawerNavigation = () => {
       options={{ 
         headerShown:false,
         drawerLabel:'DevGuide',
+        drawerLabelStyle:{
+          color:color.AppBackgroundColor
+        },
         drawerActiveTintColor:color.textinputColor}}/>
     <Drawer.Screen 
     name="Account" 
     component={AccountScreen}  
     options={{ 
-      drawerLabel: 'Account',color:color.white }} />
+      drawerLabel: 'Account',
+      drawerLabelStyle:{
+        color:color.AppBackgroundColor
+      },
+      drawerActiveTintColor:color.textinputColor }} />
     </Drawer.Navigator>
     
   )

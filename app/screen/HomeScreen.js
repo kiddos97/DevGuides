@@ -53,8 +53,7 @@ const HomeScreen = ({navigation}) => {
     <ImageBackground
     style={styles.screen}
     source={background}>
-      <ScrollView>
-      <View style={styles.container}>
+        <View style={styles.container}>
         <View style={styles.Textcontainer}>
         <TouchableWithoutFeedback onPress={handlePress}>
             <MaterialCommunityIcons name="menu" color={color.white} size={30} />
@@ -69,6 +68,7 @@ const HomeScreen = ({navigation}) => {
           <TouchableOpacity onPress={() => console.log('text pressed')}><Text style={styles.linkText}>Code</Text></TouchableOpacity>
           <TouchableOpacity onPress={() => console.log('text pressed')}><Text style={styles.linkText}>Learning Path</Text></TouchableOpacity>
         </View>
+        <ScrollView>
    <View style={styles.bodyContainer}>
     <Text style={styles.bodyText}>Welcome to DevGuide the 
     Ultimate source to connect new developers to the software world!</Text>
@@ -94,8 +94,8 @@ const HomeScreen = ({navigation}) => {
       <Cards backgroundColor={color.white} text1={Message.text}/>
     </View>
   </View>
+  </ScrollView>
     </View>
-      </ScrollView>
     </ImageBackground>
   )
 }
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     fontSize:15
   },
     container:{
-      marginVertical:50
+      marginVertical:40
     },
     imagecontainer:{
       width:50,
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
       marginRight:20
     },
     link:{
-      marginVertical:30,
+      marginVertical:25,
       flexDirection:'row',
       justifyContent:'space-evenly'
     },
@@ -128,11 +128,6 @@ const styles = StyleSheet.create({
     },
     separator:{
       height:5
-    },
-    searchcontainer:{
-      padding:20,
-      marginVertical:55,
-      flexDirection:'row'
     },
     screen:{
       paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,

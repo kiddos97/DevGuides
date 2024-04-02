@@ -1,10 +1,12 @@
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import color from '../../config/color';
 import HomeScreen from '../screen/HomeScreen';
 import MessageScreen from '../screen/MessageScreen';
+import NotificationScreen from '../screen/NotificationScreen';
 
 
 
@@ -32,6 +34,13 @@ const TabNavigation = () => {
      component={HomeScreen}
      options={{
         tabBarIcon:() => <MaterialCommunityIcons name='home' color={color.AppBackgroundColor} size={25}/>
+     }}
+     />
+      <Tab.Screen 
+        name="Notification"
+     component={NotificationScreen}
+     options={{
+        tabBarIcon:() => <MaterialIcons name='notifications' color={color.AppBackgroundColor} size={25}/>
      }}
      />
      <Tab.Screen 

@@ -31,6 +31,13 @@ const DATA = [
 ];
 
 
+const Message = {
+    text:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' +'Quam vulputate dignissim suspendisse in. Id volutpat lacus laoreet non. ' 
+    
+  }
+
+
+
 const Separator = () => {
   return <View style={{marginRight:10}}/>
 }
@@ -79,6 +86,14 @@ const HomeScreen = ({navigation}) => {
       renderItem={({item}) => <Cards navigation={navigation} image={item.image} title={item.title} backgroundColor={color.white}/>}
       ItemSeparatorComponent={Separator}/>
    </View>
+  <View>
+  <Text style={styles.updatetext}>
+      Updates
+    </Text>
+    <View style={styles.updatecard}>
+      <Cards backgroundColor={color.white} text1={Message.text}/>
+    </View>
+  </View>
     </View>
       </ScrollView>
     </ImageBackground>
@@ -87,7 +102,7 @@ const HomeScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   bodyContainer:{
-    padding:10
+    padding:20
   },
   bodyText:{
     fontSize:15
@@ -149,6 +164,18 @@ const styles = StyleSheet.create({
     color:color.AppBackgroundColor,
     marginBottom:10
   },
+  updatecontainer:{
+    padding:10
+  },
+  updatetext:{
+    padding:10,
+    fontWeight:'bold',
+    color:color.AppBackgroundColor,
+    fontSize:20
+  },
+  updatecard:{
+    padding:10
+  }
 })
 
 export default HomeScreen

@@ -24,8 +24,8 @@ const TabNavigation = () => {
     position: 'absolute',
     left: 50,
     right: 50,
-    bottom: 20,
-    height: 100
+    bottom: 40,
+    height: 75
   }}>
     <Tab.Screen 
         name="Homepage"

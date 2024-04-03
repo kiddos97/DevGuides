@@ -1,23 +1,23 @@
 import React from 'react'
 import { SafeAreaView, Text, View, StyleSheet, TextInput} from 'react-native'
 import color from '../../config/color'
-
-const AppTextInput = () => {
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+const AppTextInput = ({placeholder,backgroundColor,borderColor,secureTextEntry,icon}) => {
   return (
     
-   <>
-    <View style={styles.usernameContainer}>
+  
+    <View style={[styles.usernameContainer,{backgroundColor,borderColor}]}>
+      
       <TextInput
-      placeholder='User Name'
+      secureTextEntry={secureTextEntry}
+      placeholder={placeholder}
       placeholderTextColor={color.AppBackgroundColor}
       />
+      <View style={styles.inputContainer}>
+       {icon && <MaterialCommunityIcons name={icon} size={20} style={styles.icon} color={color.medium}/>}
+       </View>
       </View>
-      <View style={styles.passwordContainer}>
-        <TextInput
-        placeholder='password'
-        placeholderTextColor={color.AppBackgroundColor}/>
-      </View>
-      </>
+      
    
   )
 }
@@ -26,21 +26,15 @@ const AppTextInput = () => {
 const styles = StyleSheet.create({
 
   usernameContainer: {
-    borderWidth: 2,
-    borderColor: color.borderColor,
-    padding:20,
-    borderRadius: 35,
-    margin: 10,
-    backgroundColor:color.TextbackgroundColor
+    borderRadius: 25,
+    flexDirection:'row',
+    padding: 15,
+    marginVertical: 10,
+    justifyContent:'space-between'
   },
-  passwordContainer: {
-    borderWidth: 2,
-    padding: 20,
-    borderColor:color.borderColor,
-    borderRadius: 35,
-    margin: 10,
-    backgroundColor:color.TextbackgroundColor
-  }
+  icon:{
+    margin:10
+},
 
 });
 

@@ -70,7 +70,6 @@ const handleDelete = (selectedMessage) => {
   
   
   ])}}
-  scrollToEnd
     />
     </View>
   </View>
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
     },
     heading:{
       marginBottom:20,
-      marginVertical:50,
+      marginVertical:45,
       padding:10
     },
     headingText:{

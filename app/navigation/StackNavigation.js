@@ -6,6 +6,7 @@ import LoginScreen from '../screen/LoginScreen';
 import TabNavigation from './TabNavigation';
 import color from '../../config/color';
 import DrawerNavigation from './DrawerNavigation';
+import RegisterScreen from '../screen/RegisterScreen';
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,12 @@ const StackNavigation = () => {
           headerShown: false
         }}
       />
+      <Stack.Screen
+      name="Register"
+      component={RegisterScreen}
+      options={{
+        headerShown:false
+      }}/>
     </Stack.Navigator>
   );
 }

@@ -4,3 +4,12 @@
       renderItem={({item}) => <Cards title={item.title}/>}
       ItemSeparatorComponent={Separator}/>
     </View>
+
+                     <View style={styles.textContainer}>
+        <TouchableOpacity onPress={() => console.log('forgot username pressed')}>
+        <Text style={styles.text}>Forgot username</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => console.log('forgot password pressed')}>
+        <Text style={styles.text}>Forgot password</Text>
+        </TouchableOpacity>
+    </View>

@@ -1,5 +1,5 @@
 
-import { SafeAreaView, View, StyleSheet,Text, Image, ActivityIndicator } from 'react-native'
+import { SafeAreaView, View, StyleSheet,Text, Image, ActivityIndicator, TouchableOpacity } from 'react-native'
 import AppTextInput from '../components/AppTextInput'
 import color from '../../config/color'
 import Button from '../components/Button'
@@ -22,7 +22,7 @@ const LoginScreen = ({navigation}) => {
     }, 2000); // Adjust the time as needed
     }
     const RegisterPress = () => {
-        console.log('register button pressed')
+        navigation.navigate('Register')
     }
 
     
@@ -38,14 +38,29 @@ const LoginScreen = ({navigation}) => {
             />
             </View>
             <View style={styles.UserContainer}>
-                <AppTextInput/>
+                <AppTextInput
+                icon='account' 
+                placeholder='User Name' 
+                backgroundColor={color.light}/>
+                <AppTextInput
+                icon='lock'
+                secureTextEntry
+                placeholder='Password' 
+                backgroundColor={color.light}/>
                 </View>
                 <View style={styles.LoginContainer}>
                     {isLoading ? ( 
                     <ActivityIndicator size='large' color={color.white} />) : (
-                    <Button LoginPress={LoginPress} RegisterPress={RegisterPress}/>
+                    <Button onPress={LoginPress} title='Login' backgroundColor={color.light} color={color.AppBackgroundColor}/>
                     )
                     }
+                    <View style={styles.textContainer}>
+                        <Text style={styles.text}>
+                            Don't have an account?
+                        </Text>
+                        <Text onPress={RegisterPress} style={styles.text1}>Sign Up</Text>
+                    </View>
+                        
                     </View>    
     </SafeAreaView>
   
@@ -59,8 +74,8 @@ const styles = StyleSheet.create({
         backgroundColor:color.AppBackgroundColor
     },
     LoginContainer:{
-        padding:20,
-        marginTop:50,
+        padding:40,
+        marginTop:70,
     },
     logo:{
         width:100,
@@ -71,8 +86,28 @@ const styles = StyleSheet.create({
     },
     UserContainer:{
         marginTop:70,
-        padding:10
-    }
+        padding:20
+    },
+    textContainer:{
+        marginTop:15,
+        flexDirection:'row',
+        alignSelf:'center'
+    },
+    text:{
+        color:color.white,
+        textAlign:'center',
+        fontSize: 15,
+        fontWeight:'bold'
+    },
+    text1:{
+        color:color.white,
+        fontSize: 15,
+        fontWeight:'bold',
+        marginLeft:10
+    },
+    registercontainer:{
+        marginTop:15
+    },
 })
 
 export default LoginScreen

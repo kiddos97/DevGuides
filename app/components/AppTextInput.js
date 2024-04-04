@@ -14,7 +14,7 @@ const AppTextInput = ({placeholder,backgroundColor,borderColor,secureTextEntry,i
       placeholderTextColor={color.AppBackgroundColor}
       />
       <View style={styles.inputContainer}>
-       {icon && <MaterialCommunityIcons name={icon} size={20} style={styles.icon} color={color.medium}/>}
+       {icon && <MaterialCommunityIcons name={icon} size={25} style={styles.icon} color={color.medium}/>}
        </View>
       </View>
       
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     padding: 15,
     marginVertical: 10,
-    justifyContent:'space-between'
+    justifyContent:'space-between',
   },
   icon:{
     margin:10

@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         backgroundColor:color.AppBackgroundColor
     },
     LoginContainer:{
-        padding:40,
+        padding:20,
         marginTop:70,
     },
     logo:{
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     UserContainer:{
-        marginTop:70,
+        marginTop:50,
         padding:20
     },
     textContainer:{

@@ -31,13 +31,21 @@ const validationSchema = Yup.object().shape({
   });
 
 
-const RegisterScreen = () => {
+const RegisterScreen = ({navigation}) => {
 
     const handleRegister = (values, {resetForm} )=> {
         console.log(values)
         // Here you can implement your registration logic
-     resetForm()
+     resetForm({values:initialValues})
+     navigation.navigate('Login')
     }
+
+    const initialValues = {
+        name:'',
+        username:'',
+        email:'', 
+        password:'', 
+        confirmPassword:''}
 
     return (
         <SafeAreaView style={styles.screen}>
@@ -47,12 +55,7 @@ const RegisterScreen = () => {
                     <Text style={styles.bottomText}>Create a new account</Text>
                 </View>
                 <Formik
-                    initialValues={{
-                        name:'',
-                        username:'',
-                        email:'', 
-                        password:'', 
-                        confirmPassword:''}}
+                   initialValues={initialValues}
                     onSubmit={handleRegister}
                     validationSchema={validationSchema}
                 >

@@ -33,10 +33,10 @@ const validationSchema = Yup.object().shape({
 
 const RegisterScreen = () => {
 
-    const handleRegister = (values) => {
+    const handleRegister = (values, {resetForm} )=> {
         console.log(values)
         // Here you can implement your registration logic
-     
+     resetForm()
     }
 
     return (
@@ -53,7 +53,7 @@ const RegisterScreen = () => {
                         email:'', 
                         password:'', 
                         confirmPassword:''}}
-                    onSubmit={({values}) => handleRegister(values)}
+                    onSubmit={handleRegister}
                     validationSchema={validationSchema}
                 >
                     {({handleChange, handleSubmit, values, setFieldTouched,touched, errors, isValid}) => (

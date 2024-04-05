@@ -2,7 +2,8 @@ import React from 'react'
 import { SafeAreaView, Text, View, StyleSheet, TextInput} from 'react-native'
 import color from '../../config/color'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-const AppTextInput = ({placeholder,backgroundColor,borderColor,secureTextEntry,icon}) => {
+
+const AppTextInput = ({placeholder,backgroundColor,borderColor,secureTextEntry,icon, onChangeText, onBlur}) => {
   return (
     
   
@@ -12,6 +13,8 @@ const AppTextInput = ({placeholder,backgroundColor,borderColor,secureTextEntry,i
       secureTextEntry={secureTextEntry}
       placeholder={placeholder}
       placeholderTextColor={color.AppBackgroundColor}
+      onChangeText={onChangeText}
+      onBlur={onBlur}
       />
       <View style={styles.inputContainer}>
        {icon && <MaterialCommunityIcons name={icon} size={25} style={styles.icon} color={color.medium}/>}
@@ -37,7 +40,6 @@ const styles = StyleSheet.create({
 },
 
 });
-
 
 
 export default AppTextInput

@@ -1,9 +1,10 @@
-
 import { SafeAreaView, View, StyleSheet,Text, Image, ActivityIndicator, TouchableOpacity } from 'react-native'
 import AppTextInput from '../components/AppTextInput'
 import color from '../../config/color'
 import Button from '../components/Button'
 import { useState } from 'react'
+import * as Yup from 'yup';
+import { Formik} from 'formik';
 
 
 
@@ -26,6 +27,17 @@ const LoginScreen = ({navigation}) => {
     }
 
     
+    const validationSchema = Yup.object().shape({
+        username: Yup.string()
+        .min(8)
+        .max(10)
+        .required('Username is required'),
+        password: Yup.string()
+        .min(8, 'Password must contain at least 8 characters')
+        .max(50)
+        .required('Please enter your password')
+        .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/),
+      });
 
 
   return (
@@ -37,31 +49,58 @@ const LoginScreen = ({navigation}) => {
             source={require('../assets/applogo.png')}
             />
             </View>
-            <View style={styles.UserContainer}>
-                <AppTextInput
-                icon='account' 
-                placeholder='User Name' 
-                backgroundColor={color.light}/>
-                <AppTextInput
-                icon='lock'
-                secureTextEntry
-                placeholder='Password' 
-                backgroundColor={color.light}/>
-                </View>
-                <View style={styles.LoginContainer}>
-                    {isLoading ? ( 
-                    <ActivityIndicator size='large' color={color.white} />) : (
-                    <Button onPress={LoginPress} title='Login' backgroundColor={color.light} color={color.AppBackgroundColor}/>
-                    )
+            <Formik
+            initialValues={{
+                username:'',
+                password:''
+            }}
+            onSubmit={LoginPress}
+            validationSchema={validationSchema}
+            >
+            {({handleSubmit,handleChange,values, errors,touched, setFieldTouched}) => (
+                    <>
+                    <View style={styles.UserContainer}>
+                    <AppTextInput
+                    icon='account' 
+                    placeholder='User Name' 
+                    backgroundColor={color.light}
+                    onChangeText={handleChange('usernmae')}
+                    values={values.username}
+                    onBlur={() => setFieldTouched('username')}/>
+                    {
+                        touched.username && errors.username && (
+                            <Text style={styles.errormessage}>{errors.username}</Text>
+                        )
                     }
-                    <View style={styles.textContainer}>
-                        <Text style={styles.text}>
-                            Don't have an account?
-                        </Text>
-                        <Text onPress={RegisterPress} style={styles.text1}>Sign Up</Text>
+                    <AppTextInput
+                    icon='lock'
+                    secureTextEntry
+                    placeholder='Password' 
+                    backgroundColor={color.light}
+                    onChangeText={handleChange('password')}
+                    values={values.password}
+                    onBlur={() => setFieldTouched('password')}/>
+                    { touched.password && errors.password && (
+                        <Text style={styles.errormessage}>{errors.password}</Text>
+                    )}
                     </View>
-                        
-                    </View>    
+                    <View style={styles.LoginContainer}>
+                        {isLoading ? ( 
+                        <ActivityIndicator size='large' color={color.white} />) : (
+                        <Button onPress={handleSubmit} title='Login' backgroundColor={color.light} color={color.AppBackgroundColor}/>
+                        )
+                        }
+                        <View style={styles.textContainer}>
+                            <Text style={styles.text}>
+                                Don't have an account?
+                            </Text>
+                            <Text onPress={RegisterPress} style={styles.text1}>Sign Up</Text>
+                        </View>
+                        </View> 
+                    </>
+            )}
+            </Formik>
+         
     </SafeAreaView>
   
   )
@@ -69,6 +108,10 @@ const LoginScreen = ({navigation}) => {
 
 
 const styles = StyleSheet.create({
+    errormessage:{
+        color: color.danger,
+        textAlign:'center'
+    },
     container:{
         flex:1,
         backgroundColor:color.AppBackgroundColor

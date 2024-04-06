@@ -5,7 +5,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import LoginScreen from '../screen/LoginScreen';
 import TabNavigation from './TabNavigation';
 import color from '../../config/color';
-import DrawerNavigation from './DrawerNavigation';
 import RegisterScreen from '../screen/RegisterScreen';
 import ChatScreen from '../screen/ChatScreen';
 
@@ -22,8 +21,8 @@ const StackNavigation = () => {
         }}
       />
       <Stack.Screen
-        name='Home'
-        component={DrawerNavigation}
+        name='Homepage'
+        component={TabNavigation}
         options={{
           headerShown: false
         }}
@@ -38,7 +37,7 @@ const StackNavigation = () => {
       name='Chat'
       component={ChatScreen}
       options={({route}) => ({
-        headerTitle: route.params.userName,
+        title:route.params.userName,
         headerBackTitleVisible:false
       })}/>
     </Stack.Navigator>

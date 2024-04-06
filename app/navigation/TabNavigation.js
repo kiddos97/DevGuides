@@ -18,7 +18,7 @@ const TabNavigation = () => {
   return (
  
   <Tab.Navigator 
-  initialRouteName='Homepage'
+  initialRouteName='Welcome'
   activeColor={color.white}
   labeled={false}
   barStyle={{ 
@@ -31,7 +31,7 @@ const TabNavigation = () => {
     height: 75
   }}>
     <Tab.Screen 
-        name="Homepage"
+        name="Welcom"
      component={HomeScreen}
      options={{
         tabBarIcon:() => <MaterialCommunityIcons name='home' color={color.AppBackgroundColor} size={25}/>

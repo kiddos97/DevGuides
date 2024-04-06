@@ -23,7 +23,7 @@ const LoginScreen = ({navigation}) => {
                    // Simulate login process with setTimeout
                    setTimeout(() => {
                     setLoading(false); // Set loading to false after some time (simulating successful login)
-                    navigation.navigate('Home');
+                    navigation.navigate('Homepage');
                 }, 2000); // Adjust the time as needed
             }
             

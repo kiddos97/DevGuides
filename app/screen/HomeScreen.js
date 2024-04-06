@@ -10,7 +10,8 @@ import background from '../assets/background.jpg';
 import javascript from '../assets/javascript.png';
 import react from '../assets/react.png';
 import python from '../assets/python.png';
-
+import { DrawerActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const DATA = [
   {
@@ -42,11 +43,12 @@ const Separator = () => {
   return <View style={{marginRight:10}}/>
 }
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = () => {
 
+  const navigation = useNavigation();
 
   const handlePress = () => {
-    
+    //navigation.dispatch(DrawerActions.openDrawer())
     navigation.openDrawer();
   }
   return (

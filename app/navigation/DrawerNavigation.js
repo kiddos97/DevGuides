@@ -4,6 +4,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import TabNavigation from './TabNavigation';
 import color from '../../config/color';
+import StackNavigation from './StackNavigation';
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigation = () => {
@@ -11,22 +12,17 @@ const DrawerNavigation = () => {
 
     
     <Drawer.Navigator 
-    initialRouteName='DevGuide'
+    initialRouteName='Home'
     screenOptions={{
       drawerStyle:{
         backgroundColor:color.TextbackgroundColor
       }
     }}>
-      <Drawer.Screen 
-      name='DevGuide' 
-      component={TabNavigation} 
-      options={{ 
-        headerShown:false,
-        drawerLabel:'DevGuide',
-        drawerLabelStyle:{
-          color:color.AppBackgroundColor
-        },
-        drawerActiveTintColor:color.textinputColor}}/>
+      <Drawer.Screen
+      name='Home'
+      component={StackNavigation}
+      options={
+        {headerShown:false}}/>
     <Drawer.Screen 
     name="Account" 
     component={AccountScreen}  

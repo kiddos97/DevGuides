@@ -26,7 +26,9 @@ const handleDelete = (selectedMessage) => {
 };
 
 const handleChat = (item) => {
-  navigation.navigate('Chat',{userName: item.userName})
+  navigation.navigate('Home',{
+  screen:'Chat',
+  params: {userName: item.userName}})
 }
 
   return (

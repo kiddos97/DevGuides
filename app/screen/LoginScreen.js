@@ -11,13 +11,14 @@ import axios from 'axios'
 
 const LoginScreen = ({navigation}) => {
     const [isLoading, setLoading] = useState(false)
-
- 
-    const LoginPress = async () => {
+    
+    const LoginPress = async (values) => {
         setLoading(true); // Set loading to true when login button is pressed
-
         try{
-            const res = await axios.post('http://192.168.86.41:3000/login')
+            const res = await axios.post('http://192.168.86.41:3000/login',{
+                username:values.username,
+                password:values.password
+            })
             if(res.status === 200){
                    // Simulate login process with setTimeout
                    setTimeout(() => {
@@ -26,15 +27,17 @@ const LoginScreen = ({navigation}) => {
                 }, 2000); // Adjust the time as needed
             }
         }catch(error){
-            console.error(`Login failed: ${error}`)
+            if(error.message.status === 401){
+                console.error('Unauthorized username and password ')
+            }else{
+                console.error(`Login failed: ${error}`)
+            }
+           
         }
-
     }
     const RegisterPress = () => {
         navigation.navigate('Register')
     }
-
-    
     const validationSchema = Yup.object().shape({
         username: Yup.string()
         .min(8)
@@ -72,7 +75,7 @@ const LoginScreen = ({navigation}) => {
                     icon='account' 
                     placeholder='User Name' 
                     backgroundColor={color.light}
-                    onChangeText={handleChange('usernmae')}
+                    onChangeText={handleChange('username')}
                     values={values.username}
                     onBlur={() => setFieldTouched('username')}/>
                     {

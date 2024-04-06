@@ -17,13 +17,15 @@ const client = new MongoClient(uri)
 
 app.use(express.json()); //middleware
 
+
+
 app.post('/register', async (req, res) => {
 
     const {name ,username, email, password} = req.body // deconstructing the req.body
     try{
         await client.connect()
-        const database = client.db('DevGuides')
-        const collection = database.collection('User')
+        let database = client.db('DevGuides')
+        let collection = database.collection('User')
         const exisitingUser = await collection.findOne({ username })
         if(exisitingUser){
             return res.status(400).send('User already exists')
@@ -47,12 +49,14 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res)  => {
     const {username, password} = req.body
     try{
-        const user = await collection.findOne({ username })
+        await client.connect()
+        let database = client.db('DevGuides')
+        let collection = database.collection('User')
+        const user = await collection.findOne({username})
         if(!user){
             return res.status(401).json({message:'Invalid username'})
         }
         const isPasswordValid = await bcrypt.compare(password, user.password)
-
         if(!isPasswordValid){
             return res.status(401).json({message: 'Invalid password'})
         }

@@ -35,7 +35,7 @@ const RegisterScreen = ({navigation}) => {
     const handleRegister = async (values, {resetForm} )=> {
 
         try{
-            const res = await axios.post('http://localhost:3000/register', {
+            const res = await axios.post('http://192.168.86.41:3000/register', {
                 name: values.name,
                 username: values.username,
                 email:values.email,

@@ -47,8 +47,6 @@ const RegisterScreen = ({navigation}) => {
         }catch(error){
             console.error(error)
         }
-
-     
     }    
 
 

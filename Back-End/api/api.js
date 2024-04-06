@@ -15,7 +15,7 @@ const uri = `mongodb+srv://EmmanuelAdmin:${password}@atlascluster.amxnyck.mongod
 
 app.use(express.json()); //middleware
 
-let collection;
+let collection; // global variable
 
 //Function to connect to the Database
 const DatabaseConnection = async () => {

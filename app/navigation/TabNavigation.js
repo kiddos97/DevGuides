@@ -7,6 +7,7 @@ import color from '../../config/color';
 import HomeScreen from '../screen/HomeScreen';
 import MessageScreen from '../screen/MessageScreen';
 import NotificationScreen from '../screen/NotificationScreen';
+import ChatScreen from '../screen/ChatScreen';
 
 
 

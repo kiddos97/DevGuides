@@ -11,7 +11,8 @@ import ListItemDelete from '../../List/ListItemDelete'
 
 
 
-const MessageScreen = () => {
+
+const MessageScreen = ({navigation}) => {
 
 
 const [messages, setMessages] = useState(message);
@@ -24,7 +25,9 @@ const handleDelete = (selectedMessage) => {
   setMessages(newMessages);
 };
 
-
+const handleChat = (item) => {
+  navigation.navigate('Chat',{userName: item.userName})
+}
 
   return (
     <View style={styles.screen}>
@@ -38,10 +41,10 @@ const handleDelete = (selectedMessage) => {
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
         <ListItem
-          title={item.title}
+          title={item.userName}
           subTitle={item.description}
           image={item.image}
-          onPress={() => console.log('message selected', item)}
+          onPress={handleChat}
           renderRightActions={() => 
           <ListItemDelete onPress={ () => handleDelete(item)}/>}
           renderLeftActions={() => (

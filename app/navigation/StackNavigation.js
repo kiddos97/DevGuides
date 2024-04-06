@@ -7,6 +7,7 @@ import TabNavigation from './TabNavigation';
 import color from '../../config/color';
 import DrawerNavigation from './DrawerNavigation';
 import RegisterScreen from '../screen/RegisterScreen';
+import ChatScreen from '../screen/ChatScreen';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,13 @@ const StackNavigation = () => {
       options={{
         headerShown:false
       }}/>
+      <Stack.Screen
+      name='Chat'
+      component={ChatScreen}
+      options={({route}) => ({
+        headerTitle: route.params.userName,
+        headerBackTitleVisible:false
+      })}/>
     </Stack.Navigator>
   );
 }

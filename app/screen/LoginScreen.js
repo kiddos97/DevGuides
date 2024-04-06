@@ -12,8 +12,6 @@ const LoginScreen = ({navigation}) => {
     const [isLoading, setLoading] = useState(false)
 
  
-      
-
     const LoginPress = () => {
         setLoading(true); // Set loading to true when login button is pressed
     // Simulate login process with setTimeout
@@ -35,7 +33,7 @@ const LoginScreen = ({navigation}) => {
         password: Yup.string()
         .min(8, 'Password must contain at least 8 characters')
         .max(50)
-        .required('Please enter your password')
+        .required('Password is required')
         .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/),
       });
 

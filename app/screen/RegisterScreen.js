@@ -5,8 +5,7 @@ import AppTextInput from '../components/AppTextInput';
 import color from '../../config/color';
 import Button from '../components/Button';
 import * as Yup from 'yup';
-
-
+import axios from 'axios';
 
 const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -31,14 +30,27 @@ const validationSchema = Yup.object().shape({
   });
 
 
-const RegisterScreen = ({navigation}) => {
 
-    const handleRegister = (values, {resetForm} )=> {
-        console.log(values)
-        // Here you can implement your registration logic
-     resetForm({values:initialValues})
-     navigation.navigate('Login')
-    }
+const RegisterScreen = ({navigation}) => {
+    const handleRegister = async (values, {resetForm} )=> {
+
+        try{
+            const res = await axios.post('http://localhost:3000/register', {
+                name: values.name,
+                username: values.username,
+                email:values.email,
+                password :values.password
+             })
+             console.log(res.data)
+             resetForm({values:initialValues})
+             navigation.navigate('Login')
+        }catch(error){
+            console.error(error)
+        }
+
+     
+    }    
+
 
     const initialValues = {
         name:'',

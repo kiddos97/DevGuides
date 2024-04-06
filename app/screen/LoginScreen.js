@@ -26,6 +26,7 @@ const LoginScreen = ({navigation}) => {
                     navigation.navigate('Home');
                 }, 2000); // Adjust the time as needed
             }
+            
         }catch(error){
             if(error.message.status === 401){
                 console.error('Unauthorized username and password ')

@@ -12,63 +12,79 @@ const port = 3000
 const password = `Keeptrilladmin2021`
 const uri = `mongodb+srv://EmmanuelAdmin:${password}@atlascluster.amxnyck.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster`
 
-//connecting to the MongoDB
-const client = new MongoClient(uri)
 
 app.use(express.json()); //middleware
 
+let collection;
 
-
-app.post('/register', async (req, res) => {
-
-    const {name ,username, email, password} = req.body // deconstructing the req.body
+//Function to connect to the Database
+const DatabaseConnection = async () => {
     try{
+        const client = new MongoClient(uri)
         await client.connect()
-        let database = client.db('DevGuides')
-        let collection = database.collection('User')
-        const exisitingUser = await collection.findOne({ username })
-        if(exisitingUser){
-            return res.status(400).send('User already exists')
-        }
-        const hashPassword = await bcrypt.hash(password, 10)
-        const newUser = {
-            name,
-            username,
-            email,
-            password: hashPassword
-        };
-        await collection.insertOne(newUser);
-        res.status(201).json({message: 'User registered successfully'})
+        const database = client.db('DevGuides')
+        collection = database.collection('User')
+        console.log('MongoDB Connected!!')
     }catch(error){
-        res.status(500).send(`${error}`)
-    }finally {
-        await client.close();
+        console.error(`Error connecting to MongoDB: ${error}`)
+        process.exit(1)
     }
+}
+
+DatabaseConnection().then(() => {
+
+    app.listen(port, () => {
+        console.log(`Server listening on port ${port}`)
+      })
+    
+    app.post('/register', async (req, res) => {
+
+        const {name ,username, email, password} = req.body // deconstructing the req.body
+        try{
+         
+            const exisitingUser = await collection.findOne({ username })
+            if(exisitingUser){
+                return res.status(400).send('User already exists')
+            }
+            const hashPassword = await bcrypt.hash(password, 10)
+            const newUser = {
+                name,
+                username,
+                email,
+                password: hashPassword
+            };
+            await collection.insertOne(newUser);
+            res.status(201).json({message: 'User registered successfully'})
+        }catch(error){
+            res.status(500).send(`${error}`)
+        }finally {
+            await client.close();
+        }
+    })
+    
+    app.post('/login', async (req, res)  => {
+        const {username, password} = req.body
+        try{
+            const user = await collection.findOne({username})
+            if(!user){
+                return res.status(401).json({message:'Invalid username'})
+            }
+            const isPasswordValid = await bcrypt.compare(password, user.password)
+            if(!isPasswordValid){
+                return res.status(401).json({message: 'Invalid password'})
+            }
+            const token = jwt.sign({ userId: user._id }, 'secretkey', { expiresIn: '1h' });
+    
+            res.json({ token})
+        }catch(error){
+            console.error(`${error}`)
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    
+    });
+  
+}).catch((error) => {
+    console.error(`Error start server: ${error}`)
+    process.exit(1)
 })
 
-app.post('/login', async (req, res)  => {
-    const {username, password} = req.body
-    try{
-        await client.connect()
-        let database = client.db('DevGuides')
-        let collection = database.collection('User')
-        const user = await collection.findOne({username})
-        if(!user){
-            return res.status(401).json({message:'Invalid username'})
-        }
-        const isPasswordValid = await bcrypt.compare(password, user.password)
-        if(!isPasswordValid){
-            return res.status(401).json({message: 'Invalid password'})
-        }
-        const token = jwt.sign({ userId: user._id }, 'secretkey', { expiresIn: '1h' });
-
-        res.json({ token})
-    }catch(error){
-        console.error(`${error}`)
-        res.status(500).json({ message: 'Internal server error' });
-    }
-
-});
-app.listen(port, () => {
-    console.log(`listening on port ${port}`)
-  })

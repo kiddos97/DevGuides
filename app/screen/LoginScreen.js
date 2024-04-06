@@ -5,6 +5,7 @@ import Button from '../components/Button'
 import { useState } from 'react'
 import * as Yup from 'yup';
 import { Formik} from 'formik';
+import axios from 'axios'
 
 
 
@@ -12,13 +13,22 @@ const LoginScreen = ({navigation}) => {
     const [isLoading, setLoading] = useState(false)
 
  
-    const LoginPress = () => {
+    const LoginPress = async () => {
         setLoading(true); // Set loading to true when login button is pressed
-    // Simulate login process with setTimeout
-    setTimeout(() => {
-      setLoading(false); // Set loading to false after some time (simulating successful login)
-      navigation.navigate('Home');
-    }, 2000); // Adjust the time as needed
+
+        try{
+            const res = await axios.post('http://192.168.86.41:3000/login')
+            if(res.status === 200){
+                   // Simulate login process with setTimeout
+                   setTimeout(() => {
+                    setLoading(false); // Set loading to false after some time (simulating successful login)
+                    navigation.navigate('Home');
+                }, 2000); // Adjust the time as needed
+            }
+        }catch(error){
+            console.error(`Login failed: ${error}`)
+        }
+
     }
     const RegisterPress = () => {
         navigation.navigate('Register')

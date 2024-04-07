@@ -15,20 +15,19 @@ import ListItemDelete from '../../List/ListItemDelete'
 const MessageScreen = ({navigation}) => {
 
 
-const [messages, setMessages] = useState(message);
-const [refreshing,setRefreshing] = useState(false);
+  const [messages, setMessages] = useState(message);
+  const [refreshing,setRefreshing] = useState(false);
 
-const handleDelete = (selectedMessage) => {
+  const handleDelete = (selectedMessage) => {
 
   const newMessages = messages.filter((m) => m.id !== selectedMessage.id);
-  
-  setMessages(newMessages);
-};
-
-const handleChat = (item) => {
-  navigation.navigate('Home',{
-  screen:'Chat',
-  params: {userName: item.userName}})
+    
+    setMessages(newMessages);
+  };
+  const handleChat = (item) => {
+  navigation.navigate('Welcome',
+  {
+    screen:'Chat', params: {userName: item.userName}})
 }
 
   return (

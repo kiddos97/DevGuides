@@ -31,7 +31,7 @@ const TabNavigation = () => {
     height: 75
   }}>
     <Tab.Screen 
-        name="Welcom"
+        name="Welcome"
      component={HomeScreen}
      options={{
         tabBarIcon:() => <MaterialCommunityIcons name='home' color={color.AppBackgroundColor} size={25}/>

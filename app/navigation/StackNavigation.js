@@ -37,7 +37,7 @@ const StackNavigation = () => {
       name='Chat'
       component={ChatScreen}
       options={({route}) => ({
-        title:route.params.userName,
+        title:route.params.user,
         headerBackTitleVisible:false
       })}/>
     </Stack.Navigator>

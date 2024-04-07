@@ -25,9 +25,9 @@ const MessageScreen = ({navigation}) => {
     setMessages(newMessages);
   };
   const handleChat = (item) => {
-  navigation.navigate('Welcome',
+  navigation.navigate('Home',
   {
-    screen:'Chat', params: {userName: item.userName}})
+    screen:'Chat', params: {user: item.userName}})
 }
 
   return (

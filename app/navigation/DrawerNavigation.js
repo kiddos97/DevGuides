@@ -24,10 +24,10 @@ const DrawerNavigation = () => {
       options={
         {headerShown:false}}/>
     <Drawer.Screen 
-    name="Account" 
+    name="Profile" 
     component={AccountScreen}  
     options={{ 
-      drawerLabel: 'Account',
+      drawerLabel: 'Profile',
       drawerLabelStyle:{
         color:color.AppBackgroundColor
       },

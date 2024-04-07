@@ -7,6 +7,7 @@ import TabNavigation from './TabNavigation';
 import color from '../../config/color';
 import RegisterScreen from '../screen/RegisterScreen';
 import ChatScreen from '../screen/ChatScreen';
+import MessageScreen from '../screen/MessageScreen';
 
 const Stack = createStackNavigator();
 

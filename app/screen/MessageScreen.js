@@ -12,7 +12,7 @@ import ListItemDelete from '../../List/ListItemDelete'
 
 
 
-const MessageScreen = ({navigation}) => {
+const MessageScreen = ({route,navigation}) => {
 
 
   const [messages, setMessages] = useState(message);
@@ -27,7 +27,8 @@ const MessageScreen = ({navigation}) => {
   const handleChat = (item) => {
   navigation.navigate('Home',
   {
-    screen:'Chat', params: {user: item.userName}})
+    screen:'Chat', 
+    params: {user: item.userName}})
 }
 
   return (

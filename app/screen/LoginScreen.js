@@ -6,6 +6,9 @@ import { useState } from 'react'
 import * as Yup from 'yup';
 import { Formik} from 'formik';
 import axios from 'axios'
+//import {AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 //http://192.168.86.41:3000/login'
 
@@ -15,20 +18,25 @@ const LoginScreen = ({navigation}) => {
     const LoginPress = async (values) => {
         setLoading(true); // Set loading to true when login button is pressed
         try{
-            const res = await axios.post('http://192.168.1.6:3000/login',{
+            const res = await axios.post('http://localhost:3000/login',{
                 username:values.username,
                 password:values.password
             })
             if(res.status === 200){
                    // Simulate login process with setTimeout
-                   setTimeout(() => {
-                    setLoading(false); // Set loading to false after some time (simulating successful login)
-                    navigation.navigate('Homepage');
-                }, 2000); // Adjust the time as needed
+                   const authToken = res.data.token
+                   console.log(authToken)
+                   AsyncStorage.setItem('my-key', authToken)
+                   .then(() => {
+                    setTimeout(() => {
+                        setLoading(false); // Set loading to false after some time (simulating successful login)
+                        navigation.navigate('Homepage');
+                    }, 2000); 
+                   })
+              // Adjust the time as needed
             }
-            
         }catch(error){
-            if(error.message.status === 401){
+            if(error.res && error.res.status === 401){
                 console.error('Unauthorized username and password ')
             }else{
                 console.error(`Login failed: ${error}`)

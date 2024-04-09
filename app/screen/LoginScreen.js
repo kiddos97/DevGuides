@@ -1,4 +1,4 @@
-import { SafeAreaView, View, StyleSheet,Text, Image, ActivityIndicator, TouchableOpacity } from 'react-native'
+import { SafeAreaView, View, StyleSheet,Text, Image, ActivityIndicator,Alert} from 'react-native'
 import AppTextInput from '../components/AppTextInput'
 import color from '../../config/color'
 import Button from '../components/Button'
@@ -18,7 +18,7 @@ const LoginScreen = ({navigation}) => {
     const LoginPress = async (values) => {
         setLoading(true); // Set loading to true when login button is pressed
         try{
-            const res = await axios.post('http://localhost:3000/login',{
+            const res = await axios.post('http://192.168.86.41:3000/login',{
                 username:values.username,
                 password:values.password
             })
@@ -31,15 +31,17 @@ const LoginScreen = ({navigation}) => {
                     setTimeout(() => {
                         setLoading(false); // Set loading to false after some time (simulating successful login)
                         navigation.navigate('Homepage');
+                        Alert.alert('Success!!', 'you have logged in!');
                     }, 2000); 
                    })
-              // Adjust the time as needed
             }
         }catch(error){
             if(error.res && error.res.status === 401){
                 console.error('Unauthorized username and password ')
+                Alert.alert('Login failed','Invalid username or password')
             }else{
                 console.error(`Login failed: ${error}`)
+                Alert.alert('Login failed','Error occurred!')
             }
            
         }

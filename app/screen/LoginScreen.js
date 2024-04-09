@@ -10,12 +10,10 @@ import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-//http://192.168.86.41:3000/login'
-
 const LoginScreen = ({navigation}) => {
     const [isLoading, setLoading] = useState(false)
     
-    const LoginPress = async (values) => {
+    const LoginPress = async (values,{resetForm}) => {
         setLoading(true); // Set loading to true when login button is pressed
         try{
             const res = await axios.post('http://192.168.86.41:3000/login',{
@@ -30,6 +28,7 @@ const LoginScreen = ({navigation}) => {
                    .then(() => {
                     setTimeout(() => {
                         setLoading(false); // Set loading to false after some time (simulating successful login)
+                        resetForm({values:initialValues});
                         navigation.navigate('Homepage');
                         Alert.alert('Success!!', 'you have logged in!');
                     }, 2000); 
@@ -61,6 +60,12 @@ const LoginScreen = ({navigation}) => {
         .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/),
       });
 
+      const initialValues = {
+            username:'',
+            password:''
+        }
+      
+
 
   return (
    
@@ -72,10 +77,7 @@ const LoginScreen = ({navigation}) => {
             />
             </View>
             <Formik
-            initialValues={{
-                username:'',
-                password:''
-            }}
+            initialValues={initialValues}
             onSubmit={LoginPress}
             validationSchema={validationSchema}
             >

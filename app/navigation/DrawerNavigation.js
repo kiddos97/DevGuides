@@ -27,7 +27,8 @@ const DrawerNavigation = () => {
     name="Profile" 
     component={AccountScreen}  
     options={{ 
-      drawerLabel: 'Profile',
+      drawerLabel: 'Account',
+      headerShown:false,
       drawerLabelStyle:{
         color:color.AppBackgroundColor
       },

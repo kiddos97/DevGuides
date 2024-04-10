@@ -74,7 +74,6 @@ DatabaseConnection().then(() => {
                 return res.status(401).json({message: 'Invalid password'})
             }
             const token = jwt.sign({ userId: user._id }, 'secretkey', { expiresIn: '1h' });
-    
             res.json({ token})
         }catch(error){
             console.error(`${error}`)

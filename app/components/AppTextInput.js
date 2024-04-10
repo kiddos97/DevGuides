@@ -29,9 +29,9 @@ const AppTextInput = ({placeholder,backgroundColor,borderColor,secureTextEntry,i
 const styles = StyleSheet.create({
 
   usernameContainer: {
-    borderRadius: 25,
+    borderRadius: 20,
     flexDirection:'row',
-    padding: 15,
+    padding: 5,
     marginVertical: 10,
     justifyContent:'space-between',
   },

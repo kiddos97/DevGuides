@@ -13,7 +13,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const Stack = createStackNavigator();
 
-const StackNavigation = ({route}) => {
+const StackNavigation = () => {
   return (
     <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen

@@ -8,6 +8,8 @@ import color from '../../config/color';
 import RegisterScreen from '../screen/RegisterScreen';
 import ChatScreen from '../screen/ChatScreen';
 import MessageScreen from '../screen/MessageScreen';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 
 const Stack = createStackNavigator();
 
@@ -34,6 +36,12 @@ const StackNavigation = ({route}) => {
       options={{
         headerShown:false
       }}/>
+    <Stack.Screen 
+     name='Message'
+     component={MessageScreen}
+     options={{
+      tabBarIcon: () => <AntDesign name='message1' color={color.AppBackgroundColor} size={25}/>
+     }}/>
       <Stack.Screen
       name='Chat'
       component={ChatScreen}

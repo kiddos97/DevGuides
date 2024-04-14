@@ -99,7 +99,7 @@ const LoginScreen = ({navigation}) => {
                     <AppTextInput
                     icon='lock'
                     secureTextEntry
-                    placeholder='Password' 
+                    placeholder='Password'
                     backgroundColor={color.light}
                     onChangeText={handleChange('password')}
                     values={values.password}
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     },
     UserContainer:{
         marginTop:50,
-        padding:20
+        padding:10
     },
     textContainer:{
         marginTop:15,

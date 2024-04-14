@@ -5,12 +5,15 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import TabNavigation from './TabNavigation';
 import color from '../../config/color';
 import StackNavigation from './StackNavigation';
+import { createContext } from 'react';
+
+
+
 const Drawer = createDrawerNavigator();
 
-const DrawerNavigation = () => {
+const DrawerNavigation = ({route}) => {
   return (
 
-    
     <Drawer.Navigator 
     initialRouteName='Home'
     screenOptions={{
@@ -21,8 +24,8 @@ const DrawerNavigation = () => {
       <Drawer.Screen
       name='Home'
       component={StackNavigation}
-      options={
-        {headerShown:false}}/>
+      initialParams={{route}}
+      options={{headerShown:false}}/>
     <Drawer.Screen 
     name="Profile" 
     component={AccountScreen}  
@@ -34,7 +37,7 @@ const DrawerNavigation = () => {
       },
       drawerActiveTintColor:color.textinputColor }} />
     </Drawer.Navigator>
-    
+
   )
 }
 

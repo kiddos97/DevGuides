@@ -11,7 +11,7 @@ import MessageScreen from '../screen/MessageScreen';
 
 const Stack = createStackNavigator();
 
-const StackNavigation = () => {
+const StackNavigation = ({route}) => {
   return (
     <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen
@@ -38,8 +38,8 @@ const StackNavigation = () => {
       name='Chat'
       component={ChatScreen}
       options={({route}) => ({
-        title:route.params.user,
-        headerBackTitleVisible:false
+        headerBackTitleVisible:false,
+        title: route?.params?.user
       })}/>
     </Stack.Navigator>
   );

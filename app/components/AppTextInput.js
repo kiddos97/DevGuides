@@ -3,7 +3,7 @@ import { SafeAreaView, Text, View, StyleSheet, TextInput} from 'react-native'
 import color from '../../config/color'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-const AppTextInput = ({placeholder,backgroundColor,borderColor,secureTextEntry,icon, onChangeText, onBlur}) => {
+const AppTextInput = ({placeholder,backgroundColor,borderColor,secureTextEntry,icon, onChangeText, onBlur,textAlign,maxLength}) => {
   return (
     
   
@@ -11,6 +11,8 @@ const AppTextInput = ({placeholder,backgroundColor,borderColor,secureTextEntry,i
       
       <TextInput
       secureTextEntry={secureTextEntry}
+      textAlign={textAlign}
+      maxLength={maxLength}
       placeholder={placeholder}
       placeholderTextColor={color.AppBackgroundColor}
       onChangeText={onChangeText}

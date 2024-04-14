@@ -3,16 +3,14 @@ import {View, Text, StyleSheet, Platform, StatusBar, TouchableOpacity, FlatList,
 import color from '../../config/color';
 import { message } from '../../Message/Message';
 import SearchComponent from '../components/SearchComponent';
-
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ListItem from '../../List/ListItem';
-
 import ListItemDelete from '../../List/ListItemDelete'
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
 
-
-const MessageScreen = ({route,navigation}) => {
+const MessageScreen = ({navigation}) => {
 
 
   const [messages, setMessages] = useState(message);
@@ -24,14 +22,20 @@ const MessageScreen = ({route,navigation}) => {
     
     setMessages(newMessages);
   };
-  const handleChat = (item) => {
-  navigation.navigate('Chat',{user: item.userName})
-}
+
+  const handlePress = () => {
+    //navigation.dispatch(DrawerActions.openDrawer())
+    navigation.navigate('Welcome');
+  }
+
 
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
       <View style={styles.heading}>
+        <TouchableOpacity onPress={handlePress}>
+          <AntDesign name="back" color={color.white} size={30} />
+        </TouchableOpacity>
         <Text style={styles.headingText}>Messages</Text>
         <SearchComponent/>
       </View>
@@ -43,7 +47,7 @@ const MessageScreen = ({route,navigation}) => {
           title={item.userName}
           subTitle={item.description}
           image={item.image}
-          onPress={handleChat}
+          onPress={() => navigation.navigate('Chat',{userName: item.userName})}
           renderRightActions={() => 
           <ListItemDelete onPress={ () => handleDelete(item)}/>}
           renderLeftActions={() => (
@@ -80,7 +84,7 @@ const MessageScreen = ({route,navigation}) => {
 
 const styles = StyleSheet.create({
   container:{
-    padding:5
+    padding:5,
   },
     screen:{
       paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
     heading:{
       marginBottom:20,
       marginVertical:45,
-      padding:10
+      padding:10,
     },
     headingText:{
       textAlign:'center',

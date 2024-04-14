@@ -40,6 +40,7 @@ const StackNavigation = () => {
      name='Message'
      component={MessageScreen}
      options={{
+      headerShown:false,
       tabBarIcon: () => <AntDesign name='message1' color={color.AppBackgroundColor} size={25}/>
      }}/>
       <Stack.Screen
@@ -47,7 +48,7 @@ const StackNavigation = () => {
       component={ChatScreen}
       options={({route}) => ({
         headerBackTitleVisible:false,
-        title: route?.params?.user
+        title: route.params.userName
       })}/>
     </Stack.Navigator>
   );

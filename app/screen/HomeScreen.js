@@ -10,7 +10,6 @@ import background from '../assets/background.jpg';
 import javascript from '../assets/javascript.png';
 import react from '../assets/react.png';
 import python from '../assets/python.png';
-import { DrawerActions } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 
 const DATA = [
@@ -51,24 +50,33 @@ const HomeScreen = () => {
     //navigation.dispatch(DrawerActions.openDrawer())
     navigation.openDrawer();
   }
+
+  const hadnleMessage = () => {
+    navigation.navigate('Message')
+  }
   return (
     <ImageBackground
     style={styles.screen}
     source={background}>
         <View style={styles.container}>
         <View style={styles.Textcontainer}>
-        <TouchableWithoutFeedback onPress={handlePress}>
+        <TouchableOpacity onPress={handlePress}>
             <MaterialCommunityIcons name="menu" color={color.white} size={30} />
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
         <View style={styles.test}>
         <Text style={styles.title}>DEVGUIDE</Text>
+        </View>
+        <View style={styles.messageContainer}>
+          <TouchableOpacity onPress={hadnleMessage}>
+          <MaterialCommunityIcons name="android-messages" color={color.white} size={30} />
+          </TouchableOpacity>
         </View>
         </View>
         <View style={styles.link}>
           <TouchableOpacity onPress={() => console.log('text pressed')}><Text style={styles.linkText}>Resources</Text></TouchableOpacity>
           <TouchableOpacity onPress={() => console.log('text pressed')}><Text style={styles.linkText}>Community</Text></TouchableOpacity>
           <TouchableOpacity onPress={() => console.log('text pressed')}><Text style={styles.linkText}>Code</Text></TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('text pressed')}><Text style={styles.linkText}>Learning Path</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log('test pressed')}><Text style={styles.linkText}>Learning Path</Text></TouchableOpacity>
         </View>
         <ScrollView>
    <View style={styles.bodyContainer}>
@@ -122,6 +130,9 @@ const styles = StyleSheet.create({
       flexDirection:'row',
       justifyContent:'space-evenly'
     },
+    messageContainer:{
+      marginLeft:40
+    },
     linkText:{
       textAlign:'center',
       color:color.AppBackgroundColor,
@@ -145,7 +156,7 @@ const styles = StyleSheet.create({
     textAlign:'center',
     color:color.white,
     fontSize:20,
-    marginLeft:60
+    marginLeft:40
   },
   test:{
     alignSelf:'center',

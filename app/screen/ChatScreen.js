@@ -1,9 +1,9 @@
 
 import {View, Text, StyleSheet,TouchableOpacity, Platform, StatusBar, SafeAreaView}  from 'react-native'
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import color from'../../config/color';
 import React, { useState, useCallback, useEffect } from 'react'
-import { GiftedChat } from 'react-native-gifted-chat'
+import { GiftedChat, Send } from 'react-native-gifted-chat'
 import person from "../assets/person.jpg"
 
 
@@ -31,8 +31,26 @@ const ChatScreen = () => {
     )
   }, [])
 
+
+
+  const renderSend = (props) => {
+    return (
+      <Send
+      {...props}
+      >
+        <View>
+          <MaterialCommunityIcons
+          style={{ marginBottom:10, marginRight:10}}
+          name='send-circle'
+          size={32}
+          color='lightblue'/>
+        </View>
+      </Send>
+    )
+  }
+
   return (
-    <View style={{flex:1, marginBottom:10, padding:5}}>
+    <View style={styles.screen}>
           <GiftedChat
     messages={messages}
     onSend={messages => onSend(messages)}
@@ -41,6 +59,8 @@ const ChatScreen = () => {
     }}
     textInputStyle={styles.text}
     alwaysShowSend
+    renderSend={renderSend}
+    scrollToBottom
   />
       </View>
 
@@ -51,15 +71,16 @@ const ChatScreen = () => {
 const styles = StyleSheet.create({
   screen:{
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    flex:1
+    flex:1,
+    marginBottom:10,
+    padding:5
 },
 container:{
   marginVertical:50,
-  padding: 10
+  padding: 5,
 },
 text:{
-marginBottom:10,
-padding:10
+marginBottom:5,
 }
 })
 

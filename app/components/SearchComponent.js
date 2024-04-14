@@ -14,7 +14,7 @@ const SearchComponent = () => {
         <TouchableOpacity onPress={() => console.log('Search button pressed')}>
         <AntDesign
         name='search1'
-        size={20}/>
+        size={25}/>
         </TouchableOpacity>
     </View>
     </View>
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         borderWidth: 2,
         padding: 5,
-        borderRadius:35,
+        borderRadius:30,
         justifyContent:'space-between',
         backgroundColor:'rgba(0,0,0,0.3)',
         borderColor:color.AppBackgroundColor

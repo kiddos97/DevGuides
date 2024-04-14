@@ -40,6 +40,7 @@ const StackNavigation = () => {
      name='Message'
      component={MessageScreen}
      options={{
+      headerBackTitleVisible:false,
       headerShown:false,
       tabBarIcon: () => <AntDesign name='message1' color={color.AppBackgroundColor} size={25}/>
      }}/>

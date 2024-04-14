@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     },
     heading:{
       marginBottom:20,
-      marginVertical:45,
+      marginVertical:35,
       padding:10,
     },
     headingText:{

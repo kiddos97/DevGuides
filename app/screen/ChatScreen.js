@@ -11,32 +11,26 @@ const ChatScreen = () => {
   const [messages, setMessages] = useState([])
 
   useEffect(() => {
-    fetchMessageHistory();
+    setMessages([
+      {
+        _id: 1,
+        text: 'Hello developer',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'React Native',
+          avatar: 'https://placeimg.com/140/140/any',
+        },
+      },
+    ])
   }, [])
 
+  const onSend = useCallback((messages = []) => {
+    setMessages(previousMessages =>
+      GiftedChat.append(previousMessages, messages),
+    )
+  }, [])
 
-  const fetchMessageHistory = async () => {
-    try {
-      const response = await axios.get('http://192.168.86.41:3000/message-history');
-      setMessages(response.data.messages);
-    } catch (error) {
-      console.error('Error fetching message history:', error);
-    }
-  };
-
-
-  const onSend = async (newMessages = []) => {
-    try {
-      // Send new message to backend
-      const response = await axios.post('http://192.168.86.41:3000/send-message', {
-        message: newMessages[0],
-      });
-      // Update local message state with the new message
-      setMessages((prevMessages) => GiftedChat.append(prevMessages, response.data.message));
-    } catch (error) {
-      console.error('Error sending message:', error);
-    }
-  };
 
 
   const renderSend = (props) => {

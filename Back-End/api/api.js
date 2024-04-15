@@ -4,7 +4,6 @@ const { MongoClient } = require("mongodb");
 const jwt = require('jsonwebtoken');
 const { Server } = require("socket.io");
 
-
 const app = express()
 const port = 3000
 
@@ -23,26 +22,38 @@ const DatabaseConnection = async () => {
         await client.connect()
         const database = client.db('DevGuides')
         UserCollection = database.collection('User')
+        MessageCollection = database.collection('Message')
         console.log('MongoDB Connected!!')
-        const io = new Server();
-        io.on('connection', (socket) => {
-        console.log(' Socket server Client connected');
-        // Handle incoming messages
-        socket.on('message', (message) => {
-            console.log('Received message:', message);
-            // Broadcast the message to all connected clients
-            io.emit('message', message);
-        });
-        // Handle disconnections
-        socket.on('disconnect', () => {
-            console.log(' Socket Client disconnected');
-        });
-        });
     }catch(error){
         console.error(`Error connecting to MongoDB: ${error}`)
         process.exit(1)
     }
 }
+
+const ServerIo = async () => {
+    try{
+        const io =  new Server();
+        io.on('connection', (socket) => {
+            console.log(' Socket server Client connected');
+            // Handle incoming messages
+            socket.on('message', (message) => {
+                console.log('Received message:', message);
+                // Broadcast the message to all connected clients
+                io.emit('message', message);
+            });
+            // Handle disconnections
+            socket.on('disconnect', () => {
+                console.log(' Socket Client disconnected');
+            });
+            });
+    }catch(error){
+        console.error(`${error}`)
+        res.status(500).json({error:`Internal Server error: ${error}` })
+    }
+}
+
+
+ServerIo();
 
 DatabaseConnection().then(() => {
 
@@ -94,15 +105,15 @@ DatabaseConnection().then(() => {
         }
     });
     app.post('/send-message', async (req, res) => {
-        const { user, text } = req.body;
+        const { name, message } = req.body;
         try{
             const newMessage = {
-                text,
-                user,
-                createAt: new Date()
+                name, 
+                message,
+                createdAt: new Date()
             }
             await MessageCollection.insertOne(newMessage)
-            res.json({message:newMessage})
+            res.status(201).json({message:newMessage})
         }catch(error){
             res.status(500).json({error: `Internal server error: ${error}`})
         }
@@ -110,7 +121,7 @@ DatabaseConnection().then(() => {
     app.get('/message-history',async (req, res) => {
         try{
             const messages = await MessageCollection.find().sort({createdAt:-1}).limit(20);
-            res.json({messages})
+            res.status(201).json({messages})
         }catch(error){
             console.error(`${error}`)
             res.status(500).json({error:`Internal Server ${error}`})

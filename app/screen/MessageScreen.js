@@ -33,9 +33,11 @@ const MessageScreen = ({navigation}) => {
     <View style={styles.screen}>
       <View style={styles.container}>
       <View style={styles.heading}>
+        <View style={{marginTop:25}}>
         <TouchableOpacity onPress={handlePress}>
           <AntDesign name="back" color={color.dark} size={30} />
         </TouchableOpacity>
+        </View>
         <Text style={styles.headingText}>Messages</Text>
         <SearchComponent/>
       </View>

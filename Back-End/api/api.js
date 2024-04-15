@@ -1,9 +1,8 @@
 const express = require('express')
-//const mongoose = require('mongoose');
 const bcrypt = require('bcrypt')
 const { MongoClient } = require("mongodb");
-// import mongoose from 'mongoose'
 const jwt = require('jsonwebtoken');
+const { Server } = require("socket.io");
 
 
 const app = express()
@@ -15,16 +14,30 @@ const uri = `mongodb+srv://EmmanuelAdmin:${password}@atlascluster.amxnyck.mongod
 
 app.use(express.json()); //middleware
 
-let collection; // global variable
-
+let UserCollection; // global variable
+let MessageCollection;
 //Function to connect to the Database
 const DatabaseConnection = async () => {
     try{
         const client = new MongoClient(uri)
         await client.connect()
         const database = client.db('DevGuides')
-        collection = database.collection('User')
+        UserCollection = database.collection('User')
         console.log('MongoDB Connected!!')
+        const io = new Server();
+        io.on('connection', (socket) => {
+        console.log(' Socket server Client connected');
+        // Handle incoming messages
+        socket.on('message', (message) => {
+            console.log('Received message:', message);
+            // Broadcast the message to all connected clients
+            io.emit('message', message);
+        });
+        // Handle disconnections
+        socket.on('disconnect', () => {
+            console.log(' Socket Client disconnected');
+        });
+        });
     }catch(error){
         console.error(`Error connecting to MongoDB: ${error}`)
         process.exit(1)
@@ -42,7 +55,7 @@ DatabaseConnection().then(() => {
         const {name ,username, email, password} = req.body // deconstructing the req.body
         try{
          
-            const exisitingUser = await collection.findOne({ username })
+            const exisitingUser = await UserCollection.findOne({ username })
             if(exisitingUser){
                 return res.status(400).send('User already exists')
             }
@@ -53,7 +66,7 @@ DatabaseConnection().then(() => {
                 email,
                 password: hashPassword
             };
-            await collection.insertOne(newUser);
+            await UserCollection.insertOne(newUser);
             res.status(201).json({message: 'User registered successfully'})
         }catch(error){
             res.status(500).send(`${error}`)
@@ -65,7 +78,7 @@ DatabaseConnection().then(() => {
     app.post('/login', async (req, res)  => {
         const {username, password} = req.body
         try{
-            const user = await collection.findOne({username})
+            const user = await UserCollection.findOne({username})
             if(!user){
                 return res.status(401).json({message:'Invalid username'})
             }
@@ -80,6 +93,29 @@ DatabaseConnection().then(() => {
             res.status(500).json({ message: 'Internal server error' });
         }
     });
+    app.post('/send-message', async (req, res) => {
+        const { user, text } = req.body;
+        try{
+            const newMessage = {
+                text,
+                user,
+                createAt: new Date()
+            }
+            await MessageCollection.insertOne(newMessage)
+            res.json({message:newMessage})
+        }catch(error){
+            res.status(500).json({error: `Internal server error: ${error}`})
+        }
+    });
+    app.get('/message-history',async (req, res) => {
+        try{
+            const messages = await MessageCollection.find().sort({createdAt:-1}).limit(20);
+            res.json({messages})
+        }catch(error){
+            console.error(`${error}`)
+            res.status(500).json({error:`Internal Server ${error}`})
+        }
+    })
   
 }).catch((error) => {
     console.error(`Error start server: ${error}`)

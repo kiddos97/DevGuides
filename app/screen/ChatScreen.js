@@ -11,26 +11,32 @@ const ChatScreen = () => {
   const [messages, setMessages] = useState([])
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: person,
-        },
-      },
-    ])
+    fetchMessageHistory();
   }, [])
 
-  const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages),
-    )
-  }, [])
 
+  const fetchMessageHistory = async () => {
+    try {
+      const response = await axios.get('http://192.168.86.41:3000/message-history');
+      setMessages(response.data.messages);
+    } catch (error) {
+      console.error('Error fetching message history:', error);
+    }
+  };
+
+
+  const onSend = async (newMessages = []) => {
+    try {
+      // Send new message to backend
+      const response = await axios.post('http://192.168.86.41:3000/send-message', {
+        message: newMessages[0],
+      });
+      // Update local message state with the new message
+      setMessages((prevMessages) => GiftedChat.append(prevMessages, response.data.message));
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  };
 
 
   const renderSend = (props) => {
@@ -43,7 +49,7 @@ const ChatScreen = () => {
           style={{ marginBottom:10, marginRight:10}}
           name='send-circle'
           size={32}
-          color='lightblue'/>
+          color='#2e64e5'/>
         </View>
       </Send>
     )
@@ -80,7 +86,7 @@ container:{
   padding: 5,
 },
 text:{
-marginBottom:5,
+marginBottom:10
 }
 })
 

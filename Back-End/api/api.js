@@ -16,7 +16,7 @@ app.use(express.json()); //middleware
 let UserCollection; // global variable
 let MessageCollection;
 //Function to connect to the Database
-const DatabaseConnection = async () => {
+const DatabaseConnection = async () => { //MongoDD Server
     try{
         const client = new MongoClient(uri)
         await client.connect()
@@ -30,7 +30,7 @@ const DatabaseConnection = async () => {
     }
 }
 
-const ServerIo = async () => {
+const ServerIo = async () => { // Serverr\.I
     try{
         const io =  new Server();
         io.on('connection', (socket) => {

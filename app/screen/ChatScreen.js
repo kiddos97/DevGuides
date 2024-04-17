@@ -4,10 +4,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import color from'../../config/color';
 import React, { useState, useCallback, useEffect } from 'react'
 import { GiftedChat, Send } from 'react-native-gifted-chat'
-import person from "../assets/person.jpg"
+import { io } from "socket.io-client";
+import axios from 'axios';
 
-
-const ChatScreen = () => {
+const ChatScreen = ({route}) => {
   const [messages, setMessages] = useState([])
 
   useEffect(() => {
@@ -25,11 +25,47 @@ const ChatScreen = () => {
     ])
   }, [])
 
+  useEffect(() => {
+    clientSide();
+  },[])
+
+ 
+
+
+  const clientSide = () => {// creating client connection
+    try{
+      const socket = io(); 
+      socket.on('message',(newMessage) => {
+        setMessages((previousMessages) => {
+        GiftedChat.append(previousMessages,newMessage)
+      })})
+    }catch(error){
+      console.error(`${error}`)
+    }
+  }
+
   const onSend = useCallback((messages = []) => {
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, messages),
     )
+
+    const newMessage = messages[0]
+
+    sendMessgae(newMessage)
   }, [])
+
+
+  const sendMessgae = async (newMessage) => {
+    try{
+      const response = await axios.post('/send-message' ,{
+        message: newMessage,
+        name: route.params.userName})
+      console.log('Message sent:', response.data)
+    }catch(error){
+      console.error(`${error}`)
+      res.status(500).json({error:'Message did not send'});
+    }
+  }
 
 
 
@@ -61,6 +97,7 @@ const ChatScreen = () => {
     alwaysShowSend
     renderSend={renderSend}
     scrollToBottom
+    isTyping={true}
   />
       </View>
 

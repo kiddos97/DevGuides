@@ -16,7 +16,7 @@ const LoginScreen = ({navigation}) => {
     const LoginPress = async (values,{resetForm}) => {
         setLoading(true); // Set loading to true when login button is pressed
         try{
-            const res = await axios.post('http://192.168.86.41:3000/login',{
+            const res = await axios.post('http://localhost:3000/login',{
                 username:values.username,
                 password:values.password
             })

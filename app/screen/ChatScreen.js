@@ -10,20 +10,20 @@ import axios from 'axios';
 const ChatScreen = ({route}) => {
   const [messages, setMessages] = useState([])
 
-  useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ])
-  }, [])
+  // useEffect(() => {
+  //   setMessages([
+  //     {
+  //       _id: 1,
+  //       text: 'Hello developer',
+  //       createdAt: new Date(),
+  //       user: {
+  //         _id: 2,
+  //         name: 'React Native',
+  //         avatar: 'https://placeimg.com/140/140/any',
+  //       },
+  //     },
+  //   ])
+  // }, [])
 
   useEffect(() => {
     clientSide();
@@ -57,13 +57,12 @@ const ChatScreen = ({route}) => {
 
   const sendMessgae = async (newMessage) => {
     try{
-      const response = await axios.post('/send-message' ,{
+      const response = await axios.post('http://localhost:3000/send-message' ,{
         message: newMessage,
         name: route.params.userName})
       console.log('Message sent:', response.data)
     }catch(error){
       console.error(`${error}`)
-      res.status(500).json({error:'Message did not send'});
     }
   }
 

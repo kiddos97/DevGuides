@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const { MongoClient } = require("mongodb");
 const jwt = require('jsonwebtoken');
 const { Server } = require("socket.io");
+const cors = require('cors');
 
 const app = express()
 const port = 3000
@@ -12,6 +13,7 @@ const uri = `mongodb+srv://EmmanuelAdmin:${password}@atlascluster.amxnyck.mongod
 
 
 app.use(express.json()); //middleware
+app.use(cors());
 
 let UserCollection; // global variable
 let MessageCollection;
@@ -32,7 +34,7 @@ const DatabaseConnection = async () => { //MongoDD Server
 
 const ServerIo = async () => { // Serverr\.I
     try{
-        const io =  new Server();
+        const io =  new Server(app);
         io.on('connection', (socket) => {
             console.log(' Socket server Client connected');
             // Handle incoming messages

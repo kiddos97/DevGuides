@@ -1,12 +1,20 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { View, StyleSheet, Image,Text, TouchableHighlight } from 'react-native'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../config/color';
 
-const ListItem = ({ title, subTitle, image, IconComponent,onPress, renderRightActions,renderLeftActions}) => {
+const ListItem = ({item, title, subTitle, image, IconComponent,onPress, renderRightActions,renderLeftActions}) => {
 
+
+    const [messages, setMessages] = useState('')
+
+
+
+  useEffect(() => {
+    setMessages(item.messages[item.messages -1]);
+  },[])
 
   return (
     <GestureHandlerRootView> 
@@ -21,6 +29,7 @@ const ListItem = ({ title, subTitle, image, IconComponent,onPress, renderRightAc
          {image && <Image style={styles.image} source={image} />}
          <View style={styles.detailsContainer}>
              <Text numberOfLines={1} style={styles.title}>{title}</Text>
+             {messages?.text ? messages.text : "Tap to start messaging"}
              { subTitle && <Text  numberOfLines={2} style={styles.subTitle} >{subTitle}</Text>}
          </View>
          <MaterialCommunityIcons color={colors.medium} name="chevron-right" size={25}/>

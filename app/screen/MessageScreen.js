@@ -1,34 +1,61 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {View, Text, StyleSheet, Platform, StatusBar, TouchableOpacity, FlatList,SafeAreaView, ScrollView} from 'react-native'
 import color from '../../config/color';
-import { message } from '../../Message/Message';
+//import { message } from '../../Message/Message';
 import SearchComponent from '../components/SearchComponent';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ListItem from '../../List/ListItem';
 import ListItemDelete from '../../List/ListItemDelete'
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import axios from 'axios';
+//import axios from 'axios';
+import { io } from "socket.io-client";
+import NewMessageModal from '../components/NewMessageModal';
 
 
 
 const MessageScreen = ({navigation}) => {
 
 
-  const [messages, setMessages] = useState(message);
+  const [messages, setMessages] = useState('');
   const [refreshing,setRefreshing] = useState(false);
+  const [allchatrooms, setAllChatRooms] = useState([]);
+  const [currentGroupName, setCurrentGroupName] = useState('')
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const handleDelete = (selectedMessage) => {
-
-  const newMessages = messages.filter((m) => m.id !== selectedMessage.id);
+  const socket = io()
+  useEffect(() => {
     
-    setMessages(newMessages);
-  };
+    socket.emit('getAllgroups');
+
+    socket.on('groupList',(groups) => {
+      setAllChatRooms(groups);
+    })
+    clientSide();
+  },[socket])
+
+  const clientSide = () => {
+    try{
+      const socket = io();
+      socket.emit('createNewGroup',currentGroupName)
+    }catch(error){
+      console.error(`{error}`)
+    }
+  }
+
+  // const handleDelete = (selectedMessage) => {
+
+  // const newMessages = messages.filter((m) => m.id !== selectedMessage.id);
+    
+  //   setMessages(newMessages);
+  // };
 
   const handlePress = () => {
     //navigation.dispatch(DrawerActions.openDrawer())
     navigation.navigate('Welcome');
   }
-
+  const handleModal = () => {
+    setModalVisible(true);
+  }
 
   return (
     <View style={styles.screen}>
@@ -42,44 +69,21 @@ const MessageScreen = ({navigation}) => {
         <Text style={styles.headingText}>Messages</Text>
         <SearchComponent/>
       </View>
+      <TouchableOpacity onPress={handleModal}>
+        <Text>New Message</Text>
+      </TouchableOpacity>
+      <NewMessageModal 
+      modalVisible={modalVisible}
+       setModalVisible={setModalVisible} 
+       currentGroupName={currentGroupName} 
+       setCurrentGroupName={setCurrentGroupName}/>
+      {allchatrooms && allchatrooms.length > 0 ?       
       <FlatList
-      data={messages}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={({ item }) => (
-        <ListItem
-          title={item.userName}
-          subTitle={item.description}
-          image={item.image}
-          onPress={() => navigation.navigate('Chat',{userName: item.userName})}
-          renderRightActions={() => 
-          <ListItemDelete onPress={ () => handleDelete(item)}/>}
-          renderLeftActions={() => (
-            <TouchableOpacity onPress={() => console.log('archived pressed')}>   
-              <View
-            style={{
-              width:70,
-              backgroundColor:'blue',
-              height:'100%',
-              justifyContent:'center',
-              alignItems:'center'
-            }}
-            ><Text style={styles.text}>Archive</Text></View></TouchableOpacity>
-       
-          )}
-        />
-        
-      )} // Make sure ListitemSeparator is defined or import correctly
-      refreshing={refreshing} //pull to refresh
-      onRefresh={() => {setMessages([  {
-        id: 2, title: 'Emmanuel Imarhiagbe', description: 'Hey how is it going',image:require('../assets/person.jpg')
-    },
-    {
-      id: 1, title: 'Isa Kuhn', description: 'Are you home, please tell me you are home',image:require('../assets/profile.jpg')
-  },
-  
-  
-  ])}}
-    />
+      data={allchatrooms}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <ListItem item={item}
+      onPress={() => navigation.navigate('Chat',{userName: item.userName, id: item.id})} />} // Make sure ListitemSeparator is defined or import correctly
+    /> : null }
     </View>
   </View>
   )

@@ -59,3 +59,29 @@
             console.log(' Socket Client disconnected');
         });
         });
+
+
+          <ListItem
+          title={item.userName}
+          subTitle={item.description}
+          image={item.image}
+          onPress={() => navigation.navigate('Chat',{userName: item.userName})}
+          renderRightActions={() => 
+          <ListItemDelete onPress={ () => handleDelete(item)}/>}
+          renderLeftActions={() => (
+            <TouchableOpacity onPress={() => console.log('archived pressed')}>   
+              <View
+            style={{
+              width:70,
+              backgroundColor:'blue',
+              height:'100%',
+              justifyContent:'center',
+              alignItems:'center'
+            }}
+            ><Text style={styles.text}>Archive</Text></View></TouchableOpacity>
+       
+          )}
+        />
+
+
+        onPress={() => navigation.navigate('Chat',{userName: item.userName})}

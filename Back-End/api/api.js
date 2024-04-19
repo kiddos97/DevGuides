@@ -4,7 +4,7 @@ const { MongoClient } = require("mongodb");
 const jwt = require('jsonwebtoken');
 const { Server } = require("socket.io");
 const cors = require('cors');
-
+const http = require('http');
 const app = express()
 const port = 3000
 
@@ -17,6 +17,8 @@ app.use(cors());
 
 let UserCollection; // global variable
 let MessageCollection;
+
+let chatgroups = [];
 //Function to connect to the Database
 const DatabaseConnection = async () => { //MongoDD Server
     try{
@@ -31,18 +33,22 @@ const DatabaseConnection = async () => { //MongoDD Server
         process.exit(1)
     }
 }
-
+const server = http.createServer(app)
 const ServerIo = async () => { // Serverr\.I
     try{
-        const io =  new Server(app);
+        const io =  new Server(server);
         io.on('connection', (socket) => {
-            console.log(' Socket server Client connected');
+            console.log(`${socket.id} Socket server Client connected`);
+
+            socket.on('getAllgroups', () => {
+                socket.emit('groupList',chatgroups)
+            })
             // Handle incoming messages
-            socket.on('message', (message) => {
-                console.log('Received message:', message);
-                // Broadcast the message to all connected clients
-                io.emit('message', message);
+            socket.on('createNewGroup', (currentGroupName) => {
+                console.log(currentGroupName);
+                chatgroups.unshift({id: chatgroups.length + 1,currentGroupName, messages:[]})
             });
+            socket.emit('groupList',chatgroups);
             // Handle disconnections
             socket.on('disconnect', () => {
                 console.log(' Socket Client disconnected');
@@ -122,8 +128,7 @@ DatabaseConnection().then(() => {
     });
     app.get('/message-history',async (req, res) => {
         try{
-            const messages = await MessageCollection.find().sort({createdAt:-1}).limit(20);
-            res.status(201).json({messages})
+            res.json(chatgroups)
         }catch(error){
             console.error(`${error}`)
             res.status(500).json({error:`Internal Server ${error}`})

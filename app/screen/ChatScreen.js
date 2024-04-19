@@ -7,7 +7,7 @@ import { GiftedChat, Send } from 'react-native-gifted-chat'
 import { io } from "socket.io-client";
 import axios from 'axios';
 
-const ChatScreen = ({route}) => {
+const ChatScreen = ({item}) => {
   const [messages, setMessages] = useState([])
 
   // useEffect(() => {

@@ -3,15 +3,17 @@ import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import AppTextInput from '../components/AppTextInput';
 import color from '../../config/color';
 import Button from './Button';
-import socket from '../../utils/index';
-
+//import socket from '../../utils/index';
+import { io } from "socket.io-client";
 
 const NewMessageModal = ({modalVisible,setModalVisible, currentGroupName,setCurrentGroupName}) => {
   // const [modalVisible, setModalVisible] = useState(false);
   
+ 
 
   const newGroupName = () => {
-    console.log(currentGroupName)
+    const socket = io('http://localhost:3000');
+    console.log('Name:',currentGroupName)
     socket.emit('createNewGroup',currentGroupName)
     setModalVisible(false);
     setCurrentGroupName('');

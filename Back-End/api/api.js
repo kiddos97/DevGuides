@@ -2,11 +2,12 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 const { MongoClient } = require("mongodb");
 const jwt = require('jsonwebtoken');
-const { Server } = require("socket.io");
 const cors = require('cors');
-const http = require('http');
+//const http = require('http');
 const app = express()
-const port = 3000
+const { Server } = require("socket.io")
+const { createServer } = require( "http")
+const port = 5050
 
 const password = `Keeptrilladmin2021`
 const uri = `mongodb+srv://EmmanuelAdmin:${password}@atlascluster.amxnyck.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster`
@@ -33,20 +34,27 @@ const DatabaseConnection = async () => { //MongoDD Server
         process.exit(1)
     }
 }
-const server = http.createServer(app)
+
 const ServerIo = async () => { // Serverr\.I
     try{
-        const io =  new Server(server);
+        const httpserver = createServer(app)
+        
+        const io = new Server(httpserver,{
+            cors:{
+                origin: "http://localhost:3000"
+            }
+        });
         io.on('connection', (socket) => {
-            console.log(`${socket.id} Socket server Client connected`);
+            console.log(`${socket.id} user is connected`);
 
             socket.on('getAllgroups', () => {
                 socket.emit('groupList',chatgroups)
             })
             // Handle incoming messages
             socket.on('createNewGroup', (currentGroupName) => {
-                console.log(currentGroupName);
-                chatgroups.unshift({id: chatgroups.length + 1,currentGroupName, messages:[]})
+                console.log('Name:',currentGroupName);
+                chatgroups.unshift({id:chatgroups.length + 1,currentGroupName, messages:[]})
+                console.log(chatgroups);
             });
             socket.emit('groupList',chatgroups);
             // Handle disconnections
@@ -54,21 +62,21 @@ const ServerIo = async () => { // Serverr\.I
                 console.log(' Socket Client disconnected');
             });
             });
+        httpserver.listen(3000,() => {
+            console.log('Server is running!')
+        })
     }catch(error){
         console.error(`${error}`)
         //res.status(500).json({error:`Internal Server error: ${error}` })
     }
 }
-
-
 ServerIo();
 
 DatabaseConnection().then(() => {
-
+    // ServerIo();
     app.listen(port, () => {
         console.log(`Server listening on port ${port}`)
       })
-    
     app.post('/register', async (req, res) => {
 
         const {name ,username, email, password} = req.body // deconstructing the req.body
@@ -89,8 +97,6 @@ DatabaseConnection().then(() => {
             res.status(201).json({message: 'User registered successfully'})
         }catch(error){
             res.status(500).send(`${error}`)
-        }finally {
-            await client.close();
         }
     })
     
@@ -126,7 +132,7 @@ DatabaseConnection().then(() => {
             res.status(500).json({error: `Internal server error: ${error}`})
         }
     });
-    app.get('/message-history',async (req, res) => {
+    app.get('/message-history',(req, res) => {
         try{
             res.json(chatgroups)
         }catch(error){

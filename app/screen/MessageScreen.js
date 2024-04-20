@@ -10,7 +10,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 //import axios from 'axios';
 import { io } from "socket.io-client";
 import NewMessageModal from '../components/NewMessageModal';
-
+import ChatRoom from '../components/ChatRoom';
 
 
 const MessageScreen = ({navigation}) => {
@@ -18,7 +18,7 @@ const MessageScreen = ({navigation}) => {
 
   const [messages, setMessages] = useState('');
   const [refreshing,setRefreshing] = useState(false);
-  const [allchatrooms, setAllChatRooms] = useState([]);
+  const [allChatRooms, setAllChatRooms] = useState([]);
   const [currentGroupName, setCurrentGroupName] = useState('')
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -28,19 +28,24 @@ const MessageScreen = ({navigation}) => {
     socket.emit('getAllgroups');
 
     socket.on('groupList',(groups) => {
+      console.log('Groups:',groups)
       setAllChatRooms(groups);
     })
-    clientSide();
-  },[socket])
 
-  const clientSide = () => {
-    try{
-      const socket = io();
-      socket.emit('createNewGroup',currentGroupName)
-    }catch(error){
-      console.error(`{error}`)
+    return () => {
+      socket.off('groupList');
     }
-  }
+
+  },[socket]);
+
+  // const clientSide = () => {
+  //   try{
+  //     const socket = io();
+  //     socket.emit('createNewGroup',currentGroupName)
+  //   }catch(error){
+  //     console.error(`{error}`)
+  //   }
+  // }
 
   // const handleDelete = (selectedMessage) => {
 
@@ -72,18 +77,22 @@ const MessageScreen = ({navigation}) => {
       <TouchableOpacity onPress={handleModal}>
         <Text>New Message</Text>
       </TouchableOpacity>
+      <View>
       <NewMessageModal 
       modalVisible={modalVisible}
        setModalVisible={setModalVisible} 
        currentGroupName={currentGroupName} 
        setCurrentGroupName={setCurrentGroupName}/>
-      {allchatrooms && allchatrooms.length > 0 ?       
-      <FlatList
-      data={allchatrooms}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <ListItem item={item}
-      onPress={() => navigation.navigate('Chat',{userName: item.userName, id: item.id})} />} // Make sure ListitemSeparator is defined or import correctly
-    /> : null }
+      </View>
+       <View style={styles.listContainer}>
+       {allChatRooms && allChatRooms.length > 0 ? (
+       <FlatList
+      data={allChatRooms}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={({ item }) => <ChatRoom item={item}/>}// Make sure ListitemSeparator is defined or import correctly
+      /> 
+      ) : null}
+       </View>
     </View>
   </View>
   )
@@ -116,6 +125,11 @@ const styles = StyleSheet.create({
       fontWeight:'bold',
       fontSize:15
       },
+      listContainer:{
+        flex:3.4,
+        paddingHorizontal:10,
+        marginVertical:30
+      }
    
 })
 export default MessageScreen

@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { View, StyleSheet, Image,Text, TouchableHighlight } from 'react-native'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -33,6 +33,7 @@ const ListItem = ({item, title, subTitle, image, IconComponent,onPress, renderRi
              { subTitle && <Text  numberOfLines={2} style={styles.subTitle} >{subTitle}</Text>}
          </View>
          <MaterialCommunityIcons color={colors.medium} name="chevron-right" size={25}/>
+         <Text>HI</Text>
         </View>
     </TouchableHighlight>
     </Swipeable>

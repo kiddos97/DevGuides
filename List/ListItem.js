@@ -5,16 +5,11 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../config/color';
 
-const ListItem = ({item, title, subTitle, image, IconComponent,onPress, renderRightActions,renderLeftActions}) => {
-
-
-    const [messages, setMessages] = useState('')
+const ListItem = ({ title, subTitle, image, IconComponent,onPress, renderRightActions,renderLeftActions}) => {
 
 
 
-  useEffect(() => {
-    setMessages(item.messages[item.messages -1]);
-  },[])
+
 
   return (
     <GestureHandlerRootView> 
@@ -29,7 +24,7 @@ const ListItem = ({item, title, subTitle, image, IconComponent,onPress, renderRi
          {image && <Image style={styles.image} source={image} />}
          <View style={styles.detailsContainer}>
              <Text numberOfLines={1} style={styles.title}>{title}</Text>
-             {messages?.text ? messages.text : <Text>"Tap to start messaging"</Text>}
+        
              { subTitle && <Text  numberOfLines={2} style={styles.subTitle} >{subTitle}</Text>}
          </View>
          <MaterialCommunityIcons color={colors.medium} name="chevron-right" size={25}/>

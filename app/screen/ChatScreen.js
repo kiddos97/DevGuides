@@ -4,11 +4,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import color from'../../config/color';
 import React, { useState, useCallback, useEffect } from 'react'
 import { GiftedChat, Send } from 'react-native-gifted-chat'
-import { io } from "socket.io-client";
+//import { io } from "socket.io-client";
 import axios from 'axios';
+import { socket } from '../../utils';
 
-const ChatScreen = ({item}) => {
+const ChatScreen = ({item, route}) => {
   const [messages, setMessages] = useState([])
+  const [allChatMessage, setAllChatMessage] = useState([])
 
   // useEffect(() => {
   //   setMessages([
@@ -34,7 +36,7 @@ const ChatScreen = ({item}) => {
 
   const clientSide = () => {// creating client connection
     try{
-      const socket = io('http://localhost:3000'); 
+  
       socket.on('message',(newMessage) => {
         setMessages((previousMessages) => {
         GiftedChat.append(previousMessages,newMessage)

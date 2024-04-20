@@ -66,6 +66,10 @@ const MessageScreen = ({navigation}) => {
     setModalVisible(true);
   }
 
+  // const handleChatscreen = (item) => {
+  //   navigation.navigate('Chat',{userName: item.currentGroupName})
+  // }
+
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
@@ -93,7 +97,7 @@ const MessageScreen = ({navigation}) => {
        <FlatList
       data={allChatRooms}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <ListItem item={item}/>}// Make sure ListitemSeparator is defined or import correctly
+      renderItem={({ item }) => <ChatRoom item={item} onPress={() => navigation.navigate('Chat',{userName: item.currentGroupName})}/>}// Make sure ListitemSeparator is defined or import correctly
       /> 
       ) : null}
        </View>

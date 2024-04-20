@@ -37,6 +37,7 @@ const DatabaseConnection = async () => { //MongoDD Server
     }
 }
 let chatgroups = [];
+const SocketMap = {};
 const ServerIo = () => { // Serverr\.I
     try{
         
@@ -61,7 +62,28 @@ const ServerIo = () => { // Serverr\.I
 
                 socket.emit('groupList',chatgroups);
             });
+
+
+            socket.on('userId',(userid)=> {
+                SocketMap[userid] = socket
+            })
+          
+            socket.on('message',async (data) => {
+
+                try{
+                    const {senderUserId, receipentUserID, message} = data;
+
+                    await MessageCollection.insertOne({senderUserId,receipentUserID,message});
+                    const recipentSocket = SocketMap[receipentUserID];
+                    if(receipentUserID){
+                        recipentSocket.emit('newMessage',{senderUserId,message})
+                    }
+                }catch(error){
+                    console.error(`${error}`)
+                }
             
+                
+            })
             // Handle disconnections
             // socket.on('disconnect', () => {
             //     console.log(' Socket Client disconnected');

@@ -8,10 +8,10 @@ import ListItem from '../../List/ListItem';
 import ListItemDelete from '../../List/ListItemDelete'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 //import axios from 'axios';
-import { io } from "socket.io-client";
+import {io } from "socket.io-client";
 import NewMessageModal from '../components/NewMessageModal';
 import ChatRoom from '../components/ChatRoom';
-
+import { socket } from '../../utils';
 
 const MessageScreen = ({navigation}) => {
 
@@ -22,21 +22,25 @@ const MessageScreen = ({navigation}) => {
   const [currentGroupName, setCurrentGroupName] = useState('')
   const [modalVisible, setModalVisible] = useState(false);
 
-  const socket = io()
+
+  
+  //const socket = io()
+
   useEffect(() => {
+
+    if(socket){
+      socket.emit('getAllgroups');
     
-    socket.emit('getAllgroups');
 
-    socket.on('groupList',(groups) => {
-      console.log('Groups:',groups)
-      setAllChatRooms(groups);
-    })
-
-    return () => {
-      socket.off('groupList');
+      socket.on('groupList',(groups) => {
+        
+        console.log('Groups:',groups)
+        setAllChatRooms(groups);
+      })
     }
-
   },[socket]);
+
+  // console.log('chat:',allChatRooms)
 
   // const clientSide = () => {
   //   try{
@@ -84,12 +88,12 @@ const MessageScreen = ({navigation}) => {
        currentGroupName={currentGroupName} 
        setCurrentGroupName={setCurrentGroupName}/>
       </View>
-       <View style={styles.listContainer}>
+      <View>
        {allChatRooms && allChatRooms.length > 0 ? (
        <FlatList
       data={allChatRooms}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={({ item }) => <ChatRoom item={item}/>}// Make sure ListitemSeparator is defined or import correctly
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <ListItem item={item}/>}// Make sure ListitemSeparator is defined or import correctly
       /> 
       ) : null}
        </View>
@@ -125,11 +129,11 @@ const styles = StyleSheet.create({
       fontWeight:'bold',
       fontSize:15
       },
-      listContainer:{
-        flex:3.4,
-        paddingHorizontal:10,
-        marginVertical:30
-      }
+      // listContainer:{
+      //   flex:1,
+      //   paddingHorizontal:10,
+      //   marginVertical:10
+      // }
    
 })
 export default MessageScreen

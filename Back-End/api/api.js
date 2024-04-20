@@ -8,18 +8,20 @@ const app = express()
 const { Server } = require("socket.io")
 const { createServer } = require( "http")
 const port = 5050
+const port1 = 3000
 
 const password = `Keeptrilladmin2021`
 const uri = `mongodb+srv://EmmanuelAdmin:${password}@atlascluster.amxnyck.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster`
 
 
 app.use(express.json()); //middleware
+app.use(express.urlencoded({extended: true}))
 app.use(cors());
 
 let UserCollection; // global variable
 let MessageCollection;
 
-let chatgroups = [];
+// let chatgroups = [];
 //Function to connect to the Database
 const DatabaseConnection = async () => { //MongoDD Server
     try{
@@ -34,14 +36,15 @@ const DatabaseConnection = async () => { //MongoDD Server
         process.exit(1)
     }
 }
-
-const ServerIo = async () => { // Serverr\.I
+let chatgroups = [];
+const ServerIo = () => { // Serverr\.I
     try{
+        
         const httpserver = createServer(app)
         
         const io = new Server(httpserver,{
             cors:{
-                origin: "http://localhost:3000"
+                origin:'http://localhost:3000'
             }
         });
         io.on('connection', (socket) => {
@@ -52,18 +55,24 @@ const ServerIo = async () => { // Serverr\.I
             })
             // Handle incoming messages
             socket.on('createNewGroup', (currentGroupName) => {
-                console.log('Name:',currentGroupName);
+                console.log('Name1:',currentGroupName);
                 chatgroups.unshift({id:chatgroups.length + 1,currentGroupName, messages:[]})
                 console.log(chatgroups);
+
+                socket.emit('groupList',chatgroups);
             });
-            socket.emit('groupList',chatgroups);
+            
             // Handle disconnections
-            socket.on('disconnect', () => {
-                console.log(' Socket Client disconnected');
+            // socket.on('disconnect', () => {
+            //     console.log(' Socket Client disconnected');
+            // });
             });
-            });
-        httpserver.listen(3000,() => {
-            console.log('Server is running!')
+
+        app.get('/api', (req,res) => {
+            res.json(chatgroups)
+        })
+        httpserver.listen(port1,() => {
+            console.log(`Server is running: ${port1}`)
         })
     }catch(error){
         console.error(`${error}`)
@@ -132,14 +141,14 @@ DatabaseConnection().then(() => {
             res.status(500).json({error: `Internal server error: ${error}`})
         }
     });
-    app.get('/message-history',(req, res) => {
-        try{
-            res.json(chatgroups)
-        }catch(error){
-            console.error(`${error}`)
-            res.status(500).json({error:`Internal Server ${error}`})
-        }
-    })
+    // app.get('/message-history',(req, res) => {
+    //     try{
+    //         res.json(chatgroups)
+    //     }catch(error){
+    //         console.error(`${error}`)
+    //         res.status(500).json({error:`Internal Server ${error}`})
+    //     }
+    // })
   
 }).catch((error) => {
     console.error(`Error start server: ${error}`)

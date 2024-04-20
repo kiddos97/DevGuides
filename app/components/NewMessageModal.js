@@ -4,16 +4,18 @@ import AppTextInput from '../components/AppTextInput';
 import color from '../../config/color';
 import Button from './Button';
 //import socket from '../../utils/index';
-import { io } from "socket.io-client";
+//import { io } from "socket.io-client";
+import { socket } from '../../utils';
 
 const NewMessageModal = ({modalVisible,setModalVisible, currentGroupName,setCurrentGroupName}) => {
   // const [modalVisible, setModalVisible] = useState(false);
   
- 
+  // const socket = io("http://localhost:3000");
 
   const newGroupName = () => {
-    const socket = io('http://localhost:3000');
-    console.log('Name:',currentGroupName)
+
+    //const socket = io();
+    console.log('Name2:',currentGroupName)
     socket.emit('createNewGroup',currentGroupName)
     setModalVisible(false);
     setCurrentGroupName('');

@@ -29,7 +29,7 @@ const ListItem = ({item, title, subTitle, image, IconComponent,onPress, renderRi
          {image && <Image style={styles.image} source={image} />}
          <View style={styles.detailsContainer}>
              <Text numberOfLines={1} style={styles.title}>{title}</Text>
-             {messages?.text ? messages.text : "Tap to start messaging"}
+             {messages?.text ? messages.text : <Text>"Tap to start messaging"</Text>}
              { subTitle && <Text  numberOfLines={2} style={styles.subTitle} >{subTitle}</Text>}
          </View>
          <MaterialCommunityIcons color={colors.medium} name="chevron-right" size={25}/>

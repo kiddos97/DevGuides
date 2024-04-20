@@ -1,6 +1,6 @@
 import { View, Text} from 'react-native'
 
-const ChatRoom = ({item}) => {
+const ChatRoom = () => {
   return (
    <View><Text>Chat room</Text></View>
   )

@@ -1,5 +1,5 @@
 
-import {View, Text, StyleSheet,TouchableOpacity, Platform, StatusBar, SafeAreaView}  from 'react-native'
+import {View, Text, StyleSheet,TouchableOpacity, Platform, StatusBar, SafeAreaView, FlatList}  from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import color from'../../config/color';
 import React, { useState, useCallback, useEffect } from 'react'
@@ -7,119 +7,92 @@ import { GiftedChat, Send } from 'react-native-gifted-chat'
 //import { io } from "socket.io-client";
 import axios from 'axios';
 import { socket } from '../../utils';
+import MessageChat from '../components/MessageChat';
+import AppTextInput from '../components/AppTextInput';
+import Button from '../components/Button';
 
 const ChatScreen = ({item, route}) => {
-  const [messages, setMessages] = useState([])
-  const [allChatMessage, setAllChatMessage] = useState([])
 
-  // useEffect(() => {
-  //   setMessages([
-  //     {
-  //       _id: 1,
-  //       text: 'Hello developer',
-  //       createdAt: new Date(),
-  //       user: {
-  //         _id: 2,
-  //         name: 'React Native',
-  //         avatar: 'https://placeimg.com/140/140/any',
-  //       },
-  //     },
-  //   ])
-  // }, [])
+  const [allChatMessages, setallChatMessages] = useState([]);
+  const [currentChatMessage, setCurrentChatMessage] = useState([]);
+
+  const {userName, userid} = route.params
+
 
   useEffect(() => {
-    clientSide();
-  },[])
+    socket.emit('findgroup',userid)
+    socket.on('foundgroup', (allChatMessages) => setallChatMessages(allChatMessages))
+  },[socket])
+  const handleMessage = () => {
+    const timeData ={
+      hr: new Date().getHours() < 10 ? `0${new Date().getHours()}` : new Date().getHours(),
+      mins: new Date().getMinutes() < 10 ? `0${new Date().getMinutes()}` : new Date().getMinutes()
+    }
 
- 
-
-
-  const clientSide = () => {// creating client connection
-    try{
-  
-      socket.on('message',(newMessage) => {
-        setMessages((previousMessages) => {
-        GiftedChat.append(previousMessages,newMessage)
-      })})
-    }catch(error){
-      console.error(`${error}`)
+    if(userName){
+      socket.emit('newChatMessage',{
+        currentChatMessage,
+        groupId:userid,
+        userName,
+        timeData
+      })
+      setCurrentChatMessage('')
     }
   }
-
-  const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages),
-    )
-
-    const newMessage = messages[0]
-
-    sendMessgae(newMessage)
-  }, [])
-
-
-  const sendMessgae = async (newMessage) => {
-    try{
-      const response = await axios.post('http://localhost:3000/send-message' ,{
-        message: newMessage,
-        name: route.params.userName})
-      console.log('Message sent:', response.data)
-    }catch(error){
-      console.error(`${error}`)
-    }
-  }
-
-
-
-  const renderSend = (props) => {
-    return (
-      <Send
-      {...props}
-      >
-        <View>
-          <MaterialCommunityIcons
-          style={{ marginBottom:10, marginRight:10}}
-          name='send-circle'
-          size={32}
-          color='#2e64e5'/>
-        </View>
-      </Send>
-    )
-  }
-
   return (
-    <View style={styles.screen}>
-          <GiftedChat
-    messages={messages}
-    onSend={messages => onSend(messages)}
-    user={{
-      _id: 1,
-    }}
-    textInputStyle={styles.text}
-    alwaysShowSend
-    renderSend={renderSend}
-    scrollToBottom
-    isTyping={true}
-  />
+   <View styles={styles.wrapper}>
+    <View style={styles.innnerwrapper}>
+      {
+        allChatMessages && allChatMessages[0] ? (
+          <FlatList
+          data={allChatMessages}
+          renderItem={({item}) => <MessageChat userName={userName} item={item}/>}/> )
+          :''}
+    </View>
+    <View style={styles.messageinputContainer}>
+      <View style={styles.messageinput}>
+      <AppTextInput
+      value={currentChatMessage}
+      onChangeText={(value) => setCurrentChatMessage(value)}
+      placeholder='Enter your Message'
+      />
       </View>
+      <View style={styles.button}>
+      <Button title='Send' onPress={handleMessage}/>
+    </View>
+    </View>
+   </View>
 
  
   )
 }
 
 const styles = StyleSheet.create({
-  screen:{
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+  wrapper:{
     flex:1,
-    marginBottom:10,
-    padding:5
 },
-container:{
-  marginVertical:50,
-  padding: 5,
+button:{
+  width:'30%',
+  borderRadius:50,
+  alignItems:'center',
+  justifyContent:'center',
 },
-text:{
-marginBottom:10
-}
+messageinputContainer:{
+  width:'100%',
+  backgroundColor:'#fff',
+  paddingVertical:30,
+  paddingHorizontal:15,
+  justifyContent:'center',
+  flexDirection:'row',
+
+},
+messageinput:{
+  borderWidth:1,
+  padding:15,
+  flex:1,
+  borderRadius:50,
+  marginRight:10
+},
 })
 
 export default ChatScreen

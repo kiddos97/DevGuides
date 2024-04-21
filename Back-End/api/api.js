@@ -6,7 +6,8 @@ const cors = require('cors');
 //const http = require('http');
 const app = express()
 const { Server } = require("socket.io")
-const { createServer } = require( "http")
+const { createServer } = require( "http");
+const { time } = require('console');
 const port = 5050
 const port1 = 3000
 
@@ -20,6 +21,8 @@ app.use(cors());
 
 let UserCollection; // global variable
 let MessageCollection;
+
+
 
 // let chatgroups = [];
 //Function to connect to the Database
@@ -35,6 +38,12 @@ const DatabaseConnection = async () => { //MongoDD Server
         console.error(`Error connecting to MongoDB: ${error}`)
         process.exit(1)
     }
+}
+
+
+const createUniqueID = () => {
+    return Math.random().toString(20).substring(2,10)
+
 }
 let chatgroups = [];
 const SocketMap = {};
@@ -63,31 +72,26 @@ const ServerIo = () => { // Serverr\.I
                 socket.emit('groupList',chatgroups);
             });
 
-
-            socket.on('userId',(userid)=> {
-                SocketMap[userid] = socket
+            socket.on('findgroup',(id) => {
+                const filteredgroup = chatgroups.filter(item => item.id === id)
+                socket.emit('foundgroup',filteredgroup[0].messages)
             })
-          
-            socket.on('message',async (data) => {
-
-                try{
-                    const {senderUserId, receipentUserID, message} = data;
-
-                    await MessageCollection.insertOne({senderUserId,receipentUserID,message});
-                    const recipentSocket = SocketMap[receipentUserID];
-                    if(receipentUserID){
-                        recipentSocket.emit('newMessage',{senderUserId,message})
-                    }
-                }catch(error){
-                    console.error(`${error}`)
+            socket.on('newChatMessage',(data) => {
+                const {currentChatMessage, groupId, userName, timeData} = data;
+                const filteredgroup = chatgroups.filter(item => item.id === groupId);
+                const newMessage = {
+                    id: createUniqueID(),
+                    text:currentChatMessage,
+                    userName,
+                    time: `${timeData.hr}: ${timeData.mins}`
                 }
-            
-                
+
+                socket.to(filteredgroup[0].currentGroupName).emit('groupMessage',newMessage)
+                filteredgroup[0].messages.push(newMessage);
+                socket.emit('foundgroup',filteredgroup[0].messages)
+
             })
-            // Handle disconnections
-            // socket.on('disconnect', () => {
-            //     console.log(' Socket Client disconnected');
-            // });
+
             });
 
         app.get('/api', (req,res) => {

@@ -85,3 +85,121 @@
 
 
         onPress={() => navigation.navigate('Chat',{userName: item.userName})}
+
+         <View style={styles.screen}>
+          <GiftedChat
+    messages={messages}
+    onSend={messages => onSend(messages)}
+    user={{
+      _id: 1,
+    }}
+    textInputStyle={styles.text}
+    alwaysShowSend
+    renderSend={renderSend}
+    scrollToBottom
+    isTyping={true}
+  />
+      </View>
+  
+      socket.on('message',(newMessage) => {
+        setMessages((previousMessages) => {
+        GiftedChat.append(previousMessages,newMessage)
+      })})
+    }catch(error){
+      console.error(`${error}`)
+    }
+  }
+
+  const onSend = useCallback((messages = []) => {
+    setMessages(previousMessages =>
+      GiftedChat.append(previousMessages, messages),
+    )
+
+    const newMessage = messages[0]
+
+    sendMessgae(newMessage)
+  }, [])
+
+
+  const sendMessgae = async (newMessage) => {
+    try{
+      const response = await axios.post('http://localhost:3000/send-message' ,{
+        message: newMessage,
+        name: route.params.userName})
+      console.log('Message sent:', response.data)
+    }catch(error){
+      console.error(`${error}`)
+    }
+  }
+
+
+
+  const renderSend = (props) => {
+    return (
+      <Send
+      {...props}
+      >
+        <View>
+          <MaterialCommunityIcons
+          style={{ marginBottom:10, marginRight:10}}
+          name='send-circle'
+          size={32}
+          color='#2e64e5'/>
+        </View>
+      </Send>
+    )
+  }
+
+    const [messages, setMessages] = useState([])
+  const [allChatMessage, setAllChatMessage] = useState([])
+
+  // useEffect(() => {
+  //   setMessages([
+  //     {
+  //       _id: 1,
+  //       text: 'Hello developer',
+  //       createdAt: new Date(),
+  //       user: {
+  //         _id: 2,
+  //         name: 'React Native',
+  //         avatar: 'https://placeimg.com/140/140/any',
+  //       },
+  //     },
+  //   ])
+  // }, [])
+
+  useEffect(() => {
+    clientSide();
+  },[])
+
+ 
+
+
+  const clientSide = () => {// creating client connection
+    try{
+
+
+            // socket.on('userId',(userid)=> {
+            //     SocketMap[userid] = socket
+            // })
+          
+            // socket.on('message',async (data) => {
+
+            //     // try{
+            //     //     const {senderUserId, receipentUserID, message} = data;
+
+            //     //     await MessageCollection.insertOne({senderUserId,receipentUserID,message});
+            //     //     const recipentSocket = SocketMap[receipentUserID];
+            //     //     if(receipentUserID){
+            //     //         recipentSocket.emit('newMessage',{senderUserId,message})
+            //     //     }
+            //     // }catch(error){
+            //     //     console.error(`${error}`)
+            //     // }
+            
+                
+            // })
+            // Handle disconnections
+            // socket.on('disconnect', () => {
+            //     console.log(' Socket Client disconnected');
+            // });

@@ -13,7 +13,7 @@ import NewMessageModal from '../components/NewMessageModal';
 import ChatRoom from '../components/ChatRoom';
 import { socket } from '../../utils';
 
-const MessageScreen = ({navigation}) => {
+const MessageScreen = ({route,navigation}) => {
 
 
   const [messages, setMessages] = useState('');
@@ -86,7 +86,8 @@ const MessageScreen = ({navigation}) => {
         <Text>New Message</Text>
       </TouchableOpacity>
       <View>
-      <NewMessageModal 
+      <NewMessageModal
+      route={route}
       modalVisible={modalVisible}
        setModalVisible={setModalVisible} 
        currentGroupName={currentGroupName} 
@@ -97,7 +98,7 @@ const MessageScreen = ({navigation}) => {
        <FlatList
       data={allChatRooms}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <ChatRoom item={item} onPress={() => navigation.navigate('Chat',{userName: item.currentGroupName, userid: item.id})}/>}// Make sure ListitemSeparator is defined or import correctly
+      renderItem={({ item }) => <ChatRoom item={item} onPress={() => navigation.navigate('Chat',{user: item.currentGroupName, userid: item.id})}/>}// Make sure ListitemSeparator is defined or import correctly
       /> 
       ) : null}
        </View>

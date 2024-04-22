@@ -3,18 +3,29 @@ import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import AppTextInput from '../components/AppTextInput';
 import color from '../../config/color';
 import Button from './Button';
-//import socket from '../../utils/index';
-//import { io } from "socket.io-client";
+import axios from 'axios';
 import { socket } from '../../utils';
 
 const NewMessageModal = ({modalVisible,setModalVisible, currentGroupName,setCurrentGroupName}) => {
-  // const [modalVisible, setModalVisible] = useState(false);
-  
-  // const socket = io("http://localhost:3000");
+
 
   const newGroupName = () => {
+    // console.log('pressed')
+    // try{
+    //   const res = await axios.get(`http://192.168.86.48:5050/user/:${currentGroupName}}`)
+    //   console.log(res);
+    //   currentGroupName = res.data.username
+    //   if(res.status === 200){
+    //     handleSocket(currentGroupName);
+    //   }
+    //   }catch(error){
+    //     console.error(`${error}`)
 
-    //const socket = io();
+    //   }
+    handleSocket();
+    }
+
+  const handleSocket = () => {
     console.log('Name2:',currentGroupName)
     socket.emit('createNewGroup',currentGroupName)
     setModalVisible(false);

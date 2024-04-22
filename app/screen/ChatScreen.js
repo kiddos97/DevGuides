@@ -16,7 +16,7 @@ const ChatScreen = ({item, route}) => {
   const [allChatMessages, setallChatMessages] = useState([]);
   const [currentChatMessage, setCurrentChatMessage] = useState([]);
 
-  const {userName, userid} = route.params
+  const {user, userid} = route.params
 
 
   useEffect(() => {
@@ -29,11 +29,11 @@ const ChatScreen = ({item, route}) => {
       mins: new Date().getMinutes() < 10 ? `0${new Date().getMinutes()}` : new Date().getMinutes()
     }
 
-    if(userName){
+    if(user){
       socket.emit('newChatMessage',{
         currentChatMessage,
         groupId:userid,
-        userName,
+        user,
         timeData
       })
       setCurrentChatMessage('')
@@ -46,7 +46,8 @@ const ChatScreen = ({item, route}) => {
         allChatMessages && allChatMessages[0] ? (
           <FlatList
           data={allChatMessages}
-          renderItem={({item}) => <MessageChat userName={userName} item={item}/>}/> )
+          keyExtractor={(item) => item.id}
+          renderItem={({item}) => <MessageChat route={route} user={user} item={item}/>}/> )
           :''}
     </View>
     <View style={styles.messageinputContainer}>

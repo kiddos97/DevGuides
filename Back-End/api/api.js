@@ -167,7 +167,22 @@ DatabaseConnection().then(() => {
             res.status(500).json({error: `Internal server error: ${error}`})
         }
     });
-    // app.get('/message-history',(req, res) => {
+    app.post('/user/:username',async (req,res) => {
+
+        const {username} = req.params;
+        try{
+            const User = await UserCollection.findOne({username})
+            if(!User){
+                return res.status(401).json({message:'user not found'})
+            }
+            res.json(User);
+        }catch(error){
+            console.error(`$${error}`)
+        }
+
+    })
+    // app.get('/user/:username',(req, res) => {
+    //     const { username} = req.params; 
     //     try{
     //         res.json(chatgroups)
     //     }catch(error){

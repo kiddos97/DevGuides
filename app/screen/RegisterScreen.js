@@ -6,7 +6,7 @@ import color from '../../config/color';
 import Button from '../components/Button';
 import * as Yup from 'yup';
 // import axios from 'axios';
-import { FIREBASE_AUTH } from '../../FireBase/FireBaseConfig';
+//import { FIREBASE_AUTH } from '../../FireBase/FireBaseConfig';
 
 
 
@@ -16,8 +16,8 @@ const RegisterScreen = ({navigation}) => {
     const handleRegister = async (values, {resetForm} )=> {
 
         try{
-            const auth = FIREBASE_AUTH;
-            const response = await createUserWithEmailAndPassword(auth, values.email, values.password)
+            //const auth = FIREBASE_AUTH;
+            //const response = await createUserWithEmailAndPassword(auth, values.email, values.password)
             if(response){
                 resetForm({values:initialValues})
                 navigation.navigate('Login')

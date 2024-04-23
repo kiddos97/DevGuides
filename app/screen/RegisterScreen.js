@@ -1,33 +1,14 @@
 import React, {useState} from 'react'
-import {SafeAreaView, View, Text,StyleSheet,Platform,StatusBar, TouchableOpacity} from 'react-native';
+import {SafeAreaView, View, Text,StyleSheet,Platform,StatusBar, TouchableOpacity,Alert} from 'react-native';
 import { Formik, Field, Form } from 'formik';
 import AppTextInput from '../components/AppTextInput';
 import color from '../../config/color';
 import Button from '../components/Button';
 import * as Yup from 'yup';
-import axios from 'axios';
+// import axios from 'axios';
+import { FIREBASE_AUTH } from '../../FireBase/FireBaseConfig';
 
-const validationSchema = Yup.object().shape({
-    name: Yup.string()
-    .min(3, 'Too Short')
-    .max(50, 'Too long')
-    .required('Please enter your full name'),
-    username: Yup.string()
-    .min(8)
-    .max(10)
-    .required('Username is required'),
-    email: Yup.string()
-    .email('Invalid email')
-    .required('Please enter your email'),
-    password: Yup.string()
-    .min(8, 'Password must contain at least 8 characters')
-    .max(50)
-    .required('Please enter your password')
-    .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/),
-    confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Please enter password again'),
-  });
+
 
 
 
@@ -35,20 +16,39 @@ const RegisterScreen = ({navigation}) => {
     const handleRegister = async (values, {resetForm} )=> {
 
         try{
-            const res = await axios.post('http://localhost:3000/register', {
-                name: values.name,
-                username: values.username,
-                email:values.email,
-                password :values.password
-             })
-             console.log(res.data)
-             resetForm({values:initialValues})
-             navigation.navigate('Login')
+            const auth = FIREBASE_AUTH;
+            const response = await createUserWithEmailAndPassword(auth, values.email, values.password)
+            if(response){
+                resetForm({values:initialValues})
+                navigation.navigate('Login')
+                Alert.alert('Success','You have registered!')
+            }
         }catch(error){
             console.error(error)
         }
     }    
 
+    const validationSchema = Yup.object().shape({
+        name: Yup.string()
+        .min(3, 'Too Short')
+        .max(50, 'Too long')
+        .required('Please enter your full name'),
+        username: Yup.string()
+        .min(8)
+        .max(10)
+        .required('Username is required'),
+        email: Yup.string()
+        .email('Invalid email')
+        .required('Please enter your email'),
+        password: Yup.string()
+        .min(8, 'Password must contain at least 8 characters')
+        .max(50)
+        .required('Please enter your password')
+        .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/),
+        confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required('Please enter password again'),
+      });
 
     const initialValues = {
         name:'',

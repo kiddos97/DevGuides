@@ -5,40 +5,39 @@ import Button from '../components/Button'
 import { useState } from 'react'
 import * as Yup from 'yup';
 import { Formik} from 'formik';
-import axios from 'axios'
+// import axios from 'axios'
 //import {AsyncStorage} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { FIREBASE_AUTH } from '../../FireBase/FireBaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
+
+
 
 
 const LoginScreen = ({navigation}) => {
     const [isLoading, setLoading] = useState(false)
     
+
+    const auth = FIREBASE_AUTH;
     
     const LoginPress = async (values,{resetForm}) => {
         setLoading(true); // Set loading to true when login button is pressed
         try{
-            const res = await axios.post('http://192.168.86.48:5050/login',{
-                username:values.username,
-                password:values.password
-            })
-            if(res.status === 200){
-                   // Simulate login process with setTimeout
-                   const authToken = res.data.token
-                   console.log(authToken)
-                   AsyncStorage.setItem('my-key', authToken)
-                   .then(() => {
-                    setTimeout(() => {
-                        setLoading(false); // Set loading to false after some time (simulating successful login)
-                        resetForm({values:initialValues});
-                        navigation.navigate('Homepage');
-                        Alert.alert('Success!!', 'you have logged in!');
-                    }, 2000); 
-                   })
+            const response = await signInWithEmailAndPassword(auth, values.username, values.password)
+            if(response){
+                setTimeout(() => {
+                    setLoading(false);
+                    resetForm({values:initialValues}) // Set loading to false after some time (simulating successful login)
+                    navigation.navigate('Homepage');
+                    Alert.alert('Success!!', 'you have logged in!');
+                }, 2000); 
             }
-
+        
         }catch(error){
-            if(error.res && error.res.status === 401){
-                console.error('Unauthorized username and password ')
+            setLoading(false);
+            if(error){
+                console.error(`Unauthorized username and password ${error}`)
                 Alert.alert('Login failed','Invalid username or password')
             }else{
                 console.error(`Login failed: ${error}`)

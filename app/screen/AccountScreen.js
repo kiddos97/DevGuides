@@ -7,6 +7,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useState} from 'react';
+import { FIREBASE_APP } from '../../FireBase/FireBaseConfig';
+import { getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
+
+
 const AccountScreen = () => {
 
   const [isLoading, setLoading] = useState(false)
@@ -17,8 +21,9 @@ const AccountScreen = () => {
   }
   const handleLogout = async () => {
     setLoading(true)
+    const auth = getAuth(FIREBASE_APP);
     try{
-      await AsyncStorage.removeItem('my-key')
+      await auth.signOut();
       setTimeout(() => {
         setLoading(false); // Set loading to false after some time (simulating successful login)
         navigation.navigate('Login')

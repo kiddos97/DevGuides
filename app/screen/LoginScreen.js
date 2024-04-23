@@ -24,7 +24,7 @@ const LoginScreen = ({navigation}) => {
     const LoginPress = async (values,{resetForm}) => {
         setLoading(true); // Set loading to true when login button is pressed
         try{
-            const response = await signInWithEmailAndPassword(auth, values.username, values.password)
+            const response = await signInWithEmailAndPassword(auth, values.email, values.password)
             if(response){
                 setTimeout(() => {
                     setLoading(false);
@@ -50,10 +50,9 @@ const LoginScreen = ({navigation}) => {
         navigation.navigate('Register')
     }
     const validationSchema = Yup.object().shape({
-        username: Yup.string()
-        .min(8)
-        .max(10)
-        .required('Username is required'),
+        email: Yup.string()
+        .email('Invalid email')
+        .required('Please enter your email'),
         password: Yup.string()
         .min(8, 'Password must contain at least 8 characters')
         .max(50)
@@ -62,7 +61,7 @@ const LoginScreen = ({navigation}) => {
       });
 
       const initialValues = {
-            username:'',
+            email:'',
             password:''
         }
       
@@ -86,12 +85,13 @@ const LoginScreen = ({navigation}) => {
                     <>
                     <View style={styles.UserContainer}>
                     <AppTextInput
+                    keyboardTYpe='email-address'
                     icon='account' 
-                    placeholder='User Name' 
+                    placeholder='email' 
                     backgroundColor={color.light}
-                    onChangeText={handleChange('username')}
+                    onChangeText={handleChange('email')}
                     values={values.username}
-                    onBlur={() => setFieldTouched('username')}/>
+                    onBlur={() => setFieldTouched('email')}/>
                     {
                         touched.username && errors.username && (
                             <Text style={styles.errormessage}>{errors.username}</Text>

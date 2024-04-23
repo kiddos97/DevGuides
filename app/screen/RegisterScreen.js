@@ -5,8 +5,8 @@ import AppTextInput from '../components/AppTextInput';
 import color from '../../config/color';
 import Button from '../components/Button';
 import * as Yup from 'yup';
-// import axios from 'axios';
-//import { FIREBASE_AUTH } from '../../FireBase/FireBaseConfig';
+import { FIREBASE_APP } from '../../FireBase/FireBaseConfig';
+import { getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
 
 
 
@@ -14,10 +14,10 @@ import * as Yup from 'yup';
 
 const RegisterScreen = ({navigation}) => {
     const handleRegister = async (values, {resetForm} )=> {
+        const auth = getAuth(FIREBASE_APP);
 
         try{
-            //const auth = FIREBASE_AUTH;
-            //const response = await createUserWithEmailAndPassword(auth, values.email, values.password)
+            const response = await createUserWithEmailAndPassword(auth, values.email, values.password)
             if(response){
                 resetForm({values:initialValues})
                 navigation.navigate('Login')
@@ -29,14 +29,14 @@ const RegisterScreen = ({navigation}) => {
     }    
 
     const validationSchema = Yup.object().shape({
-        name: Yup.string()
-        .min(3, 'Too Short')
-        .max(50, 'Too long')
-        .required('Please enter your full name'),
-        username: Yup.string()
-        .min(8)
-        .max(10)
-        .required('Username is required'),
+        // name: Yup.string()
+        // .min(3, 'Too Short')
+        // .max(50, 'Too long')
+        // .required('Please enter your full name'),
+        // username: Yup.string()
+        // .min(8)
+        // .max(10)
+        // .required('Username is required'),
         email: Yup.string()
         .email('Invalid email')
         .required('Please enter your email'),
@@ -51,8 +51,6 @@ const RegisterScreen = ({navigation}) => {
       });
 
     const initialValues = {
-        name:'',
-        username:'',
         email:'', 
         password:'', 
         confirmPassword:''}
@@ -72,25 +70,6 @@ const RegisterScreen = ({navigation}) => {
                     {({handleChange, handleSubmit, values, setFieldTouched,touched, errors, isValid}) => (
                         <>
                             <View>
-                            <AppTextInput
-                                    icon='account'
-                                    placeholder='Full Name'
-                                    backgroundColor={color.light}
-                                    value={values.name}
-                                    onChangeText={handleChange('name')}
-                                    onBlur={() => setFieldTouched('name')}
-                                />
-                                {touched.name && errors.name && (
-                                <Text style={styles.errormessage}>{errors.name}</Text>)}
-                                <AppTextInput
-                                    icon='account'
-                                    placeholder='Username'
-                                    backgroundColor={color.light}
-                                    value={values.username}
-                                    onChangeText={handleChange('username')}
-                                    onBlur={() => setFieldTouched('username')}
-                                />
-                                {touched.username && errors.username &&( <Text style={styles.errormessage}>{errors.username}</Text>)}
                                 <AppTextInput
                                     icon='email'
                                     keyboardType='email-address'

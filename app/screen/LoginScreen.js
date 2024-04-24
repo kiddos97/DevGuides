@@ -2,14 +2,14 @@ import { SafeAreaView, View, StyleSheet,Text, Image, ActivityIndicator,Alert} fr
 import AppTextInput from '../components/AppTextInput'
 import color from '../../config/color'
 import Button from '../components/Button'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import * as Yup from 'yup';
 import { Formik} from 'formik';
 // import axios from 'axios'
 //import {AsyncStorage} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FIREBASE_APP } from '../../FireBase/FireBaseConfig';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword,onAuthStateChanged } from 'firebase/auth';
 
 
 
@@ -20,6 +20,14 @@ const LoginScreen = ({navigation}) => {
     
 
     const auth = getAuth(FIREBASE_APP);
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if(user){
+                console.log(`${user.email} is signed in`)
+            }
+        })
+    },[])
     
     const LoginPress = async (values,{resetForm}) => {
         setLoading(true); // Set loading to true when login button is pressed
@@ -69,13 +77,17 @@ const LoginScreen = ({navigation}) => {
 
   return (
    
-    <SafeAreaView style={styles.container}>
-        <View>
+    <View style={styles.container}>
+            <Image
+            style={styles.backImage}
+            source={require('../assets/backimage.jpg')}
+            />
+            <View style={styles.whitesheet}/>
+            <SafeAreaView>
             <Image
             style={styles.logo}
             source={require('../assets/applogo.png')}
             />
-            </View>
             <Formik
             initialValues={initialValues}
             onSubmit={LoginPress}
@@ -125,21 +137,39 @@ const LoginScreen = ({navigation}) => {
                     </>
             )}
             </Formik>
+
+            </SafeAreaView>
+            
          
-    </SafeAreaView>
+    </View>
   
   )
 }
 
 
 const styles = StyleSheet.create({
+    backImage:{
+        width: '100%',
+        height: 340,
+        posoition:'absolute',
+        top:0,
+        resizedMode: 'cover'
+      },  
+    whitesheet:{
+        width:'100%',
+        height:'75%',
+        position:'absolute',
+        bottom:0,
+        backgroundColor:color.AppBackgroundColor,
+        borderTopLeftRadius: 60
+  } ,   
     errormessage:{
         color: color.danger,
         textAlign:'center'
     },
     container:{
         flex:1,
-        backgroundColor:color.AppBackgroundColor
+        backgroundColor:color.white
     },
     LoginContainer:{
         padding:20,
@@ -147,10 +177,9 @@ const styles = StyleSheet.create({
     },
     logo:{
         width:100,
-        height:150,
+        height:120,
         alignSelf:'center',
-        marginTop:50,
-        marginBottom: 20
+        marginBottom: 10
     },
     UserContainer:{
         marginTop:50,

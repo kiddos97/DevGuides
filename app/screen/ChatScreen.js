@@ -13,63 +13,92 @@ import Button from '../components/Button';
 
 const ChatScreen = ({item, route}) => {
 
-  const [allChatMessages, setallChatMessages] = useState([]);
-  const [currentChatMessage, setCurrentChatMessage] = useState([]);
+  const [messages, setMessages] = useState([])
 
-  const {user, userid} = route.params
+  // const [allChatMessages, setallChatMessages] = useState([]);
+  // const [currentChatMessage, setCurrentChatMessage] = useState([]);
+
+  // const {user, userid} = route.params
 
 
-  useEffect(() => {
-    socket.emit('findgroup',userid)
-    socket.on('foundgroup', (allChatMessages) => setallChatMessages(allChatMessages))
-  },[socket])
-  const handleMessage = () => {
-    const timeData ={
-      hr: new Date().getHours() < 10 ? `0${new Date().getHours()}` : new Date().getHours(),
-      mins: new Date().getMinutes() < 10 ? `0${new Date().getMinutes()}` : new Date().getMinutes()
-    }
+  // useEffect(() => {
+  //   socket.emit('findgroup',userid)
+  //   socket.on('foundgroup', (allChatMessages) => setallChatMessages(allChatMessages))
+  // },[socket])
+  // const handleMessage = () => {
+  //   const timeData ={
+  //     hr: new Date().getHours() < 10 ? `0${new Date().getHours()}` : new Date().getHours(),
+  //     mins: new Date().getMinutes() < 10 ? `0${new Date().getMinutes()}` : new Date().getMinutes()
+  //   }
 
-    if(user){
-      socket.emit('newChatMessage',{
-        currentChatMessage,
-        groupId:userid,
-        user,
-        timeData
-      })
-      setCurrentChatMessage('')
-    }
-  }
-  return (
-   <View styles={styles.wrapper}>
-    <View style={styles.innnerwrapper}>
+  //   if(user){
+  //     socket.emit('newChatMessage',{
+  //       currentChatMessage,
+  //       groupId:userid,
+  //       user,
+  //       timeData
+  //     })
+  //     setCurrentChatMessage('')
+  //   }
+  // }
+    useEffect(() => {
+    setMessages([
       {
-        allChatMessages && allChatMessages[0] ? (
-          <FlatList
-          data={allChatMessages}
-          keyExtractor={(item) => item.id}
-          renderItem={({item}) => <MessageChat route={route} user={user} item={item}/>}/> )
-          :''}
+        _id: 1,
+        text: 'Hello developer',
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: 'React Native',
+          avatar: 'https://placeimg.com/140/140/any',
+        },
+      },
+    ])
+  }, [])
+
+  const onSend = useCallback((messages = []) => {
+    setMessages(previousMessages =>
+      GiftedChat.append(previousMessages, messages),
+    )
+  }, [])
+
+  const renderSend = (props) => {
+    return (
+      <Send
+      {...props}
+      >
+        <View>
+          <MaterialCommunityIcons
+          style={{ marginBottom:10, marginRight:10}}
+          name='send-circle'
+          size={32}
+          color='#2e64e5'/>
+        </View>
+      </Send>
+    )}
+
+  return (
+    <View style={styles.screen}>
+      <GiftedChat
+          messages={messages}
+          onSend={messages => onSend(messages)}
+          user={{
+          _id: 1,
+          }}
+          textInputStyle={styles.text}
+          alwaysShowSend
+          renderSend={renderSend}
+          scrollToBottom
+          isTyping={true}
+          />
     </View>
-    <View style={styles.messageinputContainer}>
-      <View style={styles.messageinput}>
-      <AppTextInput
-      value={currentChatMessage}
-      onChangeText={(value) => setCurrentChatMessage(value)}
-      placeholder='Enter your Message'
-      />
-      </View>
-      <View style={styles.button}>
-      <Button title='Send' onPress={handleMessage}/>
-    </View>
-    </View>
-   </View>
 
  
   )
 }
 
 const styles = StyleSheet.create({
-  wrapper:{
+  screen:{
     flex:1,
 },
 button:{

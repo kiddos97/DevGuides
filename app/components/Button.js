@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 
     buttonContainer:{
         borderWidth:2,
-        borderRadius: 30,
+        borderRadius: 25,
         padding:10,
     },
     text:{

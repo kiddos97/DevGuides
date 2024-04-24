@@ -19,7 +19,7 @@ const AppTextInput = ({placeholder,backgroundColor,borderColor,secureTextEntry,i
       onBlur={onBlur}
       />
       <View style={styles.inputContainer}>
-       {icon && <MaterialCommunityIcons name={icon} size={25} style={styles.icon} color={color.medium}/>}
+       {icon && <MaterialCommunityIcons name={icon} size={25} style={styles.icon} color={color.textcolor}/>}
        </View>
       </View>
       

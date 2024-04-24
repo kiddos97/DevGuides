@@ -78,16 +78,12 @@ const LoginScreen = ({navigation}) => {
   return (
    
     <View style={styles.container}>
-            <Image
-            style={styles.backImage}
-            source={require('../assets/backimage.jpg')}
-            />
+           
             <View style={styles.whitesheet}/>
-            <SafeAreaView>
             <Image
-            style={styles.logo}
             source={require('../assets/applogo.png')}
-            />
+            style={styles.logo}/>
+            <SafeAreaView>
             <Formik
             initialValues={initialValues}
             onSubmit={LoginPress}
@@ -100,7 +96,7 @@ const LoginScreen = ({navigation}) => {
                     keyboardTYpe='email-address'
                     icon='account' 
                     placeholder='email' 
-                    backgroundColor={color.light}
+                    backgroundColor={color.grey}
                     onChangeText={handleChange('email')}
                     values={values.username}
                     onBlur={() => setFieldTouched('email')}/>
@@ -113,7 +109,7 @@ const LoginScreen = ({navigation}) => {
                     icon='lock'
                     secureTextEntry
                     placeholder='Password'
-                    backgroundColor={color.light}
+                    backgroundColor={color.grey}
                     onChangeText={handleChange('password')}
                     values={values.password}
                     onBlur={() => setFieldTouched('password')}/>
@@ -124,7 +120,7 @@ const LoginScreen = ({navigation}) => {
                     <View style={styles.LoginContainer}>
                         {isLoading ? ( 
                         <ActivityIndicator size='large' color={color.white} />) : (
-                        <Button onPress={handleSubmit} title='Login' backgroundColor={color.light} color={color.AppBackgroundColor}/>
+                        <Button onPress={handleSubmit} title='Login' backgroundColor={color.textcolor} color={color.white} borderColor={color.secondary}/>
                         )
                         }
                         <View style={styles.textContainer}>
@@ -151,7 +147,7 @@ const styles = StyleSheet.create({
     backImage:{
         width: '100%',
         height: 340,
-        posoition:'absolute',
+        position:'absolute',
         top:0,
         resizedMode: 'cover'
       },  
@@ -169,21 +165,23 @@ const styles = StyleSheet.create({
     },
     container:{
         flex:1,
-        backgroundColor:color.white
+        backgroundColor:color.secondary,
+        padding:10
     },
     LoginContainer:{
-        padding:20,
+        padding:30,
         marginTop:70,
     },
     logo:{
         width:100,
-        height:120,
+        height:150,
         alignSelf:'center',
+        marginVertical:80,
         marginBottom: 10
     },
     UserContainer:{
         marginTop:50,
-        padding:10
+        padding:20
     },
     textContainer:{
         marginTop:15,
@@ -191,13 +189,13 @@ const styles = StyleSheet.create({
         alignSelf:'center'
     },
     text:{
-        color:color.white,
+        color:color.textcolor,
         textAlign:'center',
         fontSize: 15,
         fontWeight:'bold'
     },
     text1:{
-        color:color.white,
+        color:color.textcolor,
         fontSize: 15,
         fontWeight:'bold',
         marginLeft:10

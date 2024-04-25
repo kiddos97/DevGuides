@@ -11,9 +11,12 @@ const ChatList = ({users}) => {
      <FlatList
      data={users}
      keyExtractor={(item) => item.id}
-     renderItem={({item}) => <ChatRoom 
+     renderItem={({item}) =>
+     <ChatRoom
      onPress={() => navigation.navigate('Chat',{username:item?.username})}
-     item={item}/>}/>
+     item={item}
+    />}
+     />
    </View>
   )
 }

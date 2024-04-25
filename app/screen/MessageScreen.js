@@ -11,34 +11,27 @@ import ChatRoom from '../components/ChatRoom';
 import {  db, userRef } from '../../FireBase/FireBaseConfig';
 import { collection, doc, setDoc,getDocs,query,where } from "firebase/firestore"; 
 import ChatList from '../../List/ChatList';
-import { getAuth,onAuthStateChanged } from 'firebase/auth';
-import { FIREBASE_APP } from '../../FireBase/FireBaseConfig';
-const auth = getAuth(FIREBASE_APP);
+import { useAuth } from '../authContext';
+
 
 const MessageScreen = ({route,navigation}) => {
 
  
-  const [refreshing,setRefreshing] = useState(false);
-  const [currentGroupName, setCurrentGroupName] = useState('')
+  //const [refreshing,setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [users, setUsers] = useState([]);
 
-  // const handleDelete = (selectedMessage) => {
 
-  // const newMessages = messages.filter((m) => m.id !== selectedMessage.id);
-    
-  //   setMessages(newMessages);
-  // };
+  const { user } = useAuth();
 
   useEffect(() => {
-       onAuthStateChanged(auth, (user) => {
-            if(user.uid){
-                getUsers(user);
-            }
-        })
+    if(user?.uid){
+      getUsers();
+    }
   },[])
+  
 
-  const getUsers = async (user) => {
+  const getUsers = async () => {
     const q = query(userRef, where('userId','!=',user?.uid))
 
 

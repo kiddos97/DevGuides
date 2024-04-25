@@ -766,4 +766,18 @@ const ChatScreen = ({item, route}) => {
 
  
   )
+
+
+
+
 }
+
+
+
+  // const handleDelete = (selectedMessage) => {
+
+  // const newMessages = messages.filter((m) => m.id !== selectedMessage.id);
+    
+  //   setMessages(newMessages);
+  // };
+

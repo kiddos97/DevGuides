@@ -21,7 +21,8 @@ const ChatRoom = ({item, onPress}) => {
         </View>
          <Image style={styles.image} source={person} />
          <View style={styles.detailsContainer}>
-             <Text numberOfLines={1} style={styles.title}>{item.username}</Text>
+            {/*Name and last message */}
+             <Text numberOfLines={1} style={styles.title}>{item?.username}</Text>
              <Text  numberOfLines={2} style={styles.subTitle} >Time</Text>
              <Text  numberOfLines={2} style={styles.subTitle} >Last Message</Text>
          </View>

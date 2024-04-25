@@ -2,6 +2,7 @@
 import { initializeApp,browserLocalPersistence } from "firebase/app";
 import { initializeAuth,getReactNativePersistence  } from "firebase/auth";
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage'
+import { getFirestore,collection } from 'firebase/firestore';
 //mport { getAnalytics } from "firebase/analytics";
 // TOD: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -24,4 +25,7 @@ initializeAuth(FIREBASE_APP,{
     persistence: getReactNativePersistence(ReactNativeAsyncStorage)
 }
 );
+export const db = getFirestore(FIREBASE_APP)
+export const userRef = collection(db,'users')
+export const roomRef = collection(db,'Chatroom')
 //export const analytics = getAnalytics(app);

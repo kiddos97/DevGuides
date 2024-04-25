@@ -5,7 +5,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../config/color';
 
-const ListItem = ({ title, subTitle, image, IconComponent,onPress, renderRightActions,renderLeftActions}) => {
+const ListItem = ({ users,title, subTitle, image, IconComponent,onPress, renderRightActions,renderLeftActions}) => {
 
 
 

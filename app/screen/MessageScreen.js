@@ -1,55 +1,27 @@
 import React, {useState, useEffect} from 'react'
-import {View, Text, StyleSheet, Platform, StatusBar, TouchableOpacity, FlatList,SafeAreaView, ScrollView} from 'react-native'
-import color from '../../config/color';
-//import { message } from '../../Message/Message';
+import {View, Text, StyleSheet, Platform, StatusBar, TouchableOpacity, FlatList,Alert,ActivityIndicator} from 'react-native'
 import SearchComponent from '../components/SearchComponent';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import ListItem from '../../List/ListItem';
 import ListItemDelete from '../../List/ListItemDelete'
 import AntDesign from 'react-native-vector-icons/AntDesign';
-//import axios from 'axios';
-import {io } from "socket.io-client";
+import color from '../../config/color';
 import NewMessageModal from '../components/NewMessageModal';
 import ChatRoom from '../components/ChatRoom';
-import { socket } from '../../utils';
+import {  db, userRef } from '../../FireBase/FireBaseConfig';
+import { collection, doc, setDoc,getDocs,query,where } from "firebase/firestore"; 
+import ChatList from '../../List/ChatList';
+import { getAuth,onAuthStateChanged } from 'firebase/auth';
+import { FIREBASE_APP } from '../../FireBase/FireBaseConfig';
+const auth = getAuth(FIREBASE_APP);
 
 const MessageScreen = ({route,navigation}) => {
 
-
-  const [messages, setMessages] = useState('');
+ 
   const [refreshing,setRefreshing] = useState(false);
-  const [allChatRooms, setAllChatRooms] = useState([]);
   const [currentGroupName, setCurrentGroupName] = useState('')
   const [modalVisible, setModalVisible] = useState(false);
-
-
-  
-  //const socket = io()
-
-  useEffect(() => {
-
-    if(socket){
-      socket.emit('getAllgroups');
-    
-
-      socket.on('groupList',(groups) => {
-        
-        console.log('Groups:',groups)
-        setAllChatRooms(groups);
-      })
-    }
-  },[socket]);
-
-  // console.log('chat:',allChatRooms)
-
-  // const clientSide = () => {
-  //   try{
-  //     const socket = io();
-  //     socket.emit('createNewGroup',currentGroupName)
-  //   }catch(error){
-  //     console.error(`{error}`)
-  //   }
-  // }
+  const [users, setUsers] = useState([]);
 
   // const handleDelete = (selectedMessage) => {
 
@@ -57,6 +29,30 @@ const MessageScreen = ({route,navigation}) => {
     
   //   setMessages(newMessages);
   // };
+
+  useEffect(() => {
+       onAuthStateChanged(auth, (user) => {
+            if(user.uid){
+                getUsers(user);
+            }
+        })
+  },[])
+
+  const getUsers = async (user) => {
+    const q = query(userRef, where('userId','!=',user?.uid))
+
+
+    const querySnapShot = await getDocs(q)
+    let data = []
+
+    querySnapShot.forEach(doc => {
+      data.push({...doc.data()})
+    })
+
+    console.log('users:',data)
+    setUsers(data)
+  }
+
 
   const handlePress = () => {
     //navigation.dispatch(DrawerActions.openDrawer())
@@ -66,9 +62,6 @@ const MessageScreen = ({route,navigation}) => {
     setModalVisible(true);
   }
 
-  // const handleChatscreen = (item) => {
-  //   navigation.navigate('Chat',{userName: item.currentGroupName})
-  // }
 
   return (
     <View style={styles.screen}>
@@ -82,25 +75,12 @@ const MessageScreen = ({route,navigation}) => {
         <Text style={styles.headingText}>Messages</Text>
         <SearchComponent/>
       </View>
-      <TouchableOpacity onPress={handleModal}>
-        <Text>New Message</Text>
-      </TouchableOpacity>
       <View>
-      <NewMessageModal
-      route={route}
-      modalVisible={modalVisible}
-       setModalVisible={setModalVisible} 
-       currentGroupName={currentGroupName} 
-       setCurrentGroupName={setCurrentGroupName}/>
-      </View>
-      <View>
-       {allChatRooms && allChatRooms.length > 0 ? (
-       <FlatList
-      data={allChatRooms}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <ChatRoom item={item} onPress={() => navigation.navigate('Chat',{user: item.currentGroupName, userid: item.id})}/>}// Make sure ListitemSeparator is defined or import correctly
-      /> 
-      ) : null}
+       {users.length > 0 ? (
+       <ChatList users={users}/>
+       ): (<View>
+        <ActivityIndicator size='large' color={color.textcolor} />
+       </View>)}
        </View>
     </View>
   </View>
@@ -114,7 +94,7 @@ const styles = StyleSheet.create({
     screen:{
       paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
       flex:1,
-      backgroundColor:color.TextbackgroundColor,
+      backgroundColor:color.primary
     },
     heading:{
       marginBottom:20,
@@ -126,7 +106,7 @@ const styles = StyleSheet.create({
       fontSize:25,
       fontWeight:'bold',
       marginBottom:15,
-      color:color.AppBackgroundColor
+      color:color.white
 
     },
     text:{

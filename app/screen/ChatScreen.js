@@ -1,128 +1,94 @@
 
-import {View, Text, StyleSheet,TouchableOpacity, Platform, StatusBar, SafeAreaView, FlatList}  from 'react-native'
+import {View, Text, StyleSheet,TouchableOpacity, Platform, KeyboardAvoidingView}  from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import color from'../../config/color';
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useLayoutEffect} from 'react'
 import { GiftedChat, Send } from 'react-native-gifted-chat'
-//import { io } from "socket.io-client";
-import axios from 'axios';
-import { socket } from '../../utils';
-import MessageChat from '../components/MessageChat';
+import { db } from '../../FireBase/FireBaseConfig';
+import { collection, doc, setDoc,getDocs,query,where,onSnapshot,orderBy, Timestamp} from "firebase/firestore"; 
+import { FIREBASE_APP } from '../../FireBase/FireBaseConfig';
+import { getAuth,onAuthStateChanged } from 'firebase/auth';
+import MessageList from '../components/MessageList';
 import AppTextInput from '../components/AppTextInput';
-import Button from '../components/Button';
+import { getRoomID } from '../../utils';
 
-const ChatScreen = ({item, route}) => {
+const auth = getAuth(FIREBASE_APP);
 
-  const [messages, setMessages] = useState([])
+const ChatScreen = ({ item, route }) => {
+  const [messages, setMessages] = useState([]);
 
-  // const [allChatMessages, setallChatMessages] = useState([]);
-  // const [currentChatMessage, setCurrentChatMessage] = useState([]);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if(user){
+        createRoom(user?.uid, item?.userId);
+      }
+  })
+    
+  },[])
 
-  // const {user, userid} = route.params
+//   useEffect(() => {
+//     onAuthStateChanged(auth, (user) => {
+//          if(user.uid){
+//              getUsers(user);
+//          }
+//      })
+// },[])
+  const createRoom = async (user,item) => {
+    let roomId = getRoomID(user?.userId, item?.userId)
+    await setDoc(doc(db,'rooms',roomId),{
+      roomId,
+      createdAt: Timestamp.fromDate(new Date())
+    })
+  };
 
-
-  // useEffect(() => {
-  //   socket.emit('findgroup',userid)
-  //   socket.on('foundgroup', (allChatMessages) => setallChatMessages(allChatMessages))
-  // },[socket])
-  // const handleMessage = () => {
-  //   const timeData ={
-  //     hr: new Date().getHours() < 10 ? `0${new Date().getHours()}` : new Date().getHours(),
-  //     mins: new Date().getMinutes() < 10 ? `0${new Date().getMinutes()}` : new Date().getMinutes()
-  //   }
-
-  //   if(user){
-  //     socket.emit('newChatMessage',{
-  //       currentChatMessage,
-  //       groupId:userid,
-  //       user,
-  //       timeData
-  //     })
-  //     setCurrentChatMessage('')
-  //   }
-  // }
-    useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-      },
-    ])
-  }, [])
-
-  const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages),
-    )
-  }, [])
-
-  const renderSend = (props) => {
-    return (
-      <Send
-      {...props}
-      >
-        <View>
-          <MaterialCommunityIcons
-          style={{ marginBottom:10, marginRight:10}}
-          name='send-circle'
-          size={32}
-          color='#2e64e5'/>
-        </View>
-      </Send>
-    )}
+  const handleSend = () => {
+    console.log('send button pressed')
+  }
 
   return (
-    <View style={styles.screen}>
-      <GiftedChat
-          messages={messages}
-          onSend={messages => onSend(messages)}
-          user={{
-          _id: 1,
-          }}
-          textInputStyle={styles.text}
-          alwaysShowSend
-          renderSend={renderSend}
-          scrollToBottom
-          isTyping={true}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : 'height'}
+      style={styles.container}
+    >
+      <View style={styles.messagesContainer}>
+        <MessageList messages={messages} />
+      </View>
+      <View style={styles.inputContainer}>
+        <View style={styles.messageInput}>
+          <AppTextInput
+          onPress={handleSend}
+            placeholder='Enter message....'
+            backgroundColor={color.danger}
+            icon='send'
           />
-    </View>
-
- 
-  )
-}
+        </View>
+        </View>
+    </KeyboardAvoidingView>
+  );
+};
 
 const styles = StyleSheet.create({
-  screen:{
-    flex:1,
-},
-button:{
-  width:'30%',
-  borderRadius:50,
-  alignItems:'center',
-  justifyContent:'center',
-},
-messageinputContainer:{
-  width:'100%',
-  backgroundColor:'#fff',
-  paddingVertical:30,
-  paddingHorizontal:15,
-  justifyContent:'center',
-  flexDirection:'row',
-
-},
-messageinput:{
-  borderWidth:1,
-  padding:15,
-  flex:1,
-  borderRadius:50,
-  marginRight:10
-},
-})
+  container: {
+    flex: 1,
+  },
+  messagesContainer: {
+    flex: 1,
+    paddingBottom: 10,
+    padding:10 // Adjust this value according to your needs
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingBottom: Platform.OS === "ios" ? 20 : 10,
+    borderRadius:30
+  },
+  messageInput: {
+    flex: 1,
+  },
+  sendButton: {
+    padding: 10,
+  },
+});
 
 export default ChatScreen

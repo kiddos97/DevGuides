@@ -615,3 +615,155 @@ backImage:{
                     </>
             )}
             </Formik>
+
+
+               <FlatList
+      data={users}
+      keyExtractor={(item) => Math.random()}
+      renderItem={({ item }) => <ChatRoom item={item} onPress={() => navigation.navigate('Chat',{user: item.currentGroupName, userid: item.id})}/>}// Make sure ListitemSeparator is defined or import correctly
+      /> 
+      ) : null
+
+      <NewMessageModal
+      route={route}
+      modalVisible={modalVisible}
+       setModalVisible={setModalVisible} 
+       currentGroupName={currentGroupName} 
+       setCurrentGroupName={setCurrentGroupName}
+       />
+
+
+  // useEffect(() => {
+  //   fetchChatrooms();
+    
+  // },[])
+
+  
+  //const firestore = getFirestore(firebase);
+
+  // const auth = getAuth(FIREBASE_DB)
+
+
+  // const fetchChatrooms = async () => {
+  //   try{
+      
+  //       const chatroomsref = collection(db,'Chatroom')
+  //       const snapshot = await getDoc(chatroomsref);
+      
+  //       const chatRoomData = [];
+  //       snapshot.forEach((doc) => {
+  //         chatRoomData.push({ id: doc.id, ...doc.data() });
+  //       });
+  //       setChatRooms(chatRoomData);
+    
+  //   } catch (error) {
+  //     console.error('Error fetching chat rooms:', error);
+  //   }
+  // };
+  
+  // const newGroupName = async () => {
+  //   try {
+      
+  //       const chatRoomsRef = collection(db,'Chatroom');
+  //       const docRef = await setDoc(doc(chatRoomsRef),{
+  //         groupName: currentGroupName,
+  //         // Add any additional fields you want to store for the chat room
+  //       });
+  //       console.log('Chat room created with ID:', docRef.id);
+  //       setModalVisible(false);
+  //       setCurrentGroupName('');
+  //       // After creating the chat room, you might want to fetch the updated list of chat rooms
+  //       // You can call fetchChatRooms() here again if necessary
+     
+    
+  //   } catch (error) {
+  //     console.error('Error creating chat room:', error);
+  //     Alert.alert('Error', 'Failed to create chat room. Please try again.');
+  //   }
+  // };
+
+
+import {View, Text, StyleSheet,TouchableOpacity, Platform, StatusBar, SafeAreaView, FlatList}  from 'react-native'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import color from'../../config/color';
+import React, { useState, useCallback, useEffect, useLayoutEffect} from 'react'
+import { GiftedChat, Send } from 'react-native-gifted-chat'
+import { db } from '../../FireBase/FireBaseConfig';
+import { collection, doc, addDoc,getDocs,query,where,onSnapshot,orderBy} from "firebase/firestore"; 
+import { FIREBASE_APP } from '../../FireBase/FireBaseConfig';
+import { getAuth,onAuthStateChanged } from 'firebase/auth';
+const auth = getAuth(FIREBASE_APP);
+
+const ChatScreen = ({item, route}) => {
+
+  const [messages, setMessages] = useState([]);
+
+
+  useLayoutEffect(() => {
+    const col = collection(db,'chats')
+    const q = query(col, orderBy('createdAt','desc'))
+
+
+    const unsub = onSnapshot(q, snapshot => {
+      console.log('snapshot')
+      setMessages(
+        snapshot.docs.map(doc =>({
+          _id: doc.id,
+          createdAt: doc.data().createdAt,
+          text: doc.data().text,
+          user:doc.data().user
+
+        }))
+      )
+    })
+    return () => unsub();
+  },[])
+
+  const onSend = useCallback((messages = []) => {
+    setMessages(previousMessages =>
+      GiftedChat.append(previousMessages, messages),
+    )
+
+    const {_id, createdAt, text, user} = messages[0]
+    addDoc(collection(db,'chats'),{
+      _id,
+      createdAt,
+      text,
+      user
+    })
+  })
+
+  const renderSend = (props) => {
+    return (
+      <Send
+      {...props}
+      >
+        <View>
+          <MaterialCommunityIcons
+          style={{ marginBottom:10, marginRight:10}}
+          name='send-circle'
+          size={32}
+          color='#2e64e5'/>
+        </View>
+      </Send>
+    )}
+
+  return (
+    <View style={styles.screen}>
+      <GiftedChat
+          messages={messages}
+          onSend={messages => onSend(messages)}
+          user={{
+          _id: auth?.currentUser.email,
+          }}
+          textInputStyle={styles.text}
+          alwaysShowSend
+          renderSend={renderSend}
+          scrollToBottom
+          isTyping={true}
+          />
+    </View>
+
+ 
+  )
+}

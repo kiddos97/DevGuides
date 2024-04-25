@@ -7,8 +7,8 @@ import Button from '../components/Button';
 import * as Yup from 'yup';
 import { FIREBASE_APP } from '../../FireBase/FireBaseConfig';
 import { getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
-
-
+import { collection, doc, setDoc,getDocs,query } from "firebase/firestore"; 
+import {  db } from '../../FireBase/FireBaseConfig';
 
 
 
@@ -23,6 +23,12 @@ const RegisterScreen = ({navigation}) => {
                 navigation.navigate('Login')
                 Alert.alert('Success','You have registered!')
             }
+            await setDoc(doc(db,'users', response?.user?.uid),{
+                username:values.username,
+                userId: response?.user?.uid
+            });
+
+            return {success:true, data:response?.user}
         }catch(error){
             console.error(error)
         }
@@ -33,10 +39,10 @@ const RegisterScreen = ({navigation}) => {
         // .min(3, 'Too Short')
         // .max(50, 'Too long')
         // .required('Please enter your full name'),
-        // username: Yup.string()
-        // .min(8)
-        // .max(10)
-        // .required('Username is required'),
+        username: Yup.string()
+        .min(8)
+        .max(10)
+        .required('Username is required'),
         email: Yup.string()
         .email('Invalid email')
         .required('Please enter your email'),
@@ -51,6 +57,7 @@ const RegisterScreen = ({navigation}) => {
       });
 
     const initialValues = {
+        username:'',
         email:'', 
         password:'', 
         confirmPassword:''}
@@ -70,6 +77,15 @@ const RegisterScreen = ({navigation}) => {
                     {({handleChange, handleSubmit, values, setFieldTouched,touched, errors, isValid}) => (
                         <>
                             <View>
+                            <AppTextInput
+                                    icon='account'
+                                    placeholder='Username'
+                                    backgroundColor={color.light}
+                                    value={values.username}
+                                    onChangeText={handleChange('username')}
+                                    onBlur={() => setFieldTouched('username')}
+                                />
+                                {touched.username && errors.username &&( <Text style={styles.errormessage}>{errors.username}</Text>)}
                                 <AppTextInput
                                     icon='email'
                                     keyboardType='email-address'
@@ -109,11 +125,9 @@ const RegisterScreen = ({navigation}) => {
                                 color={color.white} />
                             </View>
                             <View style={styles.textContainer}>
-                                <TouchableOpacity onPress={() => console.log('forgot username pressed')}>
-                                    <Text style={styles.text}>Forgot username</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => console.log('forgot password pressed')}>
-                                    <Text style={styles.text}>Forgot password</Text>
+                                    <Text style={styles.text}>Have an account?</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                                    <Text style={styles.text1}>Login</Text>
                                 </TouchableOpacity>
                             </View>
                         </>
@@ -140,14 +154,14 @@ const styles = StyleSheet.create({
     },
     screen:{
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-        backgroundColor:color.TextbackgroundColor,
+        backgroundColor:color.secondary,
         flex:1
 
     },
     heading:{
         fontSize:25,
         textAlign:'center',
-        color:color.AppBackgroundColor,
+        color:color.textcolor,
         fontWeight:'bold'
 
     },
@@ -155,24 +169,24 @@ const styles = StyleSheet.create({
         textAlign:'center',
         marginTop:20,
         fontSize:15,
-        color:color.AppBackgroundColor
+        color:color.textcolor
     },
     headingcontainer:{
         marginVertical:10,
     },
     textContainer:{
-        marginTop:15,
+        marginTop:10,
         flexDirection:'row',
-        justifyContent:'space-evenly'
+        alignSelf:'center'
     },
     text:{
-        color:color.AppBackgroundColor,
+        color:color.textcolor,
         textAlign:'center',
         fontSize: 12,
         fontWeight:'bold'
     },
     text1:{
-        color:color.AppBackgroundColor,
+        color:color.textcolor,
         fontSize: 12,
         fontWeight:'bold',
         marginLeft:10

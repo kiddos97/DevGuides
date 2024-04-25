@@ -3,34 +3,18 @@ import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
 import AppTextInput from '../components/AppTextInput';
 import color from '../../config/color';
 import Button from './Button';
-import axios from 'axios';
-import { socket } from '../../utils';
-
-const NewMessageModal = ({modalVisible,setModalVisible, currentGroupName,setCurrentGroupName}) => {
 
 
-  const newGroupName = () => {
-    // console.log('pressed')
-    // try{
-    //   const res = await axios.get(`http://192.168.86.48:5050/user/:${currentGroupName}}`)
-    //   console.log(res);
-    //   currentGroupName = res.data.username
-    //   if(res.status === 200){
-    //     handleSocket(currentGroupName);
-    //   }
-    //   }catch(error){
-    //     console.error(`${error}`)
+const NewMessageModal = ({modalVisible,setModalVisible, currentGroupName,setCurrentGroupName,onPress}) => {
 
-    //   }
-    handleSocket();
-    }
 
-  const handleSocket = () => {
-    console.log('Name2:',currentGroupName)
-    socket.emit('createNewGroup',currentGroupName)
-    setModalVisible(false);
-    setCurrentGroupName('');
-  }
+  // const newGroupName = () => {
+  //   console.log('Name2:',currentGroupName)
+  
+  //   setModalVisible(false);
+  //   setCurrentGroupName('');
+  // }
+    
 
   return (
     <View>
@@ -52,7 +36,7 @@ const NewMessageModal = ({modalVisible,setModalVisible, currentGroupName,setCurr
                     onChangeText={(value) => setCurrentGroupName(value)}
                     value={currentGroupName}/>
 
-            <Button title='submit' onPress={newGroupName} />
+            <Button title='submit' onPress={onPress} />
             <Button title='cancel' onPress={() => setModalVisible(false)}/>
         </View>
        

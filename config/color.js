@@ -14,3 +14,5 @@ const color = {
 }
 
 export default color
+
+// light gray: #FAFAFA medium gray: #F6F7FB gray: #C5C5C7 #f57c00

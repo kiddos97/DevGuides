@@ -2,8 +2,9 @@ import React from 'react'
 import { SafeAreaView, Text, View, StyleSheet, TextInput} from 'react-native'
 import color from '../../config/color'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
-const AppTextInput = ({placeholder,backgroundColor,borderColor,secureTextEntry,icon, onChangeText, onBlur,textAlign,maxLength}) => {
+const AppTextInput = ({onPress,placeholder,backgroundColor,borderColor,secureTextEntry,icon, onChangeText, onBlur,textAlign,maxLength}) => {
   return (
     
   
@@ -19,7 +20,9 @@ const AppTextInput = ({placeholder,backgroundColor,borderColor,secureTextEntry,i
       onBlur={onBlur}
       />
       <View style={styles.inputContainer}>
-       {icon && <MaterialCommunityIcons name={icon} size={25} style={styles.icon} color={color.textcolor}/>}
+        <TouchableOpacity onPress={onPress}>
+        {icon && <MaterialCommunityIcons name={icon} size={25} style={styles.icon} color={color.textcolor}/>}
+        </TouchableOpacity>
        </View>
       </View>
       

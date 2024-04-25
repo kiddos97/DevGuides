@@ -1,8 +1,8 @@
-import { Platform } from 'react-native';
-import { io } from "socket.io-client";
+export const getRoomID = (userdId1, userId2) => {
+    const sortedId = [userdId1, userId2].sort()
 
+    const roomId = sortedId.join('-')
 
-export const baseURl = Platform.OS === 'android' ? 'http://10.0.2.2:3000': 'http://localhost:3000';
+    return roomId
 
-
-export const socket = io.connect('http://localhost:3000')
+}

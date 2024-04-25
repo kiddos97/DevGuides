@@ -1,35 +1,34 @@
 import React, {useState} from 'react'
-import {SafeAreaView, View, Text,StyleSheet,Platform,StatusBar, TouchableOpacity,Alert} from 'react-native';
+import {SafeAreaView, View, Text,StyleSheet,Platform,StatusBar, TouchableOpacity,Alert, ActivityIndicator} from 'react-native';
 import { Formik, Field, Form } from 'formik';
 import AppTextInput from '../components/AppTextInput';
 import color from '../../config/color';
 import Button from '../components/Button';
 import * as Yup from 'yup';
-import { FIREBASE_APP } from '../../FireBase/FireBaseConfig';
-import { getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
-import { collection, doc, setDoc,getDocs,query } from "firebase/firestore"; 
-import {  db } from '../../FireBase/FireBaseConfig';
+import { useAuth,  } from '../authContext';
+
+
+
 
 
 
 const RegisterScreen = ({navigation}) => {
-    const handleRegister = async (values, {resetForm} )=> {
-        const auth = getAuth(FIREBASE_APP);
 
+    const [loading, setLoading] = useState(false);
+
+    const { register } = useAuth();
+    const handleRegister = async (values, {resetForm} )=> {
+        setLoading(true);
         try{
-            const response = await createUserWithEmailAndPassword(auth, values.email, values.password)
+            let response = await register(values.username, values.email, values.password)
             if(response){
+                setLoading(false)
                 resetForm({values:initialValues})
-                navigation.navigate('Login')
+                navigation.navigate('Homepage')
                 Alert.alert('Success','You have registered!')
             }
-            await setDoc(doc(db,'users', response?.user?.uid),{
-                username:values.username,
-                userId: response?.user?.uid
-            });
-
-            return {success:true, data:response?.user}
         }catch(error){
+            setLoading(false)
             console.error(error)
         }
     }    
@@ -63,7 +62,8 @@ const RegisterScreen = ({navigation}) => {
         confirmPassword:''}
 
     return (
-        <SafeAreaView style={styles.screen}>
+      
+              <SafeAreaView style={styles.screen}>
             <View style={styles.container}>
                 <View style={styles.headingcontainer}>
                     <Text style={styles.heading}>Register</Text>
@@ -118,11 +118,16 @@ const RegisterScreen = ({navigation}) => {
                                 {touched.confirmPassword && errors.confirmPassword &&( <Text style={styles.errormessage}>{errors.confirmPassword}</Text>)}
                             </View>
                             <View style={styles.buttoncontainer}>
-                                <Button title='Register' 
-                                disabled={!isValid}
-                                onPress={handleSubmit} 
-                                backgroundColor={isValid ? "#395B64" : '#A5C9CA'} 
-                                color={color.white} />
+                                {
+                                    loading ? (
+                                        <ActivityIndicator size='large' color={color.white} />) 
+                                    :(  <Button title='Register' 
+                                    disabled={!isValid}
+                                    onPress={handleSubmit} 
+                                    backgroundColor={isValid ? "#395B64" : '#A5C9CA'} 
+                                    color={color.white} />)
+                                }
+                              
                             </View>
                             <View style={styles.textContainer}>
                                     <Text style={styles.text}>Have an account?</Text>
@@ -135,6 +140,8 @@ const RegisterScreen = ({navigation}) => {
                 </Formik>
             </View>
         </SafeAreaView>
+    
+      
     )
 }
 

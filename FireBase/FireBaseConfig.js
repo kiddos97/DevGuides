@@ -21,11 +21,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const FIREBASE_APP = initializeApp(firebaseConfig);
-initializeAuth(FIREBASE_APP,{
+export const auth = initializeAuth(FIREBASE_APP,{
     persistence: getReactNativePersistence(ReactNativeAsyncStorage)
 }
 );
 export const db = getFirestore(FIREBASE_APP)
 export const userRef = collection(db,'users')
-export const roomRef = collection(db,'Chatroom')
+export const roomRef = collection(db,'rooms')
 //export const analytics = getAnalytics(app);

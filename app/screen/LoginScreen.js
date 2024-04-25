@@ -9,7 +9,7 @@ import { Formik} from 'formik';
 //import {AsyncStorage} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FIREBASE_APP } from '../../FireBase/FireBaseConfig';
-import { getAuth, signInWithEmailAndPassword,onAuthStateChanged } from 'firebase/auth';
+import { useAuth } from '../authContext'
 
 
 
@@ -17,22 +17,20 @@ import { getAuth, signInWithEmailAndPassword,onAuthStateChanged } from 'firebase
 
 const LoginScreen = ({navigation}) => {
     const [isLoading, setLoading] = useState(false)
-    
+    const { login } = useAuth()
 
-    const auth = getAuth(FIREBASE_APP);
-
-    useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if(user){
-                console.log(`${user.email} is signed in`)
-            }
-        })
-    },[])
+    // useEffect(() => {
+    //     onAuthStateChanged(auth, (user) => {
+    //         if(user){
+    //             console.log(`${user.email} is signed in`)
+    //         }
+    //     })
+    // },[])
     
     const LoginPress = async (values,{resetForm}) => {
         setLoading(true); // Set loading to true when login button is pressed
         try{
-            const response = await signInWithEmailAndPassword(auth, values.email, values.password)
+            const response = await login(values.email, values.password)
             if(response){
                 setTimeout(() => {
                     setLoading(false);

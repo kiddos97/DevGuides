@@ -9,7 +9,7 @@ import RegisterScreen from '../screen/RegisterScreen';
 import ChatScreen from '../screen/ChatScreen';
 import MessageScreen from '../screen/MessageScreen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
+import ChatRoomHeader from '../components/ChatRoomHeader';
 
 const Stack = createStackNavigator();
 
@@ -49,7 +49,7 @@ const StackNavigation = () => {
       component={ChatScreen}
       options={({route}) => ({
         headerBackTitleVisible:false,
-        title:route?.params?.username
+        title:route.params.username
       })}/>
     </Stack.Navigator>
   );

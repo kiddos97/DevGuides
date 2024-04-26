@@ -14,7 +14,7 @@ import ChatList from '../../List/ChatList';
 import { useAuth } from '../authContext';
 
 
-const MessageScreen = ({route,navigation}) => {
+const MessageScreen = ({navigation}) => {
 
  
   //const [refreshing,setRefreshing] = useState(false);

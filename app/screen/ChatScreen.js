@@ -1,5 +1,5 @@
 
-import {View, Text, StyleSheet,TouchableOpacity, Platform, KeyboardAvoidingView}  from 'react-native'
+import {View, Text, StyleSheet,TouchableOpacity, Platform, KeyboardAvoidingView,TextInput}  from 'react-native'
 import color from'../../config/color';
 import React, { useState, useCallback, useEffect, useLayoutEffect, useRef} from 'react'
 import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp} from "firebase/firestore"; 
@@ -9,7 +9,7 @@ import { getRoomID } from '../../utils';
 import { useAuth } from '../authContext';
 import { db } from '../../FireBase/FireBaseConfig';
 import { useRoute } from '@react-navigation/native';
-
+import CustomKeyboardView from '../components/CustomKeyboardView';
 
 
 const ChatScreen = () => {
@@ -19,12 +19,12 @@ const ChatScreen = () => {
   // const { item } = route.params;
   const { user } = useAuth();
   console.log('user id:',user.uid)
-  console.log('item id:',route?.params?.params?.userId)
+  console.log('item id:',route?.params?.userId)
 
   useEffect(() => {
     createRoom();
 
-    let roomId = getRoomID(user?.uid,route?.params?.params?.userId)
+    let roomId = getRoomID(user?.uid,route?.params?.userId)
     const docRef = doc(db,'rooms',roomId);
     const messageRef = collection(docRef,'messages')
     const q = query(messageRef, orderBy('createdAt','asc'));
@@ -72,7 +72,8 @@ const ChatScreen = () => {
   }
 
   return (
-    <KeyboardAvoidingView
+    <CustomKeyboardView
+    inChat={true}
       behavior={Platform.OS === "ios" ? "padding" : 'height'}
       style={styles.container}
     >
@@ -89,7 +90,7 @@ const ChatScreen = () => {
           />
         </View>
         </View>
-    </KeyboardAvoidingView>
+    </CustomKeyboardView>
   );
 };
 

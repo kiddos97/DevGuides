@@ -23,7 +23,7 @@ const ChatRoom = ({item, onPress,currentUser}) => {
           let allmessage = snapshot.docs.map(doc => {
             return doc.data()
           });
-          setMessages(allmessage[0] ? allmessage[0]: null)
+          setLastMessage(allmessage[0] ? allmessage[0]: null)
       })
         return unsub
         

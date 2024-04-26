@@ -18,13 +18,16 @@ const ChatScreen = () => {
   console.log('route:',route)
   // const { item } = route.params;
   const { user } = useAuth();
-  console.log('user id:',user.uid)
+  console.log('user id:',user.userId)
   console.log('item id:',route?.params?.userId)
+
+  const textRef = useRef('');
+  const inputRef = useRef(null);
 
   useEffect(() => {
     createRoom();
 
-    let roomId = getRoomID(user?.uid,route?.params?.userId)
+    let roomId = getRoomID(user?.userId,route?.params?.userId)
     const docRef = doc(db,'rooms',roomId);
     const messageRef = collection(docRef,'messages')
     const q = query(messageRef, orderBy('createdAt','asc'));
@@ -40,7 +43,7 @@ const ChatScreen = () => {
 
   const createRoom = async () => {
     try{
-      let roomId = getRoomID(user?.uid, route?.params?.userId)
+      let roomId = getRoomID(user?.userId, route?.params?.userId)
       await setDoc(doc(db,'rooms',roomId),{
         roomId,
         createdAt: Timestamp.fromDate(new Date())
@@ -52,14 +55,17 @@ const ChatScreen = () => {
   };
 
   const handleSend = async () => {
+    let message = textRef.current.trim();
+    if(!message) return;
     try{
-      let roomId = getRoomID(user?.uid, route?.params?.userId);
+      let roomId = getRoomID(user?.userID, route?.params?.userId);
       const docRef = doc(db,'rooms',roomId);
       const messageRef = collection(docRef,'messages')
-
+      textRef.current ="";
+      if(inputRef) inputRef?.current?.clear();
 
       const newDoc = await addDoc(messageRef,{
-        userId:user?.uid,
+        userId:user?.userId,
         text:messageRef,
         senderName: user?.username,
         createdAt: Timestamp.fromDate(new Date())
@@ -82,11 +88,10 @@ const ChatScreen = () => {
       </View>
       <View style={styles.inputContainer}>
         <View style={styles.messageInput}>
-          <AppTextInput
-          onPress={handleSend}
+          <TextInput
+            ref={inputRef}
+            onChangeText={value => textRef.current = value}
             placeholder='Enter message....'
-            backgroundColor={color.danger}
-            icon='send'
           />
         </View>
         </View>

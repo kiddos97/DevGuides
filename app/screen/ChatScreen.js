@@ -3,7 +3,7 @@ import {View, Text, StyleSheet,TouchableOpacity, Platform, KeyboardAvoidingView,
 import color from'../../config/color';
 import React, { useState, useEffect, useRef} from 'react'
 import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query} from "firebase/firestore"; 
-import MessageList from '../components/MessageList';
+import MessageList  from '../components/MessageList';
 import { getRoomID } from '../../utils';
 import { useAuth } from '../authContext';
 import { db } from '../../FireBase/FireBaseConfig';
@@ -31,6 +31,8 @@ const ChatScreen = () => {
     const docRef = doc(db,'rooms',roomId);
     const messageRef = collection(docRef,'messages')
     const q = query(messageRef, orderBy('createdAt','asc'));
+
+
     let unsub = onSnapshot(q, (snapshot) => {
       let allmessage = snapshot.docs.map(doc => {
         return doc.data()
@@ -39,7 +41,7 @@ const ChatScreen = () => {
   })
     return unsub
     
-  },[])
+  },[]);
 
   const createRoom = async () => {
     try{
@@ -59,7 +61,7 @@ const ChatScreen = () => {
     let message = textRef.current.trim();
     if(!message) return;
     try{
-      let roomId = getRoomID(user?.userID, route?.params?.item?.userId);
+      let roomId = getRoomID(user?.userId, route?.params?.item?.userId);
       const docRef = doc(db,'rooms',roomId);
       const messageRef = collection(docRef,'messages')
       textRef.current ="";
@@ -72,12 +74,12 @@ const ChatScreen = () => {
         createdAt: Timestamp.fromDate(new Date())
       })
 
-      setMessages(prevMessages => [...prevMessages, {
-        userId: user?.userId,
-        text: message,
-        senderName: user?.username,
-        createdAt: Timestamp.fromDate(new Date())
-      }]);
+      // setMessages(prevMessages => [...prevMessages, {
+      //   userId: user?.userId,
+      //   text: message,
+      //   senderName: user?.username,
+      //   createdAt: Timestamp.fromDate(new Date())
+      // }]);
 
       console.log('new message id:', newDoc.id)
     }catch(error){

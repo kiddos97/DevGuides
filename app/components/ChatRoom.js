@@ -10,6 +10,8 @@ import { db } from '../../FireBase/FireBaseConfig';
 import { collection, doc,query,onSnapshot, orderBy } from "firebase/firestore"; 
 const ChatRoom = ({item, onPress,currentUser}) => {
 
+  console.log('current user:',currentUser.userId)
+  console.log('item user:',item.userId)
  
     const [lastMessage, setLastMessage] = useState(undefined);
     useEffect(() => {
@@ -19,6 +21,7 @@ const ChatRoom = ({item, onPress,currentUser}) => {
         const docRef = doc(db,'rooms',roomId);
         const messageRef = collection(docRef,'messages')
         const q = query(messageRef, orderBy('createdAt','desc'));
+
         let unsub = onSnapshot(q, (snapshot) => {
           let allmessage = snapshot.docs.map(doc => {
             return doc.data()
@@ -29,17 +32,17 @@ const ChatRoom = ({item, onPress,currentUser}) => {
         
       },[])
 
-      const renderTime = () => {
-        if(lastMessage){
-            let date = lastMessage?.createdAt
-            return formatDate(new Date(date?.seconds * 1000))
-        }
-      }
+      // const renderTime = () => {
+      //   if(lastMessage){
+      //       let date = lastMessage?.createdAt
+      //       return formatDate(new Date(date?.seconds * 1000))
+      //   }
+      // }
 
       const renderLastMessage =() => {
         if(typeof lastMessage == 'undefined') return 'Loading...'
         if(lastMessage){
-            if(currentUser.userId= lastMessage.userId){
+            if(currentUser.userId == lastMessage.userId){
                 return 'You: '+ lastMessage?.text
             }
             return lastMessage?.text;
@@ -59,7 +62,7 @@ const ChatRoom = ({item, onPress,currentUser}) => {
          <View style={styles.detailsContainer}>
             {/*Name and last message */}
              <Text numberOfLines={1} style={styles.title}>{item?.username}</Text>
-             <Text  numberOfLines={2} style={styles.subTitle} >{renderTime()}</Text>
+             <Text  numberOfLines={2} style={styles.subTitle} >Time</Text>
              <Text  numberOfLines={2} style={styles.subTitle} >{renderLastMessage()}</Text>
          </View>
          <MaterialCommunityIcons color={color.medium} name="chevron-right" size={25}/>

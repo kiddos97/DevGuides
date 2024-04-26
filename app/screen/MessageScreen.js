@@ -29,14 +29,14 @@ const MessageScreen = ({navigation}) => {
   console.log('user:', user)
 
   useEffect(() => {
-    if(user?.uid){
+    if(user?.userId){
       getUsers();
     }
   },[])
   
 
   const getUsers = async () => {
-    const q = query(userRef, where('userId','!=',user?.uid))
+    const q = query(userRef, where('userId','!=',user?.userId))
 
 
     const querySnapShot = await getDocs(q)

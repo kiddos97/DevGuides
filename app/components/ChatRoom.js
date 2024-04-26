@@ -7,7 +7,7 @@ import color from '../../config/color';
 import { getRoomID } from '../../utils';
 import { useAuth } from '../authContext';
 import { db } from '../../FireBase/FireBaseConfig';
-import { collection, doc,query,onSnapshot } from "firebase/firestore"; 
+import { collection, doc,query,onSnapshot, orderBy } from "firebase/firestore"; 
 const ChatRoom = ({item, onPress,currentUser}) => {
 
  
@@ -15,7 +15,7 @@ const ChatRoom = ({item, onPress,currentUser}) => {
     useEffect(() => {
        
     
-        let roomId = getRoomID(currentUser?.userId,route?.params?.userId)
+        let roomId = getRoomID(currentUser?.userId,item?.userId)
         const docRef = doc(db,'rooms',roomId);
         const messageRef = collection(docRef,'messages')
         const q = query(messageRef, orderBy('createdAt','desc'));

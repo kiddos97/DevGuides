@@ -1,16 +1,16 @@
 
 import {View, Text, StyleSheet,TouchableOpacity, Platform, KeyboardAvoidingView,TextInput}  from 'react-native'
 import color from'../../config/color';
-import React, { useState, useCallback, useEffect, useLayoutEffect, useRef} from 'react'
-import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp} from "firebase/firestore"; 
+import React, { useState, useEffect, useRef} from 'react'
+import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query} from "firebase/firestore"; 
 import MessageList from '../components/MessageList';
-import AppTextInput from '../components/AppTextInput';
 import { getRoomID } from '../../utils';
 import { useAuth } from '../authContext';
 import { db } from '../../FireBase/FireBaseConfig';
 import { useRoute } from '@react-navigation/native';
 import CustomKeyboardView from '../components/CustomKeyboardView';
-
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import Feather from 'react-native-vector-icons/Feather';
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
@@ -19,7 +19,7 @@ const ChatScreen = () => {
   // const { item } = route.params;
   const { user } = useAuth();
   console.log('user id:',user.userId)
-  console.log('item id:',route?.params?.userId)
+  console.log('item id:',route?.params?.item?.userId)
 
   const textRef = useRef('');
   const inputRef = useRef(null);
@@ -27,7 +27,7 @@ const ChatScreen = () => {
   useEffect(() => {
     createRoom();
 
-    let roomId = getRoomID(user?.userId,route?.params?.userId)
+    let roomId = getRoomID(user?.userId,route?.params?.item?.userId)
     const docRef = doc(db,'rooms',roomId);
     const messageRef = collection(docRef,'messages')
     const q = query(messageRef, orderBy('createdAt','asc'));
@@ -43,7 +43,7 @@ const ChatScreen = () => {
 
   const createRoom = async () => {
     try{
-      let roomId = getRoomID(user?.userId, route?.params?.userId)
+      let roomId = getRoomID(user?.userId, route?.params?.item?.userId)
       await setDoc(doc(db,'rooms',roomId),{
         roomId,
         createdAt: Timestamp.fromDate(new Date())
@@ -53,12 +53,13 @@ const ChatScreen = () => {
       console.error("Error creating room:", error);
     }
   };
+  console.log('Message',messages)
 
   const handleSend = async () => {
     let message = textRef.current.trim();
     if(!message) return;
     try{
-      let roomId = getRoomID(user?.userID, route?.params?.userId);
+      let roomId = getRoomID(user?.userID, route?.params?.item?.userId);
       const docRef = doc(db,'rooms',roomId);
       const messageRef = collection(docRef,'messages')
       textRef.current ="";
@@ -66,10 +67,17 @@ const ChatScreen = () => {
 
       const newDoc = await addDoc(messageRef,{
         userId:user?.userId,
-        text:messageRef,
+        text:message,
         senderName: user?.username,
         createdAt: Timestamp.fromDate(new Date())
       })
+
+      setMessages(prevMessages => [...prevMessages, {
+        userId: user?.userId,
+        text: message,
+        senderName: user?.username,
+        createdAt: Timestamp.fromDate(new Date())
+      }]);
 
       console.log('new message id:', newDoc.id)
     }catch(error){
@@ -86,15 +94,27 @@ const ChatScreen = () => {
       <View style={styles.messagesContainer}>
         <MessageList messages={messages} currentUser={user} />
       </View>
+      <View style={{marginBottom:hp(1.7), paddingTop:5}}>
       <View style={styles.inputContainer}>
         <View style={styles.messageInput}>
           <TextInput
+          style={[styles.textinput,{fontSize:hp(2)}]}
             ref={inputRef}
             onChangeText={value => textRef.current = value}
             placeholder='Enter message....'
           />
+          <TouchableOpacity onPress={handleSend}>
+            <View style={styles.sendButton}>
+            <Feather
+            name='send'
+            size={hp(2.7)}
+            color='#737373'/>
+            </View>
+          </TouchableOpacity>
         </View>
         </View>
+      </View>
+      
     </CustomKeyboardView>
   );
 };
@@ -110,16 +130,30 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 10,
+    justifyContent:'space-between',
+    alignItems:'center',
+    marginRight:3,
+    marginLeft:3,
     paddingBottom: Platform.OS === "ios" ? 20 : 10,
-    borderRadius:30
   },
   messageInput: {
-    flex: 1,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    backgroundColor:color.white,
+    borderWidth:2,
+    borderColor:color.grey,
+    padding:5,
+    borderRadius:30
+  },
+  textinput:{
+    flex:1,
+    marginRight:2
   },
   sendButton: {
     padding: 10,
+    borderRadius:100,
+    marginRight:1,
+    backgroundColor:color.grey
   },
 });
 

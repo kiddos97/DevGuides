@@ -22,7 +22,10 @@ const MessageScreen = ({route,navigation}) => {
   const [users, setUsers] = useState([]);
 
 
+
+
   const { user } = useAuth();
+  console.log('message user uid:',user.uid)
 
   useEffect(() => {
     if(user?.uid){
@@ -70,7 +73,7 @@ const MessageScreen = ({route,navigation}) => {
       </View>
       <View>
        {users.length > 0 ? (
-       <ChatList users={users}/>
+       <ChatList currentUser={user} users={users}/>
        ): (<View>
         <ActivityIndicator size='large' color={color.textcolor} />
        </View>)}

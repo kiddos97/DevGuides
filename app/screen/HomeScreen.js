@@ -92,7 +92,7 @@ const HomeScreen = () => {
     <FlatList
       data={DATA}
      horizontal
-      keyExtractor={item => item.id}
+      keyExtractor={item => item.id.toString()}
       renderItem={({item}) => <Cards navigation={navigation} image={item.image} title={item.title} backgroundColor={color.white}/>}
       ItemSeparatorComponent={Separator}/>
    </View>

@@ -1,8 +1,15 @@
-import { View, Text,StyleSheet} from 'react-native'
+import { View, Text,StyleSheet,ScrollView} from 'react-native'
+import MessageItem from './MessageItem'
 
-const MessageList = () => {
+const MessageList = ({messages,currentUser}) => {
   return (
-    <View><Text>message list</Text></View>
+    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop:10}}>
+      {
+        messages.map((message,index) => {
+          <MessageItem message={message} key={index} currentUser={currentUser}/>
+        })
+      }
+    </ScrollView>
   )
 }
 

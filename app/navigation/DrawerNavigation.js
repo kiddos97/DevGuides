@@ -33,7 +33,7 @@ const DrawerNavigation = ({route}) => {
       drawerLabel: 'Account',
       headerShown:false,
       drawerLabelStyle:{
-        color:color.AppBackgroundColor
+        color:color.textcolor
       },
       drawerActiveTintColor:color.textinputColor }} />
     </Drawer.Navigator>

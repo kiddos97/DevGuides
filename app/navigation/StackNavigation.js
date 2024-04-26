@@ -9,7 +9,7 @@ import RegisterScreen from '../screen/RegisterScreen';
 import ChatScreen from '../screen/ChatScreen';
 import MessageScreen from '../screen/MessageScreen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import ChatRoomHeader from '../components/ChatRoomHeader';
+//import ChatRoomHeader from '../components/ChatRoomHeader';
 
 const Stack = createStackNavigator();
 

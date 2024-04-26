@@ -26,6 +26,7 @@ const MessageScreen = ({navigation}) => {
 
   const { user } = useAuth();
   console.log('message user uid:',user.uid)
+  console.log('user:', user)
 
   useEffect(() => {
     if(user?.uid){

@@ -15,7 +15,7 @@ const ChatRoom = ({item, onPress,currentUser}) => {
     useEffect(() => {
        
     
-        let roomId = getRoomID(currentUser?.uid,route?.params?.params?.userId)
+        let roomId = getRoomID(currentUser?.userId,route?.params?.userId)
         const docRef = doc(db,'rooms',roomId);
         const messageRef = collection(docRef,'messages')
         const q = query(messageRef, orderBy('createdAt','desc'));
@@ -39,7 +39,7 @@ const ChatRoom = ({item, onPress,currentUser}) => {
       const renderLastMessage =() => {
         if(typeof lastMessage == 'undefined') return 'Loading...'
         if(lastMessage){
-            if(currentUser?.userId= lastMessage.userId){
+            if(currentUser.userId= lastMessage.userId){
                 return 'You: '+ lastMessage?.text
             }
             return lastMessage?.text;

@@ -76,7 +76,6 @@ const LoginScreen = ({navigation}) => {
 
   return (
    
-    <CustomKeyboardView>
            <View style={styles.container}>
            
            <View style={styles.whitesheet}/>
@@ -138,7 +137,7 @@ const LoginScreen = ({navigation}) => {
            
         
    </View>
-    </CustomKeyboardView>
+  
  
   
   )

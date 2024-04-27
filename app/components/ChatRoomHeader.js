@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform, Text,StyleSheet} from 'react-native'
+import { Platform, Text,StyleSheet,View} from 'react-native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import color from '../../config/color';
@@ -10,12 +10,12 @@ import { useAuth } from '../authContext';
 const ChatRoomHeader = () => {
 
     const ios = Platform.OS == 'ios'
-    const { top } = useSafeAreaInsets;  
+    const { top } = useSafeAreaInsets();  
     const { user } = useAuth();
     return (
     <View style={[styles.container,{paddingTop: ios ? top: top + 10}]}>
         <View>
-            <Text style={{fontSize:hp(3)}}>Chats</Text>
+            <Text style={[styles.text,{fontSize:hp(3)}]}>Chats</Text>
         </View>
 
         <View>
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
         padding:5,
         backgroundColor: color.danger,
         paddingBottom:6,
-        overflow:GiHidden,
+        overflow:'hidden',
         borderBottomLeftRadius:20,
         borderBottomRightRadius:20
 

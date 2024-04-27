@@ -9,6 +9,7 @@ import RegisterScreen from '../screen/RegisterScreen';
 import ChatScreen from '../screen/ChatScreen';
 import MessageScreen from '../screen/MessageScreen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import ChatRoomHeader from '../components/ChatRoomHeader';
 //import ChatRoomHeader from '../components/ChatRoomHeader';
 
 const Stack = createStackNavigator();
@@ -40,9 +41,7 @@ const StackNavigation = () => {
      name='Message'
      component={MessageScreen}
      options={{
-      headerBackTitleVisible:false,
-      headerShown:false,
-      tabBarIcon: () => <AntDesign name='message1' color={color.AppBackgroundColor} size={25}/>
+      header: () => <ChatRoomHeader/>
      }}/>
       <Stack.Screen
       name='Chat'

@@ -10,7 +10,7 @@ const MessageItem = ({ message, currentUser }) => {
             
             <View style={styles.container}>
                 <View style={{width:wp(80)}}>
-                    <View style={styles.textContainer}>
+                    <View style={[styles.textContainer,{backgroundColor:color.grey}]}>
                     <Text style={{ fontSize: hp(1.9) }}>{message?.text}</Text>
                     </View>
                 </View>
@@ -36,22 +36,38 @@ const styles = StyleSheet.create({
         marginRight: 3
     },
     textContainer: {
-        borderRadius: 5,
-        padding: 8,
+        borderRadius: 30,
+        padding: 10,
         felx:1,
-        alignSelf:'flex-end'
+        alignSelf:'flex-end',
+        paddingLeft:10,
+        paddingRight:10,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 7,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 4.65,
     },
     leftcontainer: {
         marginLeft: 3,
         marginBottom: 3
     },
     lefttextcontainer: {
-        padding: 8,
+        padding: 10,
         flex:1,
         alignSelf:'flex-start',
-        paddingLeft:5,
-        paddingRight:5,
-        borderRadius:6
+        paddingLeft:10,
+        paddingRight:10,
+        borderRadius:30,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 7,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 4.65,
 
     }
 });

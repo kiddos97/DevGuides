@@ -10,6 +10,7 @@ import { Formik} from 'formik';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FIREBASE_APP } from '../../FireBase/FireBaseConfig';
 import { useAuth } from '../authContext'
+import CustomKeyboardView from '../components/CustomKeyboardView'
 
 
 
@@ -75,67 +76,70 @@ const LoginScreen = ({navigation}) => {
 
   return (
    
-    <View style={styles.container}>
+    <CustomKeyboardView>
+           <View style={styles.container}>
            
-            <View style={styles.whitesheet}/>
-            <Image
-            source={require('../assets/applogo.png')}
-            style={styles.logo}/>
-            <SafeAreaView>
-            <Formik
-            initialValues={initialValues}
-            onSubmit={LoginPress}
-            validationSchema={validationSchema}
-            >
-            {({handleSubmit,handleChange,values, errors,touched, setFieldTouched}) => (
-                    <>
-                    <View style={styles.UserContainer}>
-                    <AppTextInput
-                    keyboardTYpe='email-address'
-                    icon='account' 
-                    placeholder='email' 
-                    backgroundColor={color.grey}
-                    onChangeText={handleChange('email')}
-                    values={values.username}
-                    onBlur={() => setFieldTouched('email')}/>
-                    {
-                        touched.username && errors.username && (
-                            <Text style={styles.errormessage}>{errors.username}</Text>
-                        )
-                    }
-                    <AppTextInput
-                    icon='lock'
-                    secureTextEntry
-                    placeholder='Password'
-                    backgroundColor={color.grey}
-                    onChangeText={handleChange('password')}
-                    values={values.password}
-                    onBlur={() => setFieldTouched('password')}/>
-                    { touched.password && errors.password && (
-                        <Text style={styles.errormessage}>{errors.password}</Text>
-                    )}
-                    </View>
-                    <View style={styles.LoginContainer}>
-                        {isLoading ? ( 
-                        <ActivityIndicator size='large' color={color.white} />) : (
-                        <Button onPress={handleSubmit} title='Login' backgroundColor={color.textcolor} color={color.white} borderColor={color.secondary}/>
-                        )
-                        }
-                        <View style={styles.textContainer}>
-                            <Text style={styles.text}>
-                                Don't have an account?
-                            </Text>
-                            <Text onPress={RegisterPress} style={styles.text1}>Sign Up</Text>
-                        </View>
-                        </View> 
-                    </>
-            )}
-            </Formik>
+           <View style={styles.whitesheet}/>
+           <Image
+           source={require('../assets/applogo.png')}
+           style={styles.logo}/>
+           <SafeAreaView>
+           <Formik
+           initialValues={initialValues}
+           onSubmit={LoginPress}
+           validationSchema={validationSchema}
+           >
+           {({handleSubmit,handleChange,values, errors,touched, setFieldTouched}) => (
+                   <>
+                   <View style={styles.UserContainer}>
+                   <AppTextInput
+                   keyboardTYpe='email-address'
+                   icon='account' 
+                   placeholder='email' 
+                   backgroundColor={color.grey}
+                   onChangeText={handleChange('email')}
+                   values={values.username}
+                   onBlur={() => setFieldTouched('email')}/>
+                   {
+                       touched.username && errors.username && (
+                           <Text style={styles.errormessage}>{errors.username}</Text>
+                       )
+                   }
+                   <AppTextInput
+                   icon='lock'
+                   secureTextEntry
+                   placeholder='Password'
+                   backgroundColor={color.grey}
+                   onChangeText={handleChange('password')}
+                   values={values.password}
+                   onBlur={() => setFieldTouched('password')}/>
+                   { touched.password && errors.password && (
+                       <Text style={styles.errormessage}>{errors.password}</Text>
+                   )}
+                   </View>
+                   <View style={styles.LoginContainer}>
+                       {isLoading ? ( 
+                       <ActivityIndicator size='large' color={color.white} />) : (
+                       <Button onPress={handleSubmit} title='Login' backgroundColor={color.textcolor} color={color.white} borderColor={color.secondary}/>
+                       )
+                       }
+                       <View style={styles.textContainer}>
+                           <Text style={styles.text}>
+                               Don't have an account?
+                           </Text>
+                           <Text onPress={RegisterPress} style={styles.text1}>Sign Up</Text>
+                       </View>
+                       </View> 
+                   </>
+           )}
+           </Formik>
 
-            </SafeAreaView>
-            
-         
-    </View>
+           </SafeAreaView>
+           
+        
+   </View>
+    </CustomKeyboardView>
+ 
   
   )
 }

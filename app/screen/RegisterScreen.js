@@ -6,6 +6,7 @@ import color from '../../config/color';
 import Button from '../components/Button';
 import * as Yup from 'yup';
 import { useAuth,  } from '../authContext';
+import CustomKeyboardView from '../components/CustomKeyboardView';
 
 
 
@@ -63,7 +64,8 @@ const RegisterScreen = ({navigation}) => {
 
     return (
       
-              <SafeAreaView style={styles.screen}>
+        <CustomKeyboardView>
+                         <SafeAreaView style={styles.screen}>
             <View style={styles.container}>
                 <View style={styles.headingcontainer}>
                     <Text style={styles.heading}>Register</Text>
@@ -140,6 +142,8 @@ const RegisterScreen = ({navigation}) => {
                 </Formik>
             </View>
         </SafeAreaView>
+        </CustomKeyboardView>
+ 
     
       
     )

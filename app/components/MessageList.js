@@ -3,7 +3,7 @@ import MessageItem from './MessageItem';
 
 const MessageList = ({messages,currentUser}) => {
   return (
-    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop:70}}>
+    <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop:10}}>
       {
         messages.map((message,index) => {
           return (

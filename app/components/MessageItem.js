@@ -9,7 +9,7 @@ const MessageItem = ({ message, currentUser }) => {
         return (
             
             <View style={styles.container}>
-                <View style={{width:wp(80)}}>
+                <View style={{width:wp(60)}}>
                     <View style={[styles.textContainer,{backgroundColor:color.grey}]}>
                     <Text style={{ fontSize: hp(1.9) }}>{message?.text}</Text>
                     </View>
@@ -18,7 +18,7 @@ const MessageItem = ({ message, currentUser }) => {
         );
     } else {
         return (
-            <View style={[styles.leftcontainer, , {width:wp(80)}]}>
+            <View style={[styles.leftcontainer, , {width:wp(60)}]}>
                 <View style={[styles.lefttextcontainer, { backgroundColor: color.lightblue }]}>
                         <Text style={{ fontSize: hp(1.9) }}>{message?.text}</Text>
                     </View>

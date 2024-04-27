@@ -7,7 +7,6 @@ import ListItemDelete from '../../List/ListItemDelete'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import color from '../../config/color';
 import NewMessageModal from '../components/NewMessageModal';
-import ChatRoom from '../components/ChatRoom';
 import {  db, userRef } from '../../FireBase/FireBaseConfig';
 import { collection, doc, setDoc,getDocs,query,where } from "firebase/firestore"; 
 import ChatList from '../../List/ChatList';
@@ -63,16 +62,7 @@ const MessageScreen = ({navigation}) => {
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
-      <View style={styles.heading}>
-        <View style={{marginTop:25}}>
-        <TouchableOpacity onPress={handlePress}>
-          <AntDesign name="back" color={color.dark} size={30} />
-        </TouchableOpacity>
-        </View>
-        <Text style={styles.headingText}>Messages</Text>
-        <SearchComponent/>
-      </View>
-      <View>
+      <View style={{marginTop:30}}>
        {users.length > 0 ? (
        <ChatList currentUser={user} users={users}/>
        ): (<View>
@@ -92,11 +82,6 @@ const styles = StyleSheet.create({
       paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
       flex:1,
       backgroundColor:color.primary
-    },
-    heading:{
-      marginBottom:20,
-      marginVertical:35,
-      padding:10,
     },
     headingText:{
       textAlign:'center',

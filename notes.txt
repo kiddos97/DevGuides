@@ -781,3 +781,15 @@ const ChatScreen = ({item, route}) => {
   //   setMessages(newMessages);
   // };
 
+
+  <TouchableOpacity onPress={handlePress}>
+            <MaterialCommunityIcons name="menu" color={color.white} size={30} />
+          </TouchableOpacity>
+        <View style={styles.test}>
+        <Text style={styles.title}>DEVGUIDE</Text>
+        </View>
+        <View style={styles.messageContainer}>
+          <TouchableOpacity onPress={hadnleMessage}>
+          <MaterialCommunityIcons name="android-messages" color={color.white} size={30} />
+          </TouchableOpacity>
+        </View>

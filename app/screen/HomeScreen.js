@@ -11,7 +11,7 @@ import javascript from '../assets/javascript.png';
 import react from '../assets/react.png';
 import python from '../assets/python.png';
 import { useNavigation } from '@react-navigation/native';
-
+import ChatRoomHeader from '../components/ChatRoomHeader';
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -51,7 +51,7 @@ const HomeScreen = () => {
     navigation.openDrawer();
   }
 
-  const hadnleMessage = () => {
+  const handleMessage = () => {
     navigation.navigate('Message')
   }
   return (
@@ -59,18 +59,8 @@ const HomeScreen = () => {
     style={styles.screen}
     source={background}>
         <View style={styles.container}>
-        <View style={styles.Textcontainer}>
-        <TouchableOpacity onPress={handlePress}>
-            <MaterialCommunityIcons name="menu" color={color.white} size={30} />
-          </TouchableOpacity>
-        <View style={styles.test}>
-        <Text style={styles.title}>DEVGUIDE</Text>
-        </View>
-        <View style={styles.messageContainer}>
-          <TouchableOpacity onPress={hadnleMessage}>
-          <MaterialCommunityIcons name="android-messages" color={color.white} size={30} />
-          </TouchableOpacity>
-        </View>
+        <View>
+          <ChatRoomHeader title='DevGuides' onPress={handlePress} icon='menu' icon2='android-messages' onPress2={handleMessage}/>
         </View>
         <View style={styles.link}>
           <TouchableOpacity onPress={() => console.log('text pressed')}><Text style={styles.linkText}>Resources</Text></TouchableOpacity>
@@ -117,9 +107,6 @@ const styles = StyleSheet.create({
   bodyText:{
     fontSize:15
   },
-    container:{
-      marginVertical:40
-    },
     imagecontainer:{
       width:50,
       height:50,

@@ -11,10 +11,19 @@ import MessageScreen from '../screen/MessageScreen';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ChatRoomHeader from '../components/ChatRoomHeader';
 //import ChatRoomHeader from '../components/ChatRoomHeader';
+import { useNavigation } from '@react-navigation/native';
 
 const Stack = createStackNavigator();
 
 const StackNavigation = () => {
+
+  const navigation = useNavigation();
+
+
+  const handlePress = () => {
+    //navigation.dispatch(DrawerActions.openDrawer())
+    navigation.navigate('Welcome');
+  }
   return (
     <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen
@@ -41,7 +50,7 @@ const StackNavigation = () => {
      name='Message'
      component={MessageScreen}
      options={{
-      header: () => <ChatRoomHeader/>
+      header: () => <ChatRoomHeader title='Message' onPress={handlePress} icon='keyboard-backspace'/>
      }}/>
       <Stack.Screen
       name='Chat'

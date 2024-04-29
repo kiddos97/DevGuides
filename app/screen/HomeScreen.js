@@ -54,13 +54,17 @@ const HomeScreen = () => {
   const handleMessage = () => {
     navigation.navigate('Message')
   }
+
+  // const handleAccount = () => {
+  //   navigation.navigate('Profile')
+  // }
   return (
     <ImageBackground
     style={styles.screen}
     source={background}>
         <View style={styles.container}>
         <View>
-          <ChatRoomHeader title='DevGuides' onPress={handlePress} icon='menu' icon2='android-messages' onPress2={handleMessage}/>
+          <ChatRoomHeader title='DevGuides'  onPress={handlePress} icon='menu' icon2='android-messages' onPress2={handleMessage}/>
         </View>
         <View style={styles.link}>
           <TouchableOpacity onPress={() => console.log('text pressed')}><Text style={styles.linkText}>Resources</Text></TouchableOpacity>

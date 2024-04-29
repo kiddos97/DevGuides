@@ -1,8 +1,10 @@
 const color = {
-    backgroundColor: 'rgba(0,0,0,0.1)',
+ 
     light:"#f8f4f4",
-    primary: '#E9F1FA',
-    secondary: '#00ABE4',
+    primary: '#E0FBFC',
+    secondary: '#C2DFE3',
+    accent:'9DB4C0',
+    secondary2:'5C6B73',
     black:"#000",
     white:"#FFFFFF",
     medium:'#E5B800',

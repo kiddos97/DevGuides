@@ -18,7 +18,7 @@ const DrawerNavigation = ({route}) => {
     initialRouteName='Home'
     screenOptions={{
       drawerStyle:{
-        backgroundColor:color.TextbackgroundColor
+        backgroundColor:color.white
       }
     }}>
       <Drawer.Screen
@@ -27,10 +27,10 @@ const DrawerNavigation = ({route}) => {
       initialParams={{route}}
       options={{headerShown:false}}/>
     <Drawer.Screen 
-    name="Profile" 
+    name="Settings" 
     component={AccountScreen}  
     options={{ 
-      drawerLabel: 'Account',
+      drawerLabel: 'Settings',
       headerShown:false,
       drawerLabelStyle:{
         color:color.textcolor

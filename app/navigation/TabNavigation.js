@@ -18,29 +18,27 @@ const TabNavigation = () => {
  
   <Tab.Navigator 
   initialRouteName='Welcome'
-  activeColor={color.white}
   labeled={false}
   barStyle={{ 
-    backgroundColor: 'transparent',
-    borderTopWidth: 0,
-    position: 'absolute',
-    left: 50,
-    right: 50,
-    bottom: 40,
-    height: 75
-  }}>
+    backgroundColor:color.button,
+  }}
+>
     <Tab.Screen 
         name="Welcome"
      component={HomeScreen}
      options={{
-        tabBarIcon:() => <MaterialCommunityIcons name='home' color={color.AppBackgroundColor} size={25}/>
+        tabBarColor:color.danger,
+        tabBarIcon:() => (
+        <MaterialCommunityIcons name='home' color={color.Buttoncolor} size={25}
+        />),
+       
      }}
      />
       <Tab.Screen 
         name="Notification"
      component={NotificationScreen}
      options={{
-        tabBarIcon:() => <MaterialIcons name='notifications' color={color.AppBackgroundColor} size={25}/>
+        tabBarIcon:() => <MaterialIcons name='notifications' color={color.Buttoncolor} size={25}/>
      }}
      />
       </Tab.Navigator>

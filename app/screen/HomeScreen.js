@@ -59,12 +59,19 @@ const HomeScreen = () => {
   //   navigation.navigate('Profile')
   // }
   return (
-    <ImageBackground
+    <View
     style={styles.screen}
-    source={background}>
+    >
         <View style={styles.container}>
         <View>
-          <ChatRoomHeader title='DevGuides'  onPress={handlePress} icon='menu' icon2='android-messages' onPress2={handleMessage}/>
+          <ChatRoomHeader
+          title='DevGuides'
+          onPress={handlePress}
+          icon='menu'
+          icon2='android-messages'
+          onPress2={handleMessage}
+          backgroundColor={color.button}
+          />
         </View>
         <View style={styles.link}>
           <TouchableOpacity onPress={() => console.log('text pressed')}><Text style={styles.linkText}>Resources</Text></TouchableOpacity>
@@ -87,7 +94,7 @@ const HomeScreen = () => {
       data={DATA}
      horizontal
       keyExtractor={item => item.id.toString()}
-      renderItem={({item}) => <Cards navigation={navigation} image={item.image} title={item.title} backgroundColor={color.white}/>}
+      renderItem={({item}) => <Cards navigation={navigation} color={color.textcolor} image={item.image} title={item.title} backgroundColor={color.grey}/>}
       ItemSeparatorComponent={Separator}/>
    </View>
   <View>
@@ -100,7 +107,7 @@ const HomeScreen = () => {
   </View>
   </ScrollView>
     </View>
-    </ImageBackground>
+    </View>
   )
 }
 
@@ -126,7 +133,7 @@ const styles = StyleSheet.create({
     },
     linkText:{
       textAlign:'center',
-      color:color.AppBackgroundColor,
+      color:color.Buttoncolor,
       fontSize:15,
       fontWeight:'bold'
     },
@@ -135,7 +142,8 @@ const styles = StyleSheet.create({
     },
     screen:{
       paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-      flex:1
+      flex:1,
+      backgroundColor:color.white
   },
   Textcontainer:{
     marginTop:30,
@@ -154,13 +162,13 @@ const styles = StyleSheet.create({
     marginHorizontal:60
   },
   newcontainer:{
-    marginVertical:30,
+    marginVertical:10,
     padding:10,
   },
   newsText:{
     fontSize:20,
     fontWeight:'bold',
-    color:color.AppBackgroundColor,
+    color:color.textcolor,
     marginBottom:10
   },
   updatecontainer:{
@@ -169,7 +177,7 @@ const styles = StyleSheet.create({
   updatetext:{
     padding:10,
     fontWeight:'bold',
-    color:color.AppBackgroundColor,
+    color:color.textcolor,
     fontSize:20
   },
   updatecard:{

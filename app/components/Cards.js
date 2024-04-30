@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, Image} from 'react-native'
 import person from '../assets/person.jpg'
 import color from '../../config/color';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-const Cards = ({title,text1,text2,image,backgroundColor,navigation}) => {
+const Cards = ({title,text1,text2,image,backgroundColor,navigation, color}) => {
     const handlePress = () => {
         console.log(title)
     }
@@ -17,7 +17,7 @@ const Cards = ({title,text1,text2,image,backgroundColor,navigation}) => {
     source={image}/>
      </View>)}
      <View style={styles.Textcontainer}>
-     <Text style={styles.text}>{title}</Text>
+     <Text style={[styles.text,{color:color}]}>{title}</Text>
      {text1 && (<Text style={styles.message}>{text1}</Text>)}
      {text2 && (<Text style={styles.message}>
       {text2}
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
         borderRadius: 35
     },
     text:{
-        color:color.AppBackgroundColor,
         fontWeight:'bold',
         textAlign:'center'
     },

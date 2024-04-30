@@ -16,7 +16,7 @@ import {
   } from 'react-native-popup-menu';
 import { MenuItems } from './CustomMenu';
   
-const ChatRoomHeader = ({title,onPress,icon,onPress2}) => {
+const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
 
     const navigation = useNavigation();
 
@@ -35,7 +35,7 @@ const ChatRoomHeader = ({title,onPress,icon,onPress2}) => {
     }
     //   }
     return (
-    <View style={[styles.container,{paddingTop: ios ? top: top + 10}]}>
+    <View style={[styles.container,{paddingTop: ios ? top: top + 10,backgroundColor:backgroundColor}]}>
          <TouchableOpacity onPress={onPress}>
          { icon && <MaterialCommunityIcons name={icon} color={color.white} size={30} />}
         </TouchableOpacity>
@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
         padding:10,
         paddingLeft:20,
         paddingRight:20,
-        backgroundColor: color.danger,
         paddingBottom:6,
         overflow:'hidden',
         borderBottomLeftRadius:30,

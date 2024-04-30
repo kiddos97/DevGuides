@@ -11,6 +11,7 @@ import {  db, userRef } from '../../FireBase/FireBaseConfig';
 import { collection, doc, setDoc,getDocs,query,where } from "firebase/firestore"; 
 import ChatList from '../../List/ChatList';
 import { useAuth } from '../authContext';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
 const MessageScreen = ({navigation}) => {
@@ -49,11 +50,6 @@ const MessageScreen = ({navigation}) => {
     setUsers(data)
   }
 
-
-  const handlePress = () => {
-    //navigation.dispatch(DrawerActions.openDrawer())
-    navigation.navigate('Welcome');
-  }
   const handleModal = () => {
     setModalVisible(true);
   }
@@ -70,6 +66,11 @@ const MessageScreen = ({navigation}) => {
        </View>)}
        </View>
     </View>
+
+    <TouchableOpacity onPress={handleModal}  style={styles.messageIcon}>
+        <AntDesign name='pluscircle' size={35} color={color.button}/>
+       </TouchableOpacity>
+       <NewMessageModal modalVisible={modalVisible} setModalVisible={setModalVisible}/>
   </View>
   )
 }
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
     screen:{
       paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
       flex:1,
-      backgroundColor:color.primary
+      backgroundColor:color.white
     },
     headingText:{
       textAlign:'center',
@@ -96,6 +97,21 @@ const styles = StyleSheet.create({
       fontWeight:'bold',
       fontSize:15
       },
+      messageIcon:{
+        borderRadius:100,
+        backgroundColor:color.grey,
+        position:'absolute',
+        bottom:20,
+        right:20,
+        padding:10,
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 7,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 4.65,
+      }
       // listContainer:{
       //   flex:1,
       //   paddingHorizontal:10,

@@ -50,7 +50,7 @@ const StackNavigation = () => {
      name='Message'
      component={MessageScreen}
      options={{
-      header: () => <ChatRoomHeader title='Message' onPress={handlePress} icon='keyboard-backspace'/>
+      header: () => <ChatRoomHeader title='Message' onPress={handlePress} icon='keyboard-backspace' backgroundColor={color.button}/>
      }}/>
       <Stack.Screen
       name='Chat'

@@ -90,17 +90,18 @@ const LoginScreen = ({navigation}) => {
            onSubmit={LoginPress}
            validationSchema={validationSchema}
            >
-           {({handleSubmit,handleChange,values, errors,touched, setFieldTouched}) => (
+           {({handleSubmit,handleChange,values, errors,touched, setFieldTouched,isValid}) => (
                    <>
                    <View style={styles.UserContainer}>
                    <AppTextInput
                    keyboardTYpe='email-address'
                    icon='account' 
                    placeholder='email' 
-                   backgroundColor={color.grey}
+                   backgroundColor={color.light}
                    onChangeText={handleChange('email')}
                    values={values.username}
-                   onBlur={() => setFieldTouched('email')}/>
+                   onBlur={() => setFieldTouched('email')}
+                   iconcolor={color.button}/>
                    {
                        touched.username && errors.username && (
                            <Text style={styles.errormessage}>{errors.username}</Text>
@@ -110,10 +111,11 @@ const LoginScreen = ({navigation}) => {
                    icon='lock'
                    secureTextEntry
                    placeholder='Password'
-                   backgroundColor={color.grey}
+                   backgroundColor={color.light}
                    onChangeText={handleChange('password')}
                    values={values.password}
-                   onBlur={() => setFieldTouched('password')}/>
+                   onBlur={() => setFieldTouched('password')}
+                   iconcolor={color.button}/>
                    { touched.password && errors.password && (
                        <Text style={styles.errormessage}>{errors.password}</Text>
                    )}
@@ -121,7 +123,7 @@ const LoginScreen = ({navigation}) => {
                    <View style={styles.LoginContainer}>
                        {isLoading ? ( 
                        <ActivityIndicator size='large' color={color.white} />) : (
-                       <Button onPress={handleSubmit} title='Login' backgroundColor={color.Buttoncolor} color={color.white} borderColor={color.Buttoncolor}/>
+                       <Button onPress={handleSubmit} title='Login' backgroundColor={isValid ? color.button2: color.button} color={isValid ? color.grey:color.white} borderColor={color.button}/>
                        )
                        }
                        <View style={styles.textContainer}>

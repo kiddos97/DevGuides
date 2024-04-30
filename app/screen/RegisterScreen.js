@@ -68,7 +68,7 @@ const RegisterScreen = ({navigation}) => {
                 <LinearGradient 
                 start={{x:0,y:0}}
                 end={{x:1,y:0}}
-                colors={[color.grad2,color.grad1]}
+                colors={[color.button,color.grad1]}
                 style={styles.backImage}
                 />
                 <View style={styles.whitesheet}>
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
         fontSize:25,
         textAlign:'center',
         fontWeight:'bold',
-        color:color.textcolor
+        color:color.button
 
     },
     headingcontainer:{
@@ -215,20 +215,20 @@ const styles = StyleSheet.create({
         marginTop:10,
         fontSize:15,
         fontWeight:'bold',
-        color:color.textcolor
+        color:color.button
     },
     textContainer:{
         flexDirection:'row',
         alignSelf:'center'
     },
     text:{
-        color:color.textcolor,
+        color:color.button,
         textAlign:'center',
         fontSize: 12,
         fontWeight:'bold'
     },
     text1:{
-        color:color.textcolor,
+        color:color.button,
         fontSize: 12,
         fontWeight:'bold',
         marginLeft:10

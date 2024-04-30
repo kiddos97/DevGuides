@@ -4,11 +4,11 @@ import color from '../../config/color'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
-const AppTextInput = ({onPress,placeholder,backgroundColor,borderColor,secureTextEntry,icon, onChangeText, onBlur,textAlign,maxLength}) => {
+const AppTextInput = ({onPress,placeholder,backgroundColor,borderColor,secureTextEntry,icon, onChangeText, onBlur,textAlign,maxLength,iconcolor}) => {
   return (
     
   
-    <View style={[styles.usernameContainer,{backgroundColor,borderColor}]}>
+    <View style={[styles.usernameContainer,{backgroundColor:backgroundColor,borderColor:borderColor}]}>
       
       <TextInput
       secureTextEntry={secureTextEntry}
@@ -21,7 +21,7 @@ const AppTextInput = ({onPress,placeholder,backgroundColor,borderColor,secureTex
       />
       <View style={styles.inputContainer}>
         <TouchableOpacity onPress={onPress}>
-        {icon && <MaterialCommunityIcons name={icon} size={25} style={styles.icon} color={color.textcolor}/>}
+        {icon && <MaterialCommunityIcons name={icon} size={25} style={styles.icon} color={iconcolor}/>}
         </TouchableOpacity>
        </View>
       </View>

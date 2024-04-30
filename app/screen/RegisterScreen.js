@@ -65,9 +65,12 @@ const RegisterScreen = ({navigation}) => {
     return (
 
             <View style={styles.container}>
-                <Image
+                <LinearGradient 
+                start={{x:0,y:0}}
+                end={{x:1,y:0}}
+                colors={[color.grad2,color.grad1]}
                 style={styles.backImage}
-                source={require('../assets/backimage.jpg')}/>
+                />
                 <View style={styles.whitesheet}>
                 <View style={styles.headingcontainer}>
                     <Text style={styles.heading}>Register</Text>
@@ -88,6 +91,7 @@ const RegisterScreen = ({navigation}) => {
                                     value={values.username}
                                     onChangeText={handleChange('username')}
                                     onBlur={() => setFieldTouched('username')}
+                                    iconcolor={color.button}
                                 />
                                 {touched.username && errors.username &&( <Text style={styles.errormessage}>{errors.username}</Text>)}
                                 <AppTextInput
@@ -98,6 +102,7 @@ const RegisterScreen = ({navigation}) => {
                                     value={values.email}
                                     onChangeText={handleChange('email')}
                                     onBlur={() => setFieldTouched('email')}
+                                    iconcolor={color.button}
                                 />
                                 {touched.email && errors.email && (<Text style={styles.errormessage}>{errors.email}</Text>)}
                                 <AppTextInput
@@ -108,6 +113,7 @@ const RegisterScreen = ({navigation}) => {
                                     value={values.password}
                                     onChangeText={handleChange('password')}
                                     onBlur={() => setFieldTouched('password')}
+                                    iconcolor={color.button}
                                 />
                                 {touched.password && errors.password  && (<Text style={styles.errormessage}>{errors.password}</Text>)}
                                 <AppTextInput
@@ -118,6 +124,7 @@ const RegisterScreen = ({navigation}) => {
                                     value={values.confirmPassword}
                                     onChangeText={handleChange('confirmPassword')}
                                     onBlur={() => setFieldTouched('confirmPassword')}
+                                    iconcolor={color.button}
                                 />
                                 {touched.confirmPassword && errors.confirmPassword &&( <Text style={styles.errormessage}>{errors.confirmPassword}</Text>)}
                             </View>
@@ -172,7 +179,7 @@ const styles = StyleSheet.create({
         height:'75%',
         position:'absolute',
         bottom:0,
-        backgroundColor:color.grey,
+        backgroundColor:color.white,
         borderTopLeftRadius: 60,
         padding:30
         

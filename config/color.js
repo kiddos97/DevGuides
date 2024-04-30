@@ -14,7 +14,9 @@ const color = {
     textcolor:'#040053',
     grey:'#D3D3D3',
     button:'#1ED7FE',
-    button2:'#BBF2FA'
+    button2:'#BBF2FA',
+    grad1:'#003D9E',
+    grad2:'#021253'
 }
 
 export default color

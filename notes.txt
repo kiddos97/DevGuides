@@ -793,3 +793,79 @@ const ChatScreen = ({item, route}) => {
           <MaterialCommunityIcons name="android-messages" color={color.white} size={30} />
           </TouchableOpacity>
         </View>
+
+
+
+            <Formik
+                   initialValues={initialValues}
+                    onSubmit={handleRegister}
+                    validationSchema={validationSchema}
+                >
+                    {({handleChange, handleSubmit, values, setFieldTouched,touched, errors, isValid}) => (
+                        <>
+                            <View>
+                            <AppTextInput
+                                    icon='account'
+                                    placeholder='Username'
+                                    backgroundColor={color.light}
+                                    value={values.username}
+                                    onChangeText={handleChange('username')}
+                                    onBlur={() => setFieldTouched('username')}
+                                />
+                                {touched.username && errors.username &&( <Text style={styles.errormessage}>{errors.username}</Text>)}
+                                <AppTextInput
+                                    icon='email'
+                                    keyboardType='email-address'
+                                    placeholder='Email'
+                                    backgroundColor={color.light}
+                                    value={values.email}
+                                    onChangeText={handleChange('email')}
+                                    onBlur={() => setFieldTouched('email')}
+                                />
+                                {touched.email && errors.email && (<Text style={styles.errormessage}>{errors.email}</Text>)}
+                                <AppTextInput
+                                    icon='lock'
+                                    secureTextEntry
+                                    placeholder='Password'
+                                    backgroundColor={color.light}
+                                    value={values.password}
+                                    onChangeText={handleChange('password')}
+                                    onBlur={() => setFieldTouched('password')}
+                                />
+                                {touched.password && errors.password  && (<Text style={styles.errormessage}>{errors.password}</Text>)}
+                                <AppTextInput
+                                    icon='lock'
+                                    secureTextEntry
+                                    placeholder='Confirm Password'
+                                    backgroundColor={color.light}
+                                    value={values.confirmPassword}
+                                    onChangeText={handleChange('confirmPassword')}
+                                    onBlur={() => setFieldTouched('confirmPassword')}
+                                />
+                                {touched.confirmPassword && errors.confirmPassword &&( <Text style={styles.errormessage}>{errors.confirmPassword}</Text>)}
+                            </View>
+                            <View style={styles.buttoncontainer}>
+                                {
+                                    loading ? (
+                                        <ActivityIndicator size='large' color={color.white} />) 
+                                    :(  <Button title='Register' 
+                                    disabled={!isValid}
+                                    onPress={handleSubmit} 
+                                    backgroundColor={isValid ? "#395B64" : '#A5C9CA'} 
+                                    color={color.white} />)
+                                }
+                              
+                            </View>
+                            <View style={styles.textContainer}>
+                                    <Text style={styles.text}>Have an account?</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                                    <Text style={styles.text1}>Login</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </>
+                    )}
+                </Formik>
+   <View style={styles.headingcontainer}>
+                    <Text style={styles.heading}>Register</Text>
+                    <Text style={styles.bottomText}>Create a new account</Text>
+                </View>

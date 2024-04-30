@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {SafeAreaView, View, Text,StyleSheet,Platform,StatusBar, TouchableOpacity,Alert, ActivityIndicator} from 'react-native';
+import {SafeAreaView, View, Text,StyleSheet,Platform,StatusBar, TouchableOpacity,Alert, ActivityIndicator, Image} from 'react-native';
 import { Formik, Field, Form } from 'formik';
 import AppTextInput from '../components/AppTextInput';
 import color from '../../config/color';
@@ -7,7 +7,7 @@ import Button from '../components/Button';
 import * as Yup from 'yup';
 import { useAuth,  } from '../authContext';
 import CustomKeyboardView from '../components/CustomKeyboardView';
-
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 
@@ -63,13 +63,15 @@ const RegisterScreen = ({navigation}) => {
         confirmPassword:''}
 
     return (
-      
-        <CustomKeyboardView>
-                         <SafeAreaView style={styles.screen}>
+
             <View style={styles.container}>
+                <Image
+                style={styles.backImage}
+                source={require('../assets/backimage.jpg')}/>
+                <View style={styles.whitesheet}>
                 <View style={styles.headingcontainer}>
                     <Text style={styles.heading}>Register</Text>
-                    <Text style={styles.bottomText}>Create a new account</Text>
+                    <Text style={styles.bottomText} >Create a new account</Text>
                 </View>
                 <Formik
                    initialValues={initialValues}
@@ -126,8 +128,9 @@ const RegisterScreen = ({navigation}) => {
                                     :(  <Button title='Register' 
                                     disabled={!isValid}
                                     onPress={handleSubmit} 
-                                    backgroundColor={isValid ? "#395B64" : '#A5C9CA'} 
-                                    color={color.white} />)
+                                    backgroundColor={isValid ? color.button2 : color.button}
+                                    borderColor={color.button} 
+                                    color={isValid ? color.grey : color.white} />)
                                 }
                               
                             </View>
@@ -140,9 +143,13 @@ const RegisterScreen = ({navigation}) => {
                         </>
                     )}
                 </Formik>
+                </View>
+               
             </View>
-        </SafeAreaView>
-        </CustomKeyboardView>
+      
+      
+      
+     
  
     
       
@@ -152,12 +159,30 @@ const RegisterScreen = ({navigation}) => {
 
 
 const styles = StyleSheet.create({
+    backImage:{
+        width: '100%',
+        height: 340,
+        position:'absolute',
+        top:0,
+        resizedMode: 'cover',
+        backgroundColor:color.danger
+      },  
+    whitesheet:{
+        width:'100%',
+        height:'75%',
+        position:'absolute',
+        bottom:0,
+        backgroundColor:color.grey,
+        borderTopLeftRadius: 60,
+        padding:30
+        
+  } , 
 
     buttoncontainer:{
         padding:20
     },
     container:{
-        padding:20
+      flex:1
     },
     errormessage:{
         color: color.danger,
@@ -165,28 +190,27 @@ const styles = StyleSheet.create({
     },
     screen:{
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-        backgroundColor:color.secondary,
         flex:1
 
     },
     heading:{
         fontSize:25,
         textAlign:'center',
-        color:color.textcolor,
-        fontWeight:'bold'
+        fontWeight:'bold',
+        color:color.textcolor
 
+    },
+    headingcontainer:{
+       padding:10
     },
     bottomText:{
         textAlign:'center',
-        marginTop:20,
+        marginTop:10,
         fontSize:15,
+        fontWeight:'bold',
         color:color.textcolor
     },
-    headingcontainer:{
-        marginVertical:10,
-    },
     textContainer:{
-        marginTop:10,
         flexDirection:'row',
         alignSelf:'center'
     },

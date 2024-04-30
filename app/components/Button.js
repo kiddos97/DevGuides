@@ -15,7 +15,7 @@ const Button = ({ onPress,title, backgroundColor, color, disabled, borderColor})
         <TouchableHighlight
         activeOpacity={4}
         disabled={disabled}
-        style={[styles.buttonContainer, {backgroundColor, borderColor}]}
+        style={[styles.buttonContainer, {backgroundColor:backgroundColor, borderColor:borderColor}]}
         onPress={onPress}
         >
             <Text style={[styles.text,{color}]}>{title}</Text>

@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FIREBASE_APP } from '../../FireBase/FireBaseConfig';
 import { useAuth } from '../authContext'
 import CustomKeyboardView from '../components/CustomKeyboardView'
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 
@@ -76,9 +77,10 @@ const LoginScreen = ({navigation}) => {
 
   return (
    
-           <View style={styles.container}>
-           
-           <View style={styles.whitesheet}/>
+    <LinearGradient 
+    colors={['#021253','#1ED7FE']}
+    style={styles.container}>
+           <View>
            <Image
            source={require('../assets/applogo.png')}
            style={styles.logo}/>
@@ -119,7 +121,7 @@ const LoginScreen = ({navigation}) => {
                    <View style={styles.LoginContainer}>
                        {isLoading ? ( 
                        <ActivityIndicator size='large' color={color.white} />) : (
-                       <Button onPress={handleSubmit} title='Login' backgroundColor={color.textcolor} color={color.white} borderColor={color.secondary}/>
+                       <Button onPress={handleSubmit} title='Login' backgroundColor={color.Buttoncolor} color={color.white} borderColor={color.Buttoncolor}/>
                        )
                        }
                        <View style={styles.textContainer}>
@@ -137,6 +139,7 @@ const LoginScreen = ({navigation}) => {
            
         
    </View>
+   </LinearGradient>
   
  
   
@@ -145,28 +148,13 @@ const LoginScreen = ({navigation}) => {
 
 
 const styles = StyleSheet.create({
-    backImage:{
-        width: '100%',
-        height: 340,
-        position:'absolute',
-        top:0,
-        resizedMode: 'cover'
-      },  
-    whitesheet:{
-        width:'100%',
-        height:'75%',
-        position:'absolute',
-        bottom:0,
-        backgroundColor:color.AppBackgroundColor,
-        borderTopLeftRadius: 60
-  } ,   
+  
     errormessage:{
         color: color.danger,
         textAlign:'center'
     },
     container:{
         flex:1,
-        backgroundColor:color.secondary,
         padding:10
     },
     LoginContainer:{
@@ -174,11 +162,12 @@ const styles = StyleSheet.create({
         marginTop:70,
     },
     logo:{
-        width:100,
-        height:150,
+        width:170,
+        height:170,
         alignSelf:'center',
         marginVertical:80,
-        marginBottom: 10
+        marginBottom: 10,
+        borderRadius:100
     },
     UserContainer:{
         marginTop:50,

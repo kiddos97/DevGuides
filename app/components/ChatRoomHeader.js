@@ -4,7 +4,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import color from '../../config/color';
 import { Image } from 'expo-image';
-import { blurhash } from '../../utils';
+import { blurhash } from '../../utils/index';
 import { useAuth } from '../authContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';

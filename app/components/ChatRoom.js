@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity,StyleSheet,Image, TouchableHighlight} from 'react-native'
+import { View, Text, TouchableOpacity,StyleSheet, TouchableHighlight} from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useState, useEffect } from 'react';
 import { MdWidthFull } from 'react-icons/md';
@@ -8,10 +8,15 @@ import { getRoomID } from '../../utils';
 import { useAuth } from '../authContext';
 import { db } from '../../FireBase/FireBaseConfig';
 import { collection, doc,query,onSnapshot, orderBy } from "firebase/firestore"; 
+import { blurhash } from '../../utils/index';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { Image } from 'expo-image';
 const ChatRoom = ({item, onPress,currentUser}) => {
 
   console.log('current user:',currentUser.userId)
   console.log('item user:',item.userId)
+
+  const {user } = useAuth();
  
     const [lastMessage, setLastMessage] = useState(undefined);
     useEffect(() => {
@@ -56,16 +61,19 @@ const ChatRoom = ({item, onPress,currentUser}) => {
     underlayColor="grey"
     onPress={onPress}>
         <View style={styles.container}>
-        <View style={styles.iconContainer}>
-        </View>
-         <Image style={styles.image} source={person} />
+          <View>
+          <Image
+              style={{height:hp(4.3), aspectRatio:1, borderRadius:100}}
+              source={user?.profileImage}
+              placeholder={blurhash}
+              transition={500}/>
+          </View>
          <View style={styles.detailsContainer}>
             {/*Name and last message */}
              <Text numberOfLines={1} style={styles.title}>{item?.username}</Text>
-             <Text  numberOfLines={2} style={styles.subTitle} >Time</Text>
              <Text  numberOfLines={2} style={styles.subTitle} >{renderLastMessage()}</Text>
          </View>
-         <MaterialCommunityIcons color={color.medium} name="chevron-right" size={25}/>
+         <Text  numberOfLines={2} style={styles.subTitle} >Time</Text>
         </View>
     </TouchableHighlight>
    
@@ -76,7 +84,7 @@ const ChatRoom = ({item, onPress,currentUser}) => {
 const styles = StyleSheet.create({
   container:{
       flexDirection:'row',
-      padding: 15,
+      padding: 10,
       alignItems:'center'
   },
   detailsContainer:{

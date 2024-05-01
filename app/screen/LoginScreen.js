@@ -123,7 +123,7 @@ const LoginScreen = ({navigation}) => {
                    <View style={styles.LoginContainer}>
                        {isLoading ? ( 
                        <ActivityIndicator size='large' color={color.white} />) : (
-                       <Button onPress={handleSubmit} title='Login' backgroundColor={isValid ? color.button2: color.button} color={isValid ? color.grey:color.white} borderColor={color.button}/>
+                       <Button onPress={handleSubmit} title='Login' backgroundColor={isValid ? color.button: color.button2} color={isValid ? color.grey:color.white} borderColor={color.button}/>
                        )
                        }
                        <View style={styles.textContainer}>

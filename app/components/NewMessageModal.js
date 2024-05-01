@@ -31,13 +31,30 @@ const NewMessageModal = ({modalVisible,setModalVisible, currentGroupName,setCurr
             <Text style={styles.modalText}>Enter username</Text>
             <AppTextInput
                     icon='account'
-                    placeholder='user name'
+                    placeholder='username'
                     backgroundColor={color.light}
+                    iconcolor={color.button}
                     onChangeText={(value) => setCurrentGroupName(value)}
                     value={currentGroupName}/>
-
-            <Button title='submit' onPress={onPress} />
-            <Button title='cancel' onPress={() => setModalVisible(false)}/>
+            <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+            <Button
+            title='submit' 
+            onPress={onPress}
+            backgroundColor={color.button2}
+            fontSize={12}
+            borderColor={color.button2}
+            />
+            </View>
+            <View style={styles.button}>
+            <Button
+            title='cancel'
+            onPress={() => setModalVisible(false)}
+            backgroundColor={color.button2}
+            fontSize={12}
+            borderColor={color.button2}/>
+            </View>
+            </View>
         </View>
        
         </View>
@@ -56,17 +73,17 @@ const styles = StyleSheet.create({
 
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: color.white,
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 7,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
+    shadowOpacity: 1,
+    shadowRadius: 4.65,
     elevation: 5,
   },
   button: {
@@ -74,11 +91,8 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
+  buttonContainer:{
+    flexDirection:'row'
   },
   textStyle: {
     color: 'white',

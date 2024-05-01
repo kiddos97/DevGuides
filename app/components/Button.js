@@ -4,7 +4,7 @@ import color from '../../config/color';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 
-const Button = ({ onPress,title, backgroundColor, color, disabled, borderColor}) => {
+const Button = ({ onPress,title, backgroundColor, color, disabled, borderColor,fontSize}) => {
 
     
 
@@ -15,10 +15,10 @@ const Button = ({ onPress,title, backgroundColor, color, disabled, borderColor})
         <TouchableHighlight
         activeOpacity={4}
         disabled={disabled}
-        style={[styles.buttonContainer, {backgroundColor:backgroundColor, borderColor:borderColor}]}
+        style={[styles.buttonContainer, {backgroundColor:backgroundColor, borderColor:borderColor,}]}
         onPress={onPress}
         >
-            <Text style={[styles.text,{color}]}>{title}</Text>
+            <Text style={[styles.text,{color:color,fontSize:fontSize}]}>{title}</Text>
         </TouchableHighlight>
     </View>
   )
@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
     },
     text:{
         textAlign:'center',
-        fontSize: 20,
         fontWeight:'bold'
     },
 

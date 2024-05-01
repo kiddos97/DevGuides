@@ -62,7 +62,7 @@ const MessageScreen = ({navigation}) => {
        {users.length > 0 ? (
        <ChatList currentUser={user} users={users}/>
        ): (<View>
-        <ActivityIndicator size='large' color={color.textcolor} />
+        <Text>Send a new message!</Text>
        </View>)}
        </View>
     </View>

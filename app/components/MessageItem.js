@@ -55,11 +55,11 @@ const styles = StyleSheet.create({
         marginBottom: 3
     },
     lefttextcontainer: {
-        padding: 10,
+        padding: 5,
         flex:1,
         alignSelf:'flex-start',
-        paddingLeft:10,
-        paddingRight:10,
+        paddingLeft:5,
+        paddingRight:5,
         borderRadius:30,
         shadowColor: '#000',
         shadowOffset: {

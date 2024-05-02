@@ -43,7 +43,6 @@ export const AuthContextProvider = ({children}) => {
     const logout = async () => {
         try{
             await signOut(auth);
-            Alert.alert('Success!','you have logged out!!')
             return {success:true,}
         }catch(error){
             return {success:false, message: error.message}

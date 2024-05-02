@@ -19,21 +19,21 @@ const AccountScreen = () => {
     //navigation.dispatch(DrawerActions.openDrawer())
     navigation.openDrawer();
   }
-  const handleLogout = async () => {
-    setLoading(true)
-    try{
-      await logout();
-      setTimeout(() => {
-        setLoading(false); // Set loading to false after some time (simulating successful login)
-        navigation.navigate('Login')
-        Alert.alert('Success!','you have logged out!!')
-    }, 2000);
+  // const handleLogout = async () => {
+  //   setLoading(true)
+  //   try{
+  //     await logout();
+  //     setTimeout(() => {
+  //       setLoading(false); // Set loading to false after some time (simulating successful login)
+  //       navigation.navigate('Login')
+  //       Alert.alert('Success!','you have logged out!!')
+  //   }, 2000);
    
-    }catch(error){
-      console.error(` Error failed: ${error}`)
-    }
+  //   }catch(error){
+  //     console.error(` Error failed: ${error}`)
+  //   }
 
-  }
+  // }
   return (
     <View style={styles.screen}>
       <View>

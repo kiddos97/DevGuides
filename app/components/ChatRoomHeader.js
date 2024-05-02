@@ -7,6 +7,7 @@ import { Image } from 'expo-image';
 import { blurhash } from '../../utils/index';
 import { useAuth } from '../authContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import {
     Menu,
@@ -18,11 +19,11 @@ import { MenuItems } from './CustomMenu';
   
 const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
 
-    const navigation = useNavigation();
+    
 
     const ios = Platform.OS == 'ios'
     const { top } = useSafeAreaInsets(); 
-    const { user } = useAuth();
+    const { user,logout } = useAuth();
     // const handlePress = () => {
     //     //navigation.dispatch(DrawerActions.openDrawer())
     //     navigation.navigate(`${nav}`);
@@ -33,7 +34,13 @@ const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
             <View style={{width:'100%',padding:1,borderBottomWidth:2, borderColor:color.grey}}/>
         )
     }
-    //   }
+    const handleLogout = async () => {
+      try{
+        await logout();
+      }catch(error){
+        console.error(`${error}`)
+      }
+    }
     return (
     <View style={[styles.container,{paddingTop: ios ? top: top + 10,backgroundColor:backgroundColor}]}>
          <TouchableOpacity onPress={onPress}>
@@ -75,6 +82,11 @@ const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
         value={null}
         action={onPress2}
         icon={<MaterialCommunityIcons name='android-messages' size={20} color={color.textcolor}/>}/>
+        <MenuItems 
+        text='Message'
+        value={null}
+        action={handleLogout}
+        icon={<AntDesign name='logout' size={20} color={color.textcolor}/>}/>
       </MenuOptions>
     </Menu>
     </View>

@@ -26,7 +26,7 @@ const DrawerNavigation = ({route}) => {
       component={StackNavigation}
       initialParams={{route}}
       options={{headerShown:false}}/>
-    <Drawer.Screen 
+    {/* <Drawer.Screen 
     name="Settings" 
     component={AccountScreen}  
     options={{ 
@@ -35,7 +35,7 @@ const DrawerNavigation = ({route}) => {
       drawerLabelStyle:{
         color:color.textcolor
       },
-      drawerActiveTintColor:color.textinputColor }} />
+      drawerActiveTintColor:color.textinputColor }} /> */}
     </Drawer.Navigator>
 
   )

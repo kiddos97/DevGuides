@@ -62,7 +62,7 @@ const HomeScreen = () => {
     <View
     style={styles.screen}
     >
-        <View style={styles.container}>
+        <View>
         <View>
           <ChatRoomHeader
           title='DevGuides'
@@ -102,7 +102,7 @@ const HomeScreen = () => {
       Updates
     </Text>
     <View style={styles.updatecard}>
-      <Cards backgroundColor={color.white} text1={Message.text}/>
+      <Cards backgroundColor={color.button2} text1={Message.text}/>
     </View>
   </View>
   </ScrollView>

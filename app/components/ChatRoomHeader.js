@@ -67,14 +67,14 @@ const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
         <MenuItems 
         text='Profile'
         value={null}
-        icon={<MaterialCommunityIcons name='account' size={20}/>}
+        icon={<MaterialCommunityIcons name='account' size={20} color={color.textcolor}/>}
         action={onPress}/>
         <Divider/>
          <MenuItems 
         text='Message'
         value={null}
         action={onPress2}
-        icon={<MaterialCommunityIcons name='android-messages' size={20}/>}/>
+        icon={<MaterialCommunityIcons name='android-messages' size={20} color={color.textcolor}/>}/>
       </MenuOptions>
     </Menu>
     </View>

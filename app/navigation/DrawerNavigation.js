@@ -1,17 +1,19 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import AccountScreen from '../screen/AccountScreen';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import TabNavigation from './TabNavigation';
 import color from '../../config/color';
 import StackNavigation from './StackNavigation';
-import { createContext } from 'react';
-
+import ChatRoomHeader from '../components/ChatRoomHeader';
+import SettingsScreen from '../screen/SettingsScreen';
+import { useNavigation } from '@react-navigation/native';
 
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigation = ({route}) => {
+  const navigation = useNavigation();
+
+  const handleBack = () => {
+    navigation.navigate('Welcome')
+  }
   return (
 
     <Drawer.Navigator 
@@ -26,16 +28,16 @@ const DrawerNavigation = ({route}) => {
       component={StackNavigation}
       initialParams={{route}}
       options={{headerShown:false}}/>
-    {/* <Drawer.Screen 
+    <Drawer.Screen 
     name="Settings" 
-    component={AccountScreen}  
+    component={SettingsScreen}  
     options={{ 
       drawerLabel: 'Settings',
-      headerShown:false,
       drawerLabelStyle:{
         color:color.textcolor
       },
-      drawerActiveTintColor:color.textinputColor }} /> */}
+      drawerActiveTintColor:color.white,
+      header: () => <ChatRoomHeader  icon='keyboard-backspace' onPress={handleBack} backgroundColor={color.button} title='Settings'/> }} />
     </Drawer.Navigator>
 
   )

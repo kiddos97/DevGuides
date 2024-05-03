@@ -5,10 +5,6 @@ import Button from '../components/Button'
 import { useState, useEffect } from 'react'
 import * as Yup from 'yup';
 import { Formik} from 'formik';
-// import axios from 'axios'
-//import {AsyncStorage} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { FIREBASE_APP } from '../../FireBase/FireBaseConfig';
 import { useAuth } from '../authContext'
 import CustomKeyboardView from '../components/CustomKeyboardView'
 import { LinearGradient } from 'expo-linear-gradient';

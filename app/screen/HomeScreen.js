@@ -62,7 +62,7 @@ const HomeScreen = () => {
     <View
     style={styles.screen}
     >
-        <View>
+       
         <View>
           <ChatRoomHeader
           title='DevGuides'
@@ -106,7 +106,6 @@ const HomeScreen = () => {
     </View>
   </View>
   </ScrollView>
-    </View>
     </View>
   )
 }

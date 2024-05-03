@@ -92,6 +92,7 @@ const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
         value={null}
         action={onPress2}
         icon={<MaterialCommunityIcons name='android-messages' size={20} color={color.textcolor}/>}/>
+          <Divider/>
         <MenuItems 
         text='Sign out'
         value={null}

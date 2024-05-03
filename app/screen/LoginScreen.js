@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     },
     container:{
         flex:1,
-        padding:10
+        padding:5
     },
     LoginContainer:{
         padding:30,
@@ -163,12 +163,12 @@ const styles = StyleSheet.create({
         width:170,
         height:170,
         alignSelf:'center',
-        marginVertical:80,
+        marginVertical:90,
         marginBottom: 10,
         borderRadius:100
     },
     UserContainer:{
-        marginTop:50,
+        marginTop:70,
         padding:20
     },
     textContainer:{

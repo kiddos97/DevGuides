@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import { Platform, Text,StyleSheet,View,TouchableOpacity,Alert} from 'react-native'
+import { Platform, Text,StyleSheet,View,TouchableOpacity,Alert, ActivityIndicator} from 'react-native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import color from '../../config/color';
@@ -93,11 +93,13 @@ const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
         action={onPress2}
         icon={<MaterialCommunityIcons name='android-messages' size={20} color={color.textcolor}/>}/>
           <Divider/>
-        <MenuItems 
+
+          {isLoading ? (<ActivityIndicator size='large' color='#000'/> ):(
+             <MenuItems 
         text='Sign out'
         value={null}
         action={handleLogout}
-        icon={<AntDesign name='logout' size={20} color={color.textcolor}/>}/>
+        icon={<AntDesign name='logout' size={20} color={color.textcolor}/>}/>)}
       </MenuOptions>
     </Menu>
     </View>

@@ -12,7 +12,7 @@ const DrawerNavigation = ({route}) => {
   const navigation = useNavigation();
 
   const handleBack = () => {
-    navigation.navigate('Welcome')
+    navigation.navigate('Welcome');
   }
   return (
 

@@ -32,7 +32,7 @@ const LoginScreen = ({navigation}) => {
             if(response){
                 setTimeout(() => {
                     setLoading(false);
-                    resetForm({values:initialValues}) // Set loading to false after some time (simulating successful login)
+                    resetForm({values: ''}) // Set loading to false after some time (simulating successful login)
                     navigation.navigate('Homepage');
                     Alert.alert('Success!!', 'you have logged in!');
                 }, 2000); 

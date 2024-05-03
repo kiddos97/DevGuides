@@ -1,5 +1,5 @@
-import React from 'react'
-import {View,Text,SafeAreaView, StyleSheet,ScrollView,TouchableOpacity,Platform,StatusBar } from 'react-native'
+import React,{useState} from 'react'
+import {View,Text,SafeAreaView, StyleSheet,ScrollView,TouchableOpacity,Platform,StatusBar, Switch } from 'react-native'
 import { Image } from 'expo-image';
 import { blurhash } from '../../utils/index';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
@@ -64,6 +64,14 @@ const Sections = [
 
 const SettingsScreen = () => {
     const {user} = useAuth();
+
+
+    const [form, setForm] = useState({
+        darkMode:true,
+        wifi:false,
+        showCollaborators:true,
+        accessibilityMode: false
+    })
   return (
     
     <View style={styles.screen}>
@@ -93,10 +101,15 @@ const SettingsScreen = () => {
                             <Feather name={icon} size={20} color='#fff'/>
                             </View>
                             <Text style={styles.sectiontext}>{label}</Text>
+                            <View style={{flex:1}}/>
+                            {type === 'toggle' && 
+                            <Switch value={form[id]}
+                            onValueChange={value => setForm({...form,[id]: value})}/>}
+
+
+                            {type === 'link' && <Feather name='chevron-right' size={20}/>}
                         </View>
                         </TouchableOpacity>
-                      
-
                     ))}
                 </View>
             ))}

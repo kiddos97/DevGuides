@@ -7,12 +7,13 @@ import ListItemDelete from '../../List/ListItemDelete'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import color from '../../config/color';
 import NewMessageModal from '../components/NewMessageModal';
-import {  db, userRef } from '../../FireBase/FireBaseConfig';
+import {  db, userRef, roomRef } from '../../FireBase/FireBaseConfig';
 import { collection, doc, setDoc,getDocs,query,where } from "firebase/firestore"; 
 import ChatList from '../../List/ChatList';
 import { useAuth } from '../authContext';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { getRoomID } from '../../utils';
+import { useRoute } from '@react-navigation/native';
 
 const MessageScreen = ({navigation}) => {
 
@@ -27,6 +28,8 @@ const MessageScreen = ({navigation}) => {
   const { user } = useAuth();
   console.log('message user uid:',user.uid)
   console.log('user:', user)
+  // const route = useRoute();
+  // console.log('route:',route)
 
   useEffect(() => {
     if(user?.userId){
@@ -36,18 +39,27 @@ const MessageScreen = ({navigation}) => {
   
 
   const getUsers = async () => {
-    const q = query(userRef, where('userId','!=',user?.userId))
+    //const q  = query(userRef, where('userId','!=',user?.userId))
 
+    //const roomId = getRoomID(user?.userId, route?.params?.item?.userId);
+    const roomDocRef = doc(roomRef)
+    const subCollection = collection(roomDocRef,'messages');
+    const q = query(subCollection,where('senderName','!=',user?.username));
+    try{
+      const querySnapShot = await getDocs(q)
+      let data = []
+  
+      querySnapShot.forEach(doc => {
+        data.push({...doc.data()})
+      })
+  
+      console.log('users:',data)
+      setUsers(data)
+    }catch(error){
+      console.error(`Failed to grab users: ${error}`)
 
-    const querySnapShot = await getDocs(q)
-    let data = []
+    }
 
-    querySnapShot.forEach(doc => {
-      data.push({...doc.data()})
-    })
-
-    console.log('users:',data)
-    setUsers(data)
   }
 
   const handleModal = () => {

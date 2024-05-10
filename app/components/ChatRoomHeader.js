@@ -26,10 +26,6 @@ const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
     const { user,logout } = useAuth();
     const [isLoading, setLoading] = useState(false)
     const navigation = useNavigation();
-    // const handlePress = () => {
-    //     //navigation.dispatch(DrawerActions.openDrawer())
-    //     navigation.navigate(`${nav}`);
-
 
     const Divider = () => {
         return (
@@ -51,6 +47,9 @@ const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
       }
   
     }
+
+
+   
     return (
     <View style={[styles.container,{paddingTop: ios ? top: top + 10,backgroundColor:backgroundColor}]}>
          <TouchableOpacity onPress={onPress}>
@@ -85,7 +84,7 @@ const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
         text='Profile'
         value={null}
         icon={<MaterialCommunityIcons name='account' size={20} color={color.textcolor}/>}
-        action={onPress}/>
+        action={() => navigation.navigate('Profile',{user})}/>
         <Divider/>
          <MenuItems 
         text='Message'
@@ -110,13 +109,12 @@ const styles = StyleSheet.create({
     container:{
         flexDirection:'row',
         justifyContent:'space-between',
-        padding:10,
+        padding:20,
         paddingLeft:20,
         paddingRight:20,
-        paddingBottom:6,
         overflow:'hidden',
-        borderBottomLeftRadius:30,
-        borderBottomRightRadius:30,
+        borderBottomLeftRadius:20,
+        borderBottomRightRadius:20,
 
     },
     text:{

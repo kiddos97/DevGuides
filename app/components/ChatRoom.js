@@ -6,7 +6,7 @@ import person from '../assets/person.jpg'
 import color from '../../config/color';
 import { getRoomID } from '../../utils';
 import { useAuth } from '../authContext';
-import { db } from '../../FireBase/FireBaseConfig';
+import { db, roomRef} from '../../FireBase/FireBaseConfig';
 import { collection, doc,query,onSnapshot, orderBy } from "firebase/firestore"; 
 import { blurhash } from '../../utils/index';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
@@ -22,8 +22,8 @@ const ChatRoom = ({item, onPress,currentUser}) => {
     useEffect(() => {
        
     
-        let roomId = getRoomID(currentUser?.userId,item?.userId)
-        const docRef = doc(db,'rooms',roomId);
+        //let roomId = getRoomID(currentUser?.userId,item?.userId)
+        const docRef = doc(roomRef);
         const messageRef = collection(docRef,'messages')
         const q = query(messageRef, orderBy('createdAt','desc'));
 

@@ -17,13 +17,7 @@ const LoginScreen = ({navigation}) => {
     const [isLoading, setLoading] = useState(false)
     const { login } = useAuth()
 
-    // useEffect(() => {
-    //     onAuthStateChanged(auth, (user) => {
-    //         if(user){
-    //             console.log(`${user.email} is signed in`)
-    //         }
-    //     })
-    // },[])
+    
     
     const LoginPress = async (values,{resetForm}) => {
         setLoading(true); // Set loading to true when login button is pressed
@@ -156,7 +150,7 @@ const styles = StyleSheet.create({
         padding:5
     },
     LoginContainer:{
-        padding:30,
+        padding:20,
         marginTop:70,
     },
     logo:{

@@ -12,6 +12,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import ChatRoomHeader from '../components/ChatRoomHeader';
 //import ChatRoomHeader from '../components/ChatRoomHeader';
 import { useNavigation } from '@react-navigation/native';
+import AccountScreen from '../screen/AccountScreen';
 
 const Stack = createStackNavigator();
 
@@ -60,6 +61,12 @@ const StackNavigation = () => {
       component={ChatScreen}
       options={{
         header: ({route}) => <ChatRoomHeader title={route?.params?.item?.username} onPress={handleBack} backgroundColor={color.button} icon='keyboard-backspace'/>
+      }}/>
+      <Stack.Screen
+      name='Profile'
+      component={AccountScreen}
+      options={{
+        header:({route}) => <ChatRoomHeader onPress={()=>navigation.navigate('Welcome')} backgroundColor={color.button} icon='keyboard-backspace'/>
       }}/>
     </Stack.Navigator>
   );

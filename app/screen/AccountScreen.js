@@ -1,5 +1,5 @@
 
-import {View, Text, StyleSheet, TouchableWithoutFeedback, Alert, ActivityIndicator} from 'react-native'
+import {View, Text, StyleSheet, TouchableWithoutFeedback, Alert, ActivityIndicator, ScrollView} from 'react-native'
 import color from '../../config/color';
 import ListItem from '../../List/ListItem';
 import person from '../assets/person.jpg'
@@ -8,74 +8,86 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useState} from 'react';
 import { useAuth } from '../authContext';
-
+import { Image } from 'expo-image';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { blurhash } from '../../utils/index';
+import Button from '../components/Button';
+import { useRoute } from '@react-navigation/native';
+import backimage from '../assets/backimage.jpg';
 
 const AccountScreen = () => {
 
-  const [isLoading, setLoading] = useState(false)
-  const navigation = useNavigation();
-  const { logout } = useAuth();
-  const handlePress = () => {
-    //navigation.dispatch(DrawerActions.openDrawer())
-    navigation.openDrawer();
-  }
-  // const handleLogout = async () => {
-  //   setLoading(true)
-  //   try{
-  //     await logout();
-  //     setTimeout(() => {
-  //       setLoading(false); // Set loading to false after some time (simulating successful login)
-  //       navigation.navigate('Login')
-  //       Alert.alert('Success!','you have logged out!!')
-  //   }, 2000);
-   
-  //   }catch(error){
-  //     console.error(` Error failed: ${error}`)
-  //   }
 
-  // }
+  const { user } = useAuth();
+  const route  = useRoute();
+
+  console.log('route id:',route?.params.user?.userId)
+  console.log('user id:',user?.userId)
+
+  const isCurrentUser = user?.userId === route?.params?.user?.userId;
+
+
+ 
+
   return (
     <View style={styles.screen}>
-      <View>
-      <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={handlePress}>
-            <MaterialCommunityIcons name="menu" color={color.AppBackgroundColor} size={30} />
-          </TouchableWithoutFeedback>
-          <View style={styles.textcontainer}>
-          <Text style={styles.text}>Account</Text>
-          </View>
-          </View>
-      <View style={styles.account}>
-      <ListItem
-         title='Emmanuel Imarhiagbe'
-         subTitle="Osaroimarhiagbe@gmail.com"
-         image={person}
-         onPress={() => console.log('Account Pressed')}
-      />
+      <ScrollView>
+      <View style={styles.profileContainer}>
+        <Image
+            style={{height:hp(15), aspectRatio:1, borderRadius:100}}
+            source={user?.profileImage}
+            placeholder={blurhash}
+            transition={500}/>
+            <View style={styles.textcontainer}>
+            <Text style={styles.text}>{route?.params?.user?.username}</Text>
+            <Text style={styles.text}>Software Engineer, Austin TX</Text>
+            </View>
+            <View style={styles.buttonContainer}>
+              {!isCurrentUser && (<Button title='message'/>)}
+              <Button title='connect' backgroundColor={color.button} color={color.white} borderColor={color.button}/>
+            </View>
+            <View style={styles.aboutContainer}>
+              <Text style={styles.aboutText}>About</Text>
+              <View style={styles.textcontainer}>
+                <Text>
+                  I am a young man that likes to get his ass ate by his hot girlfriend isa kuhun
+                </Text>
+              </View>
+              </View>
       </View>
-      <View style={styles.space}>
-      </View>
-      <View style={styles.container1}>
-        {isLoading ?( 
-        <ActivityIndicator size='large' color={color.AppBackgroundColor} />) :(
-         <ListItem
-         title='Log Out'
-         IconComponent={<MaterialCommunityIcons name='logout' backgroundColor='#ffe66d' size={30}/>} 
-         onPress={handleLogout}
-                />)}
-                </View>
-      </View>
+      </ScrollView>
+      
     </View>
    
   )
 }
 
 const styles = StyleSheet.create({
-  account:{
-    backgroundColor:color.white,
+  aboutContainer:{
+    borderWidth:2,
+    marginTop:30,
+    backgroundColor:color.grey,
+    height:100,
+    padding:10
+   
+
+  },
+  aboutText:{
+    fontSize:15,
+    fontWeight:'bold'
+  },
+  buttonContainer:{
+    flexDirection:'row',
+    marginTop:20,
+    justifyContent:'space-around'
+  },
+  profileContainer:{
+    padding:10,
+    paddingTop:10,
+
   },
   screen:{
-    backgroundColor:color.light,
+    backgroundColor:color.white,
     flex:1
   },
   space:{
@@ -91,13 +103,11 @@ const styles = StyleSheet.create({
        
   },
   text:{
-    textAlign:'center',
-    fontSize:30,
+    fontSize:12,
     fontWeight:'bold',
-    color:color.AppBackgroundColor
   },
   textcontainer:{
-    marginLeft:100,
+    marginTop:10,
   }
 })
 export default AccountScreen

@@ -6,7 +6,7 @@ import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query}
 import MessageList  from '../components/MessageList';
 import { getRoomID } from '../../utils';
 import { useAuth } from '../authContext';
-import { db } from '../../FireBase/FireBaseConfig';
+import { db, roomRef } from '../../FireBase/FireBaseConfig';
 import { useRoute } from '@react-navigation/native';
 import CustomKeyboardView from '../components/CustomKeyboardView';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
@@ -27,12 +27,10 @@ const ChatScreen = () => {
   useEffect(() => {
     createRoom();
 
-    let roomId = getRoomID(user?.userId,route?.params?.item?.userId)
-    const docRef = doc(db,'rooms',roomId);
+    //let roomId = getRoomID(user?.userId,route?.params?.item?.userId)
+    const docRef = doc(roomRef);
     const messageRef = collection(docRef,'messages')
     const q = query(messageRef, orderBy('createdAt','asc'));
-
-
     let unsub = onSnapshot(q, (snapshot) => {
       let allmessage = snapshot.docs.map(doc => {
         return doc.data()
@@ -45,9 +43,8 @@ const ChatScreen = () => {
 
   const createRoom = async () => {
     try{
-      let roomId = getRoomID(user?.userId, route?.params?.item?.userId)
-      await setDoc(doc(db,'rooms',roomId),{
-        roomId,
+      //let roomId = getRoomID(user?.userId, route?.params?.item?.userId)
+      await setDoc(doc(roomRef),{
         createdAt: Timestamp.fromDate(new Date())
       })
       console.log("Room created successfully with ID:", roomId);

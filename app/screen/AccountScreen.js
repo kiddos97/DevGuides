@@ -1,5 +1,5 @@
 
-import {View, Text, StyleSheet, TouchableWithoutFeedback, Alert, ActivityIndicator, ScrollView} from 'react-native'
+import {View, Text, StyleSheet, TouchableWithoutFeedback, Alert, ActivityIndicator, ScrollView, TouchableOpacity} from 'react-native'
 import color from '../../config/color';
 import ListItem from '../../List/ListItem';
 import person from '../assets/person.jpg'
@@ -27,6 +27,13 @@ const AccountScreen = () => {
   const isCurrentUser = user?.userId === route?.params?.user?.userId;
 
 
+  const skills = [
+    { name:'Python'},
+  {name:'JavaScript'},
+  {name:'React Native'}
+]
+
+
  
 
   return (
@@ -39,18 +46,48 @@ const AccountScreen = () => {
             placeholder={blurhash}
             transition={500}/>
             <View style={styles.textcontainer}>
-            <Text style={styles.text}>{route?.params?.user?.username}</Text>
+              <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+              <Text style={styles.text}>{route?.params?.user?.username}</Text>
+              <MaterialCommunityIcons name='account-edit-outline' size={25}/>
+              </View>
             <Text style={styles.text}>Software Engineer, Austin TX</Text>
-            </View>
             <View style={styles.buttonContainer}>
               {!isCurrentUser && (<Button title='message'/>)}
               <Button title='connect' backgroundColor={color.button} color={color.white} borderColor={color.button}/>
             </View>
+            </View>
+          
             <View style={styles.aboutContainer}>
+              <View style={{flexDirection:'row', justifyContent:'space-between'}}>
               <Text style={styles.aboutText}>About</Text>
+              <TouchableOpacity onPress={() => console.log('icon pressed')}>
+              <MaterialCommunityIcons name='account-edit-outline' size={25}/>
+              </TouchableOpacity>
+              </View>
               <View style={styles.textcontainer}>
                 <Text>
                   I am a young man that likes to get his ass ate by his hot girlfriend isa kuhun
+                </Text>
+              </View>
+              </View>
+              <View style={styles.aboutContainer}>
+              <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+              <Text style={styles.aboutText}>Skills</Text>
+              <TouchableOpacity onPress={() => console.log('icon pressed')}>
+              <MaterialCommunityIcons name='account-edit-outline' size={25}/>
+              </TouchableOpacity>
+              </View>
+              <View style={styles.textcontainer}>
+               {skills.map(({name}) => (
+                <Text style={styles.text}>{name}</Text>
+               ))}
+              </View>
+              </View>
+              <View style={styles.aboutContainer}>
+              <Text style={styles.aboutText}>Mentor Review</Text>
+              <View style={styles.textcontainer}>
+                <Text>
+                  Isa Kuhn is an amazing mentee, picking up the material at a fast rate!
                 </Text>
               </View>
               </View>
@@ -64,11 +101,18 @@ const AccountScreen = () => {
 
 const styles = StyleSheet.create({
   aboutContainer:{
-    borderWidth:2,
     marginTop:30,
     backgroundColor:color.grey,
-    height:100,
-    padding:10
+    padding:10,
+    borderBottomRightRadius:35,
+    borderBottomLeftRadius: 35,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 7,
+    // },
+    // shadowOpacity: 1,
+    // shadowRadius: 4.65,
    
 
   },
@@ -108,6 +152,11 @@ const styles = StyleSheet.create({
   },
   textcontainer:{
     marginTop:10,
-  }
+    backgroundColor:color.grey,
+    padding:10,
+
+    
+  },
+
 })
 export default AccountScreen

@@ -66,7 +66,7 @@ const StackNavigation = () => {
       name='Profile'
       component={AccountScreen}
       options={{
-        header:({route}) => <ChatRoomHeader onPress={()=>navigation.navigate('Welcome')} backgroundColor={color.button} icon='keyboard-backspace'/>
+        header:({route}) => <ChatRoomHeader onPress={()=>navigation.navigate('Welcome')} backgroundColor={color.button} icon='keyboard-backspace' onPress2={() => navigation.navigate('Message')}/>
       }}/>
     </Stack.Navigator>
   );

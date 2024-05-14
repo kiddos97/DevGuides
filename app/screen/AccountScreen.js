@@ -14,6 +14,8 @@ import { blurhash } from '../../utils/index';
 import Button from '../components/Button';
 import { useRoute } from '@react-navigation/native';
 import backimage from '../assets/backimage.jpg';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 
 const AccountScreen = () => {
 
@@ -26,8 +28,10 @@ const AccountScreen = () => {
 
   const isCurrentUser = user?.userId === route?.params?.user?.userId;
 
+  const navigation = useNavigation();
 
-  const skills = [
+
+  const skills = [ // this i will be coming from the database and can be updatred by the user
     { name:'Python'},
   {name:'JavaScript'},
   {name:'React Native'}
@@ -40,11 +44,17 @@ const AccountScreen = () => {
     <View style={styles.screen}>
       <ScrollView>
       <View style={styles.profileContainer}>
+        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
         <Image
             style={{height:hp(15), aspectRatio:1, borderRadius:100}}
             source={user?.profileImage}
             placeholder={blurhash}
             transition={500}/>
+            {!isCurrentUser && (
+            <TouchableOpacity onPress={() => navigation.navigate('Chat')}>
+              <AntDesign name='message1' size={30}/>
+            </TouchableOpacity>)}
+            </View>
             <View style={styles.textcontainer}>
               <View style={{flexDirection:'row',justifyContent:'space-between'}}>
               <Text style={styles.text}>{route?.params?.user?.username}</Text>
@@ -52,11 +62,8 @@ const AccountScreen = () => {
               </View>
             <Text style={styles.text}>Software Engineer, Austin TX</Text>
             <View style={styles.buttonContainer}>
-              {!isCurrentUser && (<Button title='message'/>)}
-              <Button title='connect' backgroundColor={color.button} color={color.white} borderColor={color.button}/>
             </View>
             </View>
-          
             <View style={styles.aboutContainer}>
               <View style={{flexDirection:'row', justifyContent:'space-between'}}>
               <Text style={styles.aboutText}>About</Text>
@@ -78,8 +85,8 @@ const AccountScreen = () => {
               </TouchableOpacity>
               </View>
               <View style={styles.textcontainer}>
-               {skills.map(({name}) => (
-                <Text style={styles.text}>{name}</Text>
+               {skills.map((skill,index) => (
+                <Text key={index} style={styles.text}>{skill.name}</Text>
                ))}
               </View>
               </View>
@@ -102,7 +109,7 @@ const AccountScreen = () => {
 const styles = StyleSheet.create({
   aboutContainer:{
     marginTop:30,
-    backgroundColor:color.grey,
+    backgroundColor:color.button2,
     padding:10,
     borderBottomRightRadius:35,
     borderBottomLeftRadius: 35,
@@ -152,8 +159,8 @@ const styles = StyleSheet.create({
   },
   textcontainer:{
     marginTop:10,
-    backgroundColor:color.grey,
     padding:10,
+    backgroundColor:color.button2
 
     
   },

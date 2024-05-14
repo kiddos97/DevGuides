@@ -6,7 +6,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import color from '../../config/color';
 import HomeScreen from '../screen/HomeScreen';
 import NotificationScreen from '../screen/NotificationScreen';
-
+import SearchScreen from '../screen/SearchScreen';
 
 
 
@@ -34,6 +34,13 @@ const TabNavigation = () => {
        
      }}
      />
+     <Tab.Screen
+     name='Search'
+     component={SearchScreen}
+     options={{
+      tabBarIcon: () => <MaterialCommunityIcons name='account-search' size={25} color={color.Buttoncolor}/>
+     }}
+    />
       <Tab.Screen 
         name="Notification"
      component={NotificationScreen}

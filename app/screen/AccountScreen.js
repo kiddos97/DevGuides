@@ -86,7 +86,7 @@ const AccountScreen = () => {
               </View>
               <View style={styles.textcontainer}>
                {skills.map((skill,index) => (
-                <Text key={index} style={styles.text}>{skill.name}</Text>
+                <Text key={index} style={styles.text}>{'* ' + skill.name}</Text>
                ))}
               </View>
               </View>
@@ -113,13 +113,7 @@ const styles = StyleSheet.create({
     padding:10,
     borderBottomRightRadius:35,
     borderBottomLeftRadius: 35,
-    // shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 7,
-    // },
-    // shadowOpacity: 1,
-    // shadowRadius: 4.65,
+  
    
 
   },
@@ -156,6 +150,8 @@ const styles = StyleSheet.create({
   text:{
     fontSize:12,
     fontWeight:'bold',
+    letterSpacing:1,
+    padding:5
   },
   textcontainer:{
     marginTop:10,

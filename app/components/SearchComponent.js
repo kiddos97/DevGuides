@@ -3,18 +3,19 @@ import { TextInput, View, StyleSheet, TouchableOpacity } from 'react-native'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import color from '../../config/color';
 
-const SearchComponent = () => {
+const SearchComponent = ({backgroundColor,color,onPress}) => {
   return (
-   <View style={styles.searchContainer}>
+   <View style={[styles.searchContainer,{backgroundColor:backgroundColor}]}>
     <TextInput
     style={styles.textinput}
     placeholder='Search.....'
-    placeholderTextColor={color.white}/>
+    placeholderTextColor='#fff'/>
     <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={() => console.log('Search button pressed')}>
-        <AntDesign
+        <TouchableOpacity onPress={onPress}>
+        <AntDesign d
         name='search1'
-        size={25}/>
+        size={25}
+        color={color}/>
         </TouchableOpacity>
     </View>
     </View>
@@ -28,17 +29,21 @@ const styles = StyleSheet.create({
     },
     searchContainer:{
         flexDirection:'row',
-        borderWidth: 2,
         padding: 5,
         borderRadius:30,
         justifyContent:'space-between',
-        backgroundColor:'rgba(0,0,0,0.3)',
-        borderColor:color.AppBackgroundColor
+          shadowColor: '#000',
+        shadowOffset: {
+      width: 0,
+      height: 7,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 4.65,
 
     },
     textinput: {
         color: color.white,
-        fontSize: 18,
+        fontSize: 15,
     },
 
 

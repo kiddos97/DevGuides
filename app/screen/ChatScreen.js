@@ -47,7 +47,7 @@ const ChatScreen = () => {
       await setDoc(doc(roomRef),{
         createdAt: Timestamp.fromDate(new Date())
       })
-      console.log("Room created successfully with ID:", roomId);
+      console.log("Room created successfully with ID");
     } catch (error) {
       console.error("Error creating room:", error);
     }
@@ -58,8 +58,8 @@ const ChatScreen = () => {
     let message = textRef.current.trim();
     if(!message) return;
     try{
-      let roomId = getRoomID(user?.userId, route?.params?.item?.userId);
-      const docRef = doc(db,'rooms',roomId);
+      //let roomId = getRoomID(user?.userId, route?.params?.item?.userId);
+      const docRef = doc(roomRef);
       const messageRef = collection(docRef,'messages')
       textRef.current ="";
       if(inputRef) inputRef?.current?.clear();

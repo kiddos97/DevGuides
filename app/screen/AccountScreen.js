@@ -17,11 +17,13 @@ const AccountScreen = () => {
 
   const { user } = useAuth();
   let route  = useRoute();
-  const {userId} = route?.params
+  const {userId,username} = route?.params
 
-  console.log('route id:',route?.params.user?.userId)
-  console.log('user id:',user?.userId)
-  console.log('userId:', userId)
+  console.log('Profile route id:',route?.params.user?.userId)
+  console.log('Profile current user id:',user?.userId)
+  console.log('Profile searched user userId:', userId)
+ 
+  console.log('username:',route?.params?.user?.username)
 
   const isCurrentUser = user?.userId === route?.params?.user?.userId;
 
@@ -36,6 +38,8 @@ const AccountScreen = () => {
   {name:'React Native'}
   ]
 
+  console.log('userName: ',users.username)
+  console.log('username:',route?.params?.user?.username)
 
   useEffect(() => {
 
@@ -73,7 +77,7 @@ const AccountScreen = () => {
             placeholder={blurhash}
             transition={500}/>
             {!isCurrentUser && (
-            <TouchableOpacity onPress={() => navigation.navigate('Chat')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Chat',{userId:userId,name:users?.username})}>
               <AntDesign name='message1' size={30}/>
             </TouchableOpacity>)}
             </View>

@@ -25,9 +25,9 @@ const StackNavigation = () => {
     //navigation.dispatch(DrawerActions.openDrawer())
     navigation.navigate('Welcome');
   }
-  const handleBack = () => {
-    navigation.goBack();
-  }
+  // const handleBack = () => {
+  //   navigation.goBack();
+  // }
   return (
     <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen
@@ -60,8 +60,9 @@ const StackNavigation = () => {
       name='Chat'
       component={ChatScreen}
       options={{
-        header: ({route}) => <ChatRoomHeader title={route?.params?.item?.username} onPress={handleBack} backgroundColor={color.button} icon='keyboard-backspace'/>
-      }}/>
+        headerShown:false
+      }}
+      />
       <Stack.Screen
       name='Profile'
       component={AccountScreen}

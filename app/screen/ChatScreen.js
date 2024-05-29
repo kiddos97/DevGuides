@@ -11,15 +11,24 @@ import { useRoute } from '@react-navigation/native';
 import CustomKeyboardView from '../components/CustomKeyboardView';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Feather from 'react-native-vector-icons/Feather';
+import ChatRoomHeader from '../components/ChatRoomHeader';
+import { useNavigation } from '@react-navigation/native';
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
   const route = useRoute();
-  console.log('route:',route)
+  console.log('Chat route:',route)
   // const { item } = route.params;
   const { user } = useAuth();
-  console.log('user id:',user.userId)
-  console.log('item id:',route?.params?.item?.userId)
+  console.log('Chat user id:',user.userId)
+  console.log('Chat route name:',route?.params?.name)
+
+  const { name, userId} = route?.params
+
+  console.log('chat name: ',name)
+  console.log('chat id:', userId)
+
+  const navigation = useNavigation();
 
   const textRef = useRef('');
   const inputRef = useRef(null);
@@ -27,8 +36,8 @@ const ChatScreen = () => {
   useEffect(() => {
     createRoom();
 
-    //let roomId = getRoomID(user?.userId,route?.params?.item?.userId)
-    const docRef = doc(roomRef);
+    let roomId = getRoomID(user?.userId,userId)
+    const docRef = doc(db,'rooms',roomId);
     const messageRef = collection(docRef,'messages')
     const q = query(messageRef, orderBy('createdAt','asc'));
     let unsub = onSnapshot(q, (snapshot) => {
@@ -43,11 +52,12 @@ const ChatScreen = () => {
 
   const createRoom = async () => {
     try{
-      //let roomId = getRoomID(user?.userId, route?.params?.item?.userId)
-      await setDoc(doc(roomRef),{
+      let roomId = getRoomID(user?.userId,userId)
+      await setDoc(doc(db,'rooms',roomId),{
+        roomId,
         createdAt: Timestamp.fromDate(new Date())
       })
-      console.log("Room created successfully with ID");
+      console.log("Room created successfully with ID: ", roomId);
     } catch (error) {
       console.error("Error creating room:", error);
     }
@@ -58,8 +68,8 @@ const ChatScreen = () => {
     let message = textRef.current.trim();
     if(!message) return;
     try{
-      //let roomId = getRoomID(user?.userId, route?.params?.item?.userId);
-      const docRef = doc(roomRef);
+      let roomId = getRoomID(user?.userId,userId);
+      const docRef = doc(db,'rooms',roomId);
       const messageRef = collection(docRef,'messages')
       textRef.current ="";
       if(inputRef) inputRef?.current?.clear();
@@ -68,6 +78,7 @@ const ChatScreen = () => {
         userId:user?.userId,
         text:message,
         senderName: user?.username,
+        recipentName:route?.params?.name,
         createdAt: Timestamp.fromDate(new Date())
       })
 
@@ -90,6 +101,11 @@ const ChatScreen = () => {
       behavior={Platform.OS === "ios" ? "padding" : 'height'}
       style={styles.container}
     >
+      <ChatRoomHeader 
+      title={name} 
+      backgroundColor={color.button} 
+      icon='keyboard-backspace'
+      onPress={() => navigation.navigate('Welcome',{userid:userId})}/>
       <View style={styles.messagesContainer}>
         <MessageList messages={messages} currentUser={user} />
       </View>

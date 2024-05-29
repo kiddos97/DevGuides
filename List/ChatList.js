@@ -14,7 +14,7 @@ const ChatList = ({users,currentUser}) => {
      renderItem={({item}) =>
      <ChatRoom
      currentUser={currentUser}
-     onPress={() => navigation.navigate('Chat',{item})}
+     onPress={() => navigation.navigate('Chat')}
      item={item}
     />}
      />

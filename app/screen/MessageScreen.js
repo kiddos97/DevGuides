@@ -15,7 +15,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { getRoomID } from '../../utils';
 import { useRoute } from '@react-navigation/native';
 
-const MessageScreen = ({navigation}) => {
+const MessageScreen = () => {
 
  
   //const [refreshing,setRefreshing] = useState(false);
@@ -27,9 +27,10 @@ const MessageScreen = ({navigation}) => {
 
   const { user } = useAuth();
   console.log('message user uid:',user.uid)
-  console.log('user:', user)
-  // const route = useRoute();
-  // console.log('route:',route)
+  console.log('user id:', user?.userId)
+  const route = useRoute();
+  const {userid} = route?.params
+  console.log('Message route:',userid)
 
   useEffect(() => {
     if(user?.userId){
@@ -41,10 +42,10 @@ const MessageScreen = ({navigation}) => {
   const getUsers = async () => {
     //const q  = query(userRef, where('userId','!=',user?.userId))
 
-    //const roomId = getRoomID(user?.userId, route?.params?.item?.userId);
-    const roomDocRef = doc(roomRef)
+    const roomId = getRoomID(user?.userId,userid);
+    const roomDocRef = doc(db,'rooms',roomId)
     const subCollection = collection(roomDocRef,'messages');
-    const q = query(subCollection,where('senderName','!=',user?.username));
+    const q = query(subCollection,where('recipentName','!=',user?.username));
     try{
       const querySnapShot = await getDocs(q)
       let data = []

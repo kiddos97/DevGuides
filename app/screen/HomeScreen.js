@@ -12,6 +12,8 @@ import react from '../assets/react.png';
 import python from '../assets/python.png';
 import { useNavigation } from '@react-navigation/native';
 import ChatRoomHeader from '../components/ChatRoomHeader';
+import { useRoute } from '@react-navigation/native';
+
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -38,13 +40,19 @@ const Message = {
 
 
 
+
 const Separator = () => {
   return <View style={{marginRight:10}}/>
 }
 
 const HomeScreen = () => {
 
+
+ 
   const navigation = useNavigation();
+
+  const route = useRoute();
+  console.log('Welcome messagae user Id: ',route?.params?.userid)
 
   const handlePress = () => {
     //navigation.dispatch(DrawerActions.openDrawer())
@@ -52,7 +60,7 @@ const HomeScreen = () => {
   }
 
   const handleMessage = () => {
-    navigation.navigate('Message')
+    navigation.navigate('Message',{userid:route?.params?.userid})
   }
 
   // const handleAccount = () => {

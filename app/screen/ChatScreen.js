@@ -2,11 +2,11 @@
 import {View, Text, StyleSheet,TouchableOpacity, Platform, KeyboardAvoidingView,TextInput}  from 'react-native'
 import color from'../../config/color';
 import React, { useState, useEffect, useRef} from 'react'
-import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query} from "firebase/firestore"; 
+import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query, getDoc} from "firebase/firestore"; 
 import MessageList  from '../components/MessageList';
 import { getRoomID } from '../../utils';
 import { useAuth } from '../authContext';
-import { db, roomRef } from '../../FireBase/FireBaseConfig';
+import { IdRef, db, roomRef } from '../../FireBase/FireBaseConfig';
 import { useRoute } from '@react-navigation/native';
 import CustomKeyboardView from '../components/CustomKeyboardView';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
+  const [document, setDocument] = useState(null)
   const route = useRoute();
   console.log('Chat route:',route)
   // const { item } = route.params;
@@ -23,10 +24,11 @@ const ChatScreen = () => {
   console.log('Chat user id:',user.userId)
   console.log('Chat route name:',route?.params?.name)
 
-  const { name, userId} = route?.params
+  //const { userId} = route?.params
 
-  console.log('chat name: ',name)
-  console.log('chat id:', userId)
+  // console.log('chat name: ',name)
+  // console.log('chat id:', userId)
+  console.log('userID: ', route?.params?.userId)
 
   const navigation = useNavigation();
 
@@ -35,8 +37,9 @@ const ChatScreen = () => {
 
   useEffect(() => {
     createRoom();
+    getUser();
 
-    let roomId = getRoomID(user?.userId,userId)
+    let roomId = getRoomID(user?.userId,route?.params?.userId)
     const docRef = doc(db,'rooms',roomId);
     const messageRef = collection(docRef,'messages')
     const q = query(messageRef, orderBy('createdAt','asc'));
@@ -50,9 +53,25 @@ const ChatScreen = () => {
     
   },[]);
 
+ 
+  const getUser = async () =>{
+    const docRef = doc(db,'ID',route?.params?.userId)
+    const docSnap = await getDoc(docRef)
+
+    try{
+      if(docSnap.exists()){
+        setDocument(docSnap.data())
+      }
+    }catch(error){//set error
+      console.error(`NO Document exists: ${error}`)
+    }
+
+    
+  }
+
   const createRoom = async () => {
     try{
-      let roomId = getRoomID(user?.userId,userId)
+      let roomId = getRoomID(user?.userId,route?.params?.userId)
       await setDoc(doc(db,'rooms',roomId),{
         roomId,
         createdAt: Timestamp.fromDate(new Date())
@@ -68,7 +87,7 @@ const ChatScreen = () => {
     let message = textRef.current.trim();
     if(!message) return;
     try{
-      let roomId = getRoomID(user?.userId,userId);
+      let roomId = getRoomID(user?.userId,route?.params?.userId);
       const docRef = doc(db,'rooms',roomId);
       const messageRef = collection(docRef,'messages')
       textRef.current ="";
@@ -82,6 +101,11 @@ const ChatScreen = () => {
         createdAt: Timestamp.fromDate(new Date())
       })
 
+      const IDdoc = setDoc(doc(db,'ID',route?.params?.userId),{
+        name:route?.params?.name,
+        userId:route?.params?.userId
+      })
+      console.log('The id: ', IDdoc.id)
       // setMessages(prevMessages => [...prevMessages, {
       //   userId: user?.userId,
       //   text: message,
@@ -102,10 +126,10 @@ const ChatScreen = () => {
       style={styles.container}
     >
       <ChatRoomHeader 
-      title={name} 
+      title={route?.params?.name} 
       backgroundColor={color.button} 
       icon='keyboard-backspace'
-      onPress={() => navigation.navigate('Welcome',{userid:userId})}/>
+      onPress={() => navigation.navigate('Welcome')}/>
       <View style={styles.messagesContainer}>
         <MessageList messages={messages} currentUser={user} />
       </View>

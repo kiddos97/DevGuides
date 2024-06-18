@@ -1,10 +1,6 @@
 import { View, Text, TouchableOpacity,StyleSheet, TouchableHighlight} from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useState, useEffect } from 'react';
-import { MdWidthFull } from 'react-icons/md';
-import person from '../assets/person.jpg'
-import color from '../../config/color';
-import { getRoomID } from '../../utils';
 import { useAuth } from '../authContext';
 import { db, roomRef} from '../../FireBase/FireBaseConfig';
 import { collection, doc,query,onSnapshot, orderBy } from "firebase/firestore"; 
@@ -14,7 +10,7 @@ import { Image } from 'expo-image';
 const ChatRoom = ({item, onPress,currentUser}) => {
 
   console.log('current user:',currentUser.userId)
-  console.log('item user:',item.userId)
+  // console.log('item user:',item.userId)
 
   const {user } = useAuth();
  
@@ -70,7 +66,7 @@ const ChatRoom = ({item, onPress,currentUser}) => {
           </View>
          <View style={styles.detailsContainer}>
             {/*Name and last message */}
-             <Text numberOfLines={1} style={styles.title}>{item?.username}</Text>
+             <Text numberOfLines={1} style={styles.title}>{item?.name}</Text>
              <Text  numberOfLines={2} style={styles.subTitle} >{renderLastMessage()}</Text>
          </View>
          <Text  numberOfLines={2} style={styles.subTitle} >Time</Text>

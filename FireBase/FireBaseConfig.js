@@ -28,4 +28,5 @@ export const auth = initializeAuth(FIREBASE_APP,{
 export const db = getFirestore(FIREBASE_APP)
 export const userRef = collection(db,'users')
 export const roomRef = collection(db,'rooms')
+export const IdRef = collection(db,'ID')
 //export const analytics = getAnalytics(app);

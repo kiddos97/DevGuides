@@ -7,7 +7,7 @@ import ListItemDelete from '../../List/ListItemDelete'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import color from '../../config/color';
 import NewMessageModal from '../components/NewMessageModal';
-import {  db, userRef, roomRef } from '../../FireBase/FireBaseConfig';
+import {  db, userRef, roomRef, IdRef } from '../../FireBase/FireBaseConfig';
 import { collection, doc, setDoc,getDocs,query,where } from "firebase/firestore"; 
 import ChatList from '../../List/ChatList';
 import { useAuth } from '../authContext';
@@ -40,20 +40,17 @@ const MessageScreen = () => {
   
 
   const getUsers = async () => {
-    //const q  = query(userRef, where('userId','!=',user?.userId))
-
-    const roomId = getRoomID(user?.userId,userid);
-    const roomDocRef = doc(db,'rooms',roomId)
-    const subCollection = collection(roomDocRef,'messages');
-    const q = query(subCollection,where('recipentName','!=',user?.username));
+    // const roomId = getRoomID(user?.userId,userid);
+    // const roomDocRef = doc(db,'rooms',roomId)
+    // const subCollection = collection(roomDocRef,'messages');
+    // const q = query(subCollection,where('recipentName','!=',user?.username));
     try{
+      const q  = query(IdRef, where('ID','!=',user?.userId))
       const querySnapShot = await getDocs(q)
       let data = []
-  
       querySnapShot.forEach(doc => {
         data.push({...doc.data()})
       })
-  
       console.log('users:',data)
       setUsers(data)
     }catch(error){

@@ -69,6 +69,8 @@ const ChatScreen = () => {
     
   }
 
+  console.log('document: ',document)
+
   const createRoom = async () => {
     try{
       let roomId = getRoomID(user?.userId,route?.params?.userId)

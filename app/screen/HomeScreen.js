@@ -47,19 +47,16 @@ const Separator = () => {
 
 const HomeScreen = () => {
 
-
  
   const navigation = useNavigation();
 
-  // const route = useRoute();
-  // console.log('Welcome messagae user Id: ',route?.params?.userid)
+ 
 
   //current User logged in
   const {user} = useAuth()
   console.log('Welcome username: ',user)
 
   const handlePress = () => {
-    //navigation.dispatch(DrawerActions.openDrawer())
     navigation.openDrawer();
   }
 
@@ -67,9 +64,7 @@ const HomeScreen = () => {
     navigation.navigate('Message')
   }
 
-  // const handleAccount = () => {
-  //   navigation.navigate('Profile')
-  // }
+  
   return (
     <View
     style={styles.screen}

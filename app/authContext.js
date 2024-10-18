@@ -64,22 +64,6 @@ export const AuthContextProvider = ({children}) => {
         }
         
     }
-    // const grabUser = async (user) => {// this will just grab the users after they have been register
-    //     try{
-    //         const q  = query(userRef, where('userId','!=',user.uid))
-    //         const querySnapShot = await getDocs(q)
-    //         let data = []
-    //         querySnapShot.forEach(doc => {
-    //           data.push({...doc.data()})
-    //         })
-    //         //console.log('users:',data)
-    //         setUsers(data)
-    //       }catch(error){
-    //         console.error(`Failed to grab users: ${error}`)
-      
-    //       }
-      
-    //     }
     const updateUserData = async (userId) => {
         const docRef = doc(db,'users',userId)
         const docSnap = await getDoc(docRef);

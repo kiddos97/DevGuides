@@ -16,22 +16,11 @@ import { useNavigation } from '@react-navigation/native';
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
-  const [document, setDocument] = useState(null)
+ 
 
   const route = useRoute();
-  // console.log('Chat route:',route)
   const { item } = route.params;
-  console.log('test',item)
   const { user } = useAuth();//current user logged in
-
-  // console.log('Chat user id:',user.userId)//current user user id
-  // console.log('Chat route name:',route?.params?.name)// searched user
-
-  //const { userId} = route?.params
-
-  // console.log('chat name: ',name)
-  // console.log('chat id:', userId)
-  // console.log('userID: ', route?.params?.userid) //searched user id
 
   const navigation = useNavigation();
 
@@ -65,23 +54,6 @@ const ChatScreen = () => {
   
   }, [route?.params?.userid, item?.userId]); // Dependency array
   
- 
-  // const getUser = async () =>{
-  //   const docRef = doc(db,'ID',route?.params?.userId)
-  //   const docSnap = await getDoc(docRef)
-
-  //   try{
-  //     if(docSnap.exists()){
-  //       setDocument(docSnap.data())
-  //     }
-  //   }catch(error){//set error
-  //     console.error(`NO Document exists: ${error}`)
-  //   }
-
-    
-  // }
-
-  //console.log('document: ',document)
 
   const createRoom = async () => {
     try{
@@ -90,12 +62,10 @@ const ChatScreen = () => {
       : item?.userId
       ? getRoomID(user?.userId, item.userId)
       : null;
-      // let roomId = getRoomID(user?.userId,route?.params?.userid)
       await setDoc(doc(db,'rooms',roomId),{
         roomId,
         createdAt: Timestamp.fromDate(new Date())
       })
-      console.log("Room created successfully with ID: ", roomId);
     } catch (error) {
       console.error("Error creating room:", error);
     }
@@ -111,7 +81,6 @@ const ChatScreen = () => {
       : item?.userId
       ? getRoomID(user?.userId, item.userId)
       : null;
-      // let roomId = getRoomID(user?.userId,route?.params?.userid);
       const docRef = doc(db,'rooms',roomId);
       const messageRef = collection(docRef,'messages')
       textRef.current ="";
@@ -131,8 +100,6 @@ const ChatScreen = () => {
         recipentName:recipentNamec,
         createdAt: Timestamp.fromDate(new Date())
       })
-
-      console.log('new message id:', newDoc.id)
     }catch(error){
       console.error(`${error}`)
     }

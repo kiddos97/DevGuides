@@ -18,18 +18,11 @@ import { useRoute } from '@react-navigation/native';
 const MessageScreen = () => {
 
  
-  //const [refreshing,setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [users, setUsers] = useState([]);
 
-
-
-
   const { user} = useAuth();
-  console.log('user id:', user?.userId)
-  //const route = useRoute();
-  //const {userid} = route?.params
-  //console.log('Message route:',userid)
+
 
   useEffect(() => {
     if(user?.userId){
@@ -39,10 +32,7 @@ const MessageScreen = () => {
   
 
   const grabUser = async () => {
-    // const roomId = getRoomID(user?.userId,userid);
-    // const roomDocRef = doc(db,'rooms',roomId)
-    // const subCollection = collection(roomDocRef,'messages');
-    // const q = query(subCollection,where('recipentName','!=',user?.username));
+
     try{
           const q  = query(userRef, where('userId','!=',user?.userId))
           const querySnapShot = await getDocs(q)

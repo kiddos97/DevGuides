@@ -17,32 +17,17 @@ const AccountScreen = () => {
   const [users, setUsers] = useState('')
 
   const { user } = useAuth();
-
   let route  = useRoute();
-
   const {userId} = route?.params
-
-
-  // console.log('user:',userId)
-  // console.log('Profile searched user userId:', userId)
- 
-  // console.log('username:',route?.params?.user?.username)
-
   const isCurrentUser = user?.userId === route?.params?.user?.userId;
 
- 
-
   const navigation = useNavigation();
-
 
   const skills = [ // this i will be coming from the database and can be updatred by the user
     { name:'Python'},
   {name:'JavaScript'},
   {name:'React Native'}
   ]
-
-  // console.log('userName: ',users.username)
-  // console.log('username:',route?.params?.user?.username)
 
   useEffect(() => {
     if(userId){
@@ -51,7 +36,6 @@ const AccountScreen = () => {
   
 
   },[userId])
-
 
   const fetchUser = async () => {
     const userDoc = doc(db,'users',userId)

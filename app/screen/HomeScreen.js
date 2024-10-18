@@ -13,7 +13,7 @@ import python from '../assets/python.png';
 import { useNavigation } from '@react-navigation/native';
 import ChatRoomHeader from '../components/ChatRoomHeader';
 import { useRoute } from '@react-navigation/native';
-
+import { useAuth } from '../authContext';
 const DATA = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -51,8 +51,12 @@ const HomeScreen = () => {
  
   const navigation = useNavigation();
 
-  const route = useRoute();
-  console.log('Welcome messagae user Id: ',route?.params?.userid)
+  // const route = useRoute();
+  // console.log('Welcome messagae user Id: ',route?.params?.userid)
+
+  //current User logged in
+  const {user} = useAuth()
+  console.log('Welcome username: ',user)
 
   const handlePress = () => {
     //navigation.dispatch(DrawerActions.openDrawer())
@@ -60,7 +64,7 @@ const HomeScreen = () => {
   }
 
   const handleMessage = () => {
-    navigation.navigate('Message',{userid:route?.params?.userid})
+    navigation.navigate('Message')
   }
 
   // const handleAccount = () => {

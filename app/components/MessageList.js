@@ -7,7 +7,7 @@ const MessageList = ({messages,currentUser}) => {
       {
         messages.map((message,index) => {
           return (
-            <MessageItem message={message} key={index} currentUser={currentUser}/>
+            <MessageItem message={message} key={index} current_User={currentUser}/>
           )
           
         })

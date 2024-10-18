@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp,browserLocalPersistence } from "firebase/app";
 import { initializeAuth,getReactNativePersistence  } from "firebase/auth";
-import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getFirestore,collection } from 'firebase/firestore';
 //mport { getAnalytics } from "firebase/analytics";
 // TOD: Add SDKs for Firebase products that you want to use
@@ -22,11 +22,11 @@ const firebaseConfig = {
 // Initialize Firebase
 export const FIREBASE_APP = initializeApp(firebaseConfig);
 export const auth = initializeAuth(FIREBASE_APP,{
-    persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+    persistence: getReactNativePersistence(AsyncStorage)
 }
 );
 export const db = getFirestore(FIREBASE_APP)
 export const userRef = collection(db,'users')
 export const roomRef = collection(db,'rooms')
-export const IdRef = collection(db,'ID')
+//export const IdRef = collection(db,'ID')
 //export const analytics = getAnalytics(app);

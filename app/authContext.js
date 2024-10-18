@@ -1,11 +1,11 @@
 import React,{ createContext, useEffect, useState} from 'react'
 import { useContext } from 'react';
 import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../FireBase/FireBaseConfig';
-import { doc, getDoc, setDoc} from 'firebase/firestore';
+import { auth, db,userRef } from '../FireBase/FireBaseConfig';
+import { doc, getDoc, setDoc,getDocs,query,where} from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { Alert} from 'react-native'
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({children}) => {
@@ -15,7 +15,6 @@ export const AuthContextProvider = ({children}) => {
 
     useEffect(() => {
         const unsub = onAuthStateChanged(auth, (user) => {
-            console.log('user auth:',user)
             if(user){
                 setIsAuthenticated(true)
                 setUser(user)
@@ -50,15 +49,12 @@ export const AuthContextProvider = ({children}) => {
         }
 
     }
-    const register = async (username,email,pasword) => {
+    const register = async (username,email,password) => {
         try{
-            const response = await createUserWithEmailAndPassword(auth,email,pasword)
-            console.log('response.user:',response?.user)
-
-
-
+            const response = await createUserWithEmailAndPassword(auth,email,password)
             await setDoc(doc(db,'users',response?.user?.uid),{
                 username,
+                password,
                 userId: response?.user?.uid
             })
             return {success:true, data: response?.user}
@@ -68,6 +64,22 @@ export const AuthContextProvider = ({children}) => {
         }
         
     }
+    // const grabUser = async (user) => {// this will just grab the users after they have been register
+    //     try{
+    //         const q  = query(userRef, where('userId','!=',user.uid))
+    //         const querySnapShot = await getDocs(q)
+    //         let data = []
+    //         querySnapShot.forEach(doc => {
+    //           data.push({...doc.data()})
+    //         })
+    //         //console.log('users:',data)
+    //         setUsers(data)
+    //       }catch(error){
+    //         console.error(`Failed to grab users: ${error}`)
+      
+    //       }
+      
+    //     }
     const updateUserData = async (userId) => {
         const docRef = doc(db,'users',userId)
         const docSnap = await getDoc(docRef);

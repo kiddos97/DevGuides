@@ -14,20 +14,23 @@ import { userRef,db} from '../../FireBase/FireBaseConfig';
 import { query,getDoc,doc } from 'firebase/firestore';
 const AccountScreen = () => {
 
+  const [users, setUsers] = useState('')
 
   const { user } = useAuth();
-  let route  = useRoute();
-  const {userId,username} = route?.params
 
-  console.log('Profile route id:',route?.params.user?.userId)
-  console.log('Profile current user id:',user?.userId)
-  console.log('Profile searched user userId:', userId)
+  let route  = useRoute();
+
+  const {userId} = route?.params
+
+
+  // console.log('user:',userId)
+  // console.log('Profile searched user userId:', userId)
  
-  console.log('username:',route?.params?.user?.username)
+  // console.log('username:',route?.params?.user?.username)
 
   const isCurrentUser = user?.userId === route?.params?.user?.userId;
 
-  const [users, setUsers] = useState('')
+ 
 
   const navigation = useNavigation();
 
@@ -38,23 +41,10 @@ const AccountScreen = () => {
   {name:'React Native'}
   ]
 
-  console.log('userName: ',users.username)
-  console.log('username:',route?.params?.user?.username)
+  // console.log('userName: ',users.username)
+  // console.log('username:',route?.params?.user?.username)
 
   useEffect(() => {
-
-    const fetchUser = async () => {
-      const userDoc = doc(db,'users',userId)
-      try{
-        const userDocRef = await getDoc(userDoc);
-        if(userDocRef.exists()){
-          setUsers(userDocRef.data())
-        }
-      }catch(error){
-        console.error(`No such document ${error}`)
-      }
-    }
-
     if(userId){
       fetchUser();
     }
@@ -63,7 +53,17 @@ const AccountScreen = () => {
   },[userId])
 
 
-
+  const fetchUser = async () => {
+    const userDoc = doc(db,'users',userId)
+    try{
+      const userDocRef = await getDoc(userDoc);
+      if(userDocRef.exists()){
+        setUsers(userDocRef.data())
+      }
+    }catch(error){
+      console.error(`No such document ${error}`)
+    }
+  }
  
 
   return (
@@ -77,14 +77,14 @@ const AccountScreen = () => {
             placeholder={blurhash}
             transition={500}/>
             {!isCurrentUser && (
-            <TouchableOpacity onPress={() => navigation.navigate('Chat',{userId:userId,name:users?.username})}>
+            <TouchableOpacity onPress={() => navigation.navigate('Chat',{userid:userId,name:users?.username})}>
               <AntDesign name='message1' size={30}/>
             </TouchableOpacity>)}
             </View>
             <View style={styles.textcontainer}>
               <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                 {
-                  isCurrentUser ? (<Text style={styles.text}>{route?.params?.user?.username}</Text>) 
+                  isCurrentUser ? (<Text style={styles.text}>{user?.username}</Text>) 
                   : (<Text style={styles.text}>{users.username}</Text>)
                 }
               <MaterialCommunityIcons name='account-edit-outline' size={25}/>

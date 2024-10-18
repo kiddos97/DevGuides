@@ -19,11 +19,11 @@ const RegisterScreen = ({navigation}) => {
 
     const { register } = useAuth();
     const handleRegister = async (values, {resetForm} )=> {
-        setLoading(true);
+        setLoading((prev) => !prev);
         try{
             let response = await register(values.username, values.email, values.password)
             if(response){
-                setLoading(false)
+                setLoading((prev)=> !prev)
                 resetForm({values:initialValues})
                 navigation.navigate('Homepage')
                 Alert.alert('Success','You have registered!')

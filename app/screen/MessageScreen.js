@@ -25,69 +25,69 @@ const MessageScreen = () => {
 
 
 
-  const { user } = useAuth();
-  console.log('message user uid:',user.uid)
+  const { user} = useAuth();
   console.log('user id:', user?.userId)
-  const route = useRoute();
-  const {userid} = route?.params
-  console.log('Message route:',userid)
+  //const route = useRoute();
+  //const {userid} = route?.params
+  //console.log('Message route:',userid)
 
   useEffect(() => {
     if(user?.userId){
-      getUsers();
+      grabUser();
     }
   },[])
   
 
-  const getUsers = async () => {
+  const grabUser = async () => {
     // const roomId = getRoomID(user?.userId,userid);
     // const roomDocRef = doc(db,'rooms',roomId)
     // const subCollection = collection(roomDocRef,'messages');
     // const q = query(subCollection,where('recipentName','!=',user?.username));
     try{
-      const q  = query(IdRef, where('ID','!=',user?.userId))
-      const querySnapShot = await getDocs(q)
-      let data = []
-      querySnapShot.forEach(doc => {
-        data.push({...doc.data()})
-      })
-      console.log('users:',data)
-      setUsers(data)
-    }catch(error){
-      console.error(`Failed to grab users: ${error}`)
-
-    }
+          const q  = query(userRef, where('userId','!=',user?.userId))
+          const querySnapShot = await getDocs(q)
+          let data = []
+          querySnapShot.forEach(doc => {
+            data.push({...doc.data()})
+          })
+          setUsers(data)
+        }catch(error){
+          console.error(`Failed to grab users: ${error}`)
+    
+        }
 
   }
+  
 
   const handleModal = () => {
     setModalVisible(true);
   }
 
 
+
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
-      <View style={{marginTop:30}}>
+      <View style={{marginTop:10}}>
        {users.length > 0 ? (
-       <ChatList currentUser={user} users={users}/>
+      <ChatList currentUser={user} otherusers={users}/>
        ): (<View>
         <Text>Send a new message!</Text>
        </View>)}
        </View>
     </View>
-
+{/* 
     <TouchableOpacity onPress={handleModal}  style={styles.messageIcon}>
         <AntDesign name='pluscircle' size={35} color={color.button}/>
        </TouchableOpacity>
-       <NewMessageModal modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+       <NewMessageModal modalVisible={modalVisible} setModalVisible={setModalVisible}/> */}
   </View>
   )
 }
 
 const styles = StyleSheet.create({
   container:{
-    padding:5,
+    padding:10,
   },
     screen:{
       paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,

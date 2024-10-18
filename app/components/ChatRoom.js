@@ -7,10 +7,10 @@ import { collection, doc,query,onSnapshot, orderBy } from "firebase/firestore";
 import { blurhash } from '../../utils/index';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { Image } from 'expo-image';
-const ChatRoom = ({item, onPress,currentUser}) => {
+import { getRoomID,formatDate } from '../../utils';
+const ChatRoom = ({next_item, onPress,User}) => {
 
-  console.log('current user:',currentUser.userId)
-  // console.log('item user:',item.userId)
+ 
 
   const {user } = useAuth();
  
@@ -18,8 +18,8 @@ const ChatRoom = ({item, onPress,currentUser}) => {
     useEffect(() => {
        
     
-        //let roomId = getRoomID(currentUser?.userId,item?.userId)
-        const docRef = doc(roomRef);
+        roomId = getRoomID(User?.userId,next_item?.userId)
+        const docRef = doc(db,'rooms',roomId);
         const messageRef = collection(docRef,'messages')
         const q = query(messageRef, orderBy('createdAt','desc'));
 
@@ -33,17 +33,17 @@ const ChatRoom = ({item, onPress,currentUser}) => {
         
       },[])
 
-      // const renderTime = () => {
-      //   if(lastMessage){
-      //       let date = lastMessage?.createdAt
-      //       return formatDate(new Date(date?.seconds * 1000))
-      //   }
-      // }
+      const renderTime = () => {
+        if(lastMessage){
+            let date = lastMessage?.createdAt
+            return formatDate(new Date(date?.seconds * 1000))
+        }
+      }
 
       const renderLastMessage =() => {
         if(typeof lastMessage == 'undefined') return 'Loading...'
         if(lastMessage){
-            if(currentUser.userId == lastMessage.userId){
+            if(User.userId == lastMessage.userId){
                 return 'You: '+ lastMessage?.text
             }
             return lastMessage?.text;
@@ -60,16 +60,15 @@ const ChatRoom = ({item, onPress,currentUser}) => {
           <View>
           <Image
               style={{height:hp(4.3), aspectRatio:1, borderRadius:100}}
-              source={user?.profileImage}
               placeholder={blurhash}
               transition={500}/>
           </View>
          <View style={styles.detailsContainer}>
             {/*Name and last message */}
-             <Text numberOfLines={1} style={styles.title}>{item?.name}</Text>
+             <Text numberOfLines={1} style={styles.title}>{next_item?.username}</Text>
              <Text  numberOfLines={2} style={styles.subTitle} >{renderLastMessage()}</Text>
          </View>
-         <Text  numberOfLines={2} style={styles.subTitle} >Time</Text>
+         <Text  numberOfLines={2} style={styles.subTitle} >{renderTime()}</Text>
         </View>
     </TouchableHighlight>
    
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
   container:{
       flexDirection:'row',
       padding: 10,
-      alignItems:'center'
+      alignItems:'center',
   },
   detailsContainer:{
       flex:1,
@@ -99,7 +98,8 @@ const styles = StyleSheet.create({
   },
   title:{
       fontWeight: 500,
-      marginBottom:5
+      marginBottom:5,
+      color:"#000"
       
   },
   subTitle:{

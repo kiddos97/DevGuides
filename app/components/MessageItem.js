@@ -3,9 +3,9 @@ import { View, Text, StyleSheet, ViewComponent, SafeAreaView } from 'react-nativ
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import color from '../../config/color';
 
-const MessageItem = ({ message, currentUser }) => {
-    console.log('message id:',message.userId)
-    if (currentUser?.userId == message?.userId) {
+const MessageItem = ({ message, current_User }) => {
+    
+    if (current_User?.userId === message?.userId) {
         return (
             
             <View style={styles.container}>

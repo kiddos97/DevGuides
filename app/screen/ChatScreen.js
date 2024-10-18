@@ -17,63 +17,80 @@ import { useNavigation } from '@react-navigation/native';
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
   const [document, setDocument] = useState(null)
+
   const route = useRoute();
-  console.log('Chat route:',route)
-  // const { item } = route.params;
-  const { user } = useAuth();
-  console.log('Chat user id:',user.userId)
-  console.log('Chat route name:',route?.params?.name)
+  // console.log('Chat route:',route)
+  const { item } = route.params;
+  console.log('test',item)
+  const { user } = useAuth();//current user logged in
+
+  // console.log('Chat user id:',user.userId)//current user user id
+  // console.log('Chat route name:',route?.params?.name)// searched user
 
   //const { userId} = route?.params
 
   // console.log('chat name: ',name)
   // console.log('chat id:', userId)
-  console.log('userID: ', route?.params?.userId)
+  // console.log('userID: ', route?.params?.userid) //searched user id
 
   const navigation = useNavigation();
 
   const textRef = useRef('');
   const inputRef = useRef(null);
 
+  
   useEffect(() => {
-    createRoom();
-    getUser();
-
-    let roomId = getRoomID(user?.userId,route?.params?.userId)
-    const docRef = doc(db,'rooms',roomId);
-    const messageRef = collection(docRef,'messages')
-    const q = query(messageRef, orderBy('createdAt','asc'));
-    let unsub = onSnapshot(q, (snapshot) => {
-      let allmessage = snapshot.docs.map(doc => {
-        return doc.data()
+    const loadMessages = (roomId) => {
+      const docRef = doc(db, 'rooms', roomId);
+      const messageRef = collection(docRef, 'messages');
+      const q = query(messageRef, orderBy('createdAt', 'asc'));
+      let unsub = onSnapshot(q, (snapshot) => {
+        let allMessages = snapshot.docs.map((doc) => doc.data());
+        setMessages([...allMessages]);
       });
-      setMessages([...allmessage])
-  })
-    return unsub
-    
-  },[]);
-
- 
-  const getUser = async () =>{
-    const docRef = doc(db,'ID',route?.params?.userId)
-    const docSnap = await getDoc(docRef)
-
-    try{
-      if(docSnap.exists()){
-        setDocument(docSnap.data())
-      }
-    }catch(error){//set error
-      console.error(`NO Document exists: ${error}`)
+      return unsub;
+    };
+  
+    const roomId = route?.params?.userid
+      ? getRoomID(user?.userId, route?.params?.userid)
+      : item?.userId
+      ? getRoomID(user?.userId, item.userId)
+      : null;
+  
+    if (roomId) {
+      createRoom();
+      const unsubscribe = loadMessages(roomId);
+      return () => unsubscribe();
     }
+  
+  }, [route?.params?.userid, item?.userId]); // Dependency array
+  
+ 
+  // const getUser = async () =>{
+  //   const docRef = doc(db,'ID',route?.params?.userId)
+  //   const docSnap = await getDoc(docRef)
+
+  //   try{
+  //     if(docSnap.exists()){
+  //       setDocument(docSnap.data())
+  //     }
+  //   }catch(error){//set error
+  //     console.error(`NO Document exists: ${error}`)
+  //   }
 
     
-  }
+  // }
 
-  console.log('document: ',document)
+  //console.log('document: ',document)
 
   const createRoom = async () => {
     try{
-      let roomId = getRoomID(user?.userId,route?.params?.userId)
+      const roomId = route?.params?.userid
+      ? getRoomID(user?.userId, route?.params?.userid)
+      : item?.userId
+      ? getRoomID(user?.userId, item.userId)
+      : null;
+      // let roomId = getRoomID(user?.userId,route?.params?.userid)
       await setDoc(doc(db,'rooms',roomId),{
         roomId,
         createdAt: Timestamp.fromDate(new Date())
@@ -89,31 +106,31 @@ const ChatScreen = () => {
     let message = textRef.current.trim();
     if(!message) return;
     try{
-      let roomId = getRoomID(user?.userId,route?.params?.userId);
+      const roomId = route?.params?.userid
+      ? getRoomID(user?.userId, route?.params?.userid)
+      : item?.userId
+      ? getRoomID(user?.userId, item.userId)
+      : null;
+      // let roomId = getRoomID(user?.userId,route?.params?.userid);
       const docRef = doc(db,'rooms',roomId);
       const messageRef = collection(docRef,'messages')
       textRef.current ="";
       if(inputRef) inputRef?.current?.clear();
+      
+      const recipentNamec = route?.params?.userid 
+  ? route?.params?.name 
+  : item?.userId 
+  ? item.username 
+  : 'Unknown Recipient';
+
 
       const newDoc = await addDoc(messageRef,{
         userId:user?.userId,
         text:message,
         senderName: user?.username,
-        recipentName:route?.params?.name,
+        recipentName:recipentNamec,
         createdAt: Timestamp.fromDate(new Date())
       })
-
-      const IDdoc = setDoc(doc(db,'ID',route?.params?.userId),{
-        name:route?.params?.name,
-        userId:route?.params?.userId
-      })
-      console.log('The id: ', IDdoc.id)
-      // setMessages(prevMessages => [...prevMessages, {
-      //   userId: user?.userId,
-      //   text: message,
-      //   senderName: user?.username,
-      //   createdAt: Timestamp.fromDate(new Date())
-      // }]);
 
       console.log('new message id:', newDoc.id)
     }catch(error){

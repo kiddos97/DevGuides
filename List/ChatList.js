@@ -1,29 +1,32 @@
 import React from 'react'
-import {View, Text,FlatList, StyleSheet} from 'react-native'
+import {View, Text,FlatList, StyleSheet,SafeAreaView} from 'react-native'
 import ChatRoom from '../app/components/ChatRoom'
 import { useNavigation } from '@react-navigation/native';
 
 
-const ChatList = ({users,currentUser}) => {
+const ChatList = ({otherusers,currentUser}) => {
     const navigation = useNavigation();
+
   return (
-   <View style={styles.screen}>
-     <FlatList
-     data={users}
-     keyExtractor={item => item.id}
-     renderItem={({item}) =>
+   <SafeAreaView>
+    <FlatList
+     data={otherusers}
+     contentContainerStyle={{paddingVertical:40}}
+     renderItem={({item,index}) =>
      <ChatRoom
-     currentUser={currentUser}
-     onPress={() => navigation.navigate('Chat')}
-     item={item}
+     User={currentUser}
+     onPress={() => navigation.navigate('Chat',{item})}
+     next_item={item}
     />}
+    keyExtractor={item => Math.random()}
      />
-   </View>
+   </SafeAreaView>
   )
 }
 const styles = StyleSheet.create({
-    screen:{
-        felx:1
-    }
+      text: {
+        fontSize: 18, // Increasing font size for better readability
+        color: '#000', // Ensuring text color is visible
+      },
 })
 export default ChatList

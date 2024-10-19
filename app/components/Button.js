@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, TouchableOpacity, TouchableHighlight} from 'reac
 import color from '../../config/color';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
+// import LinearGradient from 'react-native-linear-gradient';
 
 const Button = ({ onPress,title, backgroundColor, color, disabled, borderColor,fontSize}) => {
 
@@ -12,14 +13,24 @@ const Button = ({ onPress,title, backgroundColor, color, disabled, borderColor,f
   return (
    
     <View >
+             <LinearGradient
+          colors={['#0097b2', '#7ed957']} // Gradient colors
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={styles.gradientContainer}
+        >
         <TouchableHighlight
         activeOpacity={4}
         disabled={disabled}
-        style={[styles.buttonContainer, {backgroundColor:backgroundColor, borderColor:borderColor,}]}
+        style={styles.buttonContainer}
         onPress={onPress}
         >
-            <Text style={[styles.text,{color:color,fontSize:fontSize}]}>{title}</Text>
+        
+
+<Text style={[styles.text,{color:color,fontSize:fontSize,fontFamily:'Helvetica-light'}]}>{title}</Text>
+       
         </TouchableHighlight>
+        </LinearGradient>
     </View>
   )
   
@@ -28,14 +39,19 @@ const Button = ({ onPress,title, backgroundColor, color, disabled, borderColor,f
 const styles = StyleSheet.create({
 
     buttonContainer:{
-        borderWidth:2,
-        borderRadius: 25,
         padding:10,
     },
     text:{
         textAlign:'center',
-        fontWeight:'bold'
+        fontWeight:'bold',
+        
     },
+    gradientContainer: {
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        borderRadius: 10,
+        padding:10,
+      },
 
 });
 export default Button

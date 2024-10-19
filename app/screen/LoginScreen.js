@@ -7,9 +7,8 @@ import * as Yup from 'yup';
 import { Formik} from 'formik';
 import { useAuth } from '../authContext'
 import CustomKeyboardView from '../components/CustomKeyboardView'
-import { LinearGradient } from 'expo-linear-gradient';
-
-
+import { StatusBar } from 'expo-status-bar';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 
 
@@ -65,15 +64,23 @@ const LoginScreen = ({navigation}) => {
       
 
 
+
   return (
    
-    <LinearGradient 
-    colors={['#021253','#1ED7FE']}
-    style={styles.container}>
-           <View>
+  
+           <View style={styles.container}>
            <Image
-           source={require('../assets/applogo.png')}
+           source={require('../assets/DevGuide.png')}
            style={styles.logo}/>
+           <View style={styles.welcome}>
+            <View style={styles.welcomeHcontainer}>
+            <Text style={styles.welcomeText}>Welcome to </Text>
+            <Text style={styles.welcomeStext}>DevGuide</Text>
+            </View>
+            <View style={styles.welcomeLcontainer}>
+            <Text style={styles.welcomeLtext}>The Most Popular Social Media App</Text>
+            </View>
+           </View>
            <SafeAreaView>
            <Formik
            initialValues={initialValues}
@@ -86,8 +93,9 @@ const LoginScreen = ({navigation}) => {
                    <AppTextInput
                    keyboardTYpe='email-address'
                    icon='account' 
-                   placeholder='email' 
-                   backgroundColor={color.light}
+                   placeholder='E-mail' 
+                   backgroundColor="#252525"
+                   borderColor="#8a8a8a"
                    onChangeText={handleChange('email')}
                    values={values.username}
                    onBlur={() => setFieldTouched('email')}
@@ -101,7 +109,8 @@ const LoginScreen = ({navigation}) => {
                    icon='lock'
                    secureTextEntry
                    placeholder='Password'
-                   backgroundColor={color.light}
+                   backgroundColor="#252525"
+                   borderColor="#8a8a8a"
                    onChangeText={handleChange('password')}
                    values={values.password}
                    onBlur={() => setFieldTouched('password')}
@@ -113,7 +122,7 @@ const LoginScreen = ({navigation}) => {
                    <View style={styles.LoginContainer}>
                        {isLoading ? ( 
                        <ActivityIndicator size='large' color={color.white} />) : (
-                       <Button fontSize={15} onPress={handleSubmit} title='Login' backgroundColor={isValid ? color.button: color.button2} color={isValid ? color.white:color.grey} borderColor={color.button}/>
+                       <Button fontSize={20} onPress={handleSubmit} title='Login'color={isValid ? color.white:color.grey}/>
                        )
                        }
                        <View style={styles.textContainer}>
@@ -126,12 +135,13 @@ const LoginScreen = ({navigation}) => {
                    </>
            )}
            </Formik>
+          
 
            </SafeAreaView>
            
-        
+           <StatusBar style="light" />
+
    </View>
-   </LinearGradient>
   
  
   
@@ -140,6 +150,37 @@ const LoginScreen = ({navigation}) => {
 
 
 const styles = StyleSheet.create({
+
+    welcome:{
+        padding:5,
+       
+    },
+    welcomeText:{
+        fontSize:30,
+        marginLeft:20,
+        color:'#ffffff',
+        fontFamily:'Helvetica-light'
+    },
+    welcomeStext:{
+        fontSize:30,
+        color:'#7ed957',
+        fontFamily:'Helvetica-light'
+        
+    },
+    welcomeLtext:{
+        fontSize:15,
+        color:'#ffffff',
+        fontFamily:'Helvetica-light'
+    },
+    welcomeHcontainer:{
+        padding:8,
+        flexDirection:'row'
+    }
+    ,
+    welcomeLcontainer:{
+        padding:10,
+        marginLeft:20
+    },
   
     errormessage:{
         color: color.danger,
@@ -147,22 +188,22 @@ const styles = StyleSheet.create({
     },
     container:{
         flex:1,
-        padding:5
+        padding:10,
+        backgroundColor:"#1f1f1f"
     },
     LoginContainer:{
-        padding:20,
-        marginTop:70,
+        padding:30,
+        marginTop:50,
     },
     logo:{
-        width:170,
-        height:170,
-        alignSelf:'center',
+        width:120,
+        height:120,
+        alignSelf:'left',
         marginVertical:90,
         marginBottom: 10,
-        borderRadius:100
     },
     UserContainer:{
-        marginTop:70,
+        marginTop:30,
         padding:20
     },
     textContainer:{
@@ -171,13 +212,13 @@ const styles = StyleSheet.create({
         alignSelf:'center'
     },
     text:{
-        color:color.textcolor,
+        color:'#8a8a8a',
         textAlign:'center',
         fontSize: 15,
         fontWeight:'bold'
     },
     text1:{
-        color:color.textcolor,
+        color:'#8a8a8a',
         fontSize: 15,
         fontWeight:'bold',
         marginLeft:10
@@ -185,6 +226,14 @@ const styles = StyleSheet.create({
     registercontainer:{
         marginTop:15
     },
+    footer:{
+        flex:1,
+        height:100
+    },
+    footerContainer:{
+        justifyContent:'center',
+        alignItems:'center',
+    }
 })
 
 export default LoginScreen

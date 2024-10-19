@@ -9,13 +9,12 @@ const AppTextInput = ({onPress,placeholder,backgroundColor,borderColor,secureTex
     
   
     <View style={[styles.usernameContainer,{backgroundColor:backgroundColor,borderColor:borderColor}]}>
-      
       <TextInput
       secureTextEntry={secureTextEntry}
       textAlign={textAlign}
       maxLength={maxLength}
       placeholder={placeholder}
-      placeholderTextColor={color.AppBackgroundColor}
+      placeholderTextColor='#8a8a8a'
       onChangeText={onChangeText}
       onBlur={onBlur}
       />
@@ -34,11 +33,13 @@ const AppTextInput = ({onPress,placeholder,backgroundColor,borderColor,secureTex
 const styles = StyleSheet.create({
 
   usernameContainer: {
-    borderRadius: 20,
+    borderRadius: 10,
     flexDirection:'row',
-    padding: 5,
+    padding: 10,
     marginVertical: 10,
     justifyContent:'space-between',
+    borderWidth:2
+    
   },
   icon:{
     margin:10

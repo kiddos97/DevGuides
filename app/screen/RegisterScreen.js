@@ -65,9 +65,13 @@ const RegisterScreen = ({navigation}) => {
     return (
 
             <View style={styles.container}>
-                <View 
+                <View
                 style={styles.backImage}
-                />
+                >
+                    <Image
+                    style={styles.logo}
+                    source={require('../assets/DevGuide.png')}/>
+                </View>
                 <View style={styles.whitesheet}>
                 <View style={styles.headingcontainer}>
                     <Text style={styles.heading}>Register</Text>
@@ -137,9 +141,7 @@ const RegisterScreen = ({navigation}) => {
                                         fontSize={15}
                                     disabled={!isValid}
                                     onPress={handleSubmit} 
-                                    backgroundColor={isValid ? color.button2 : color.button}
-                                    borderColor={color.button} 
-                                    color={isValid ? color.grey : color.white} />)
+                                    color={isValid ? color.white : color.grey} />)
                                 }
                               
                             </View>
@@ -175,6 +177,13 @@ const styles = StyleSheet.create({
         top:0,
         resizedMode: 'cover',
         backgroundColor:'#8a8a8a'
+      },
+      logo:{
+        marginLeft:110,
+        marginTop:30,
+        width:180,
+        height:180,
+        
       },  
     whitesheet:{
         width:'100%',
@@ -183,19 +192,20 @@ const styles = StyleSheet.create({
         bottom:0,
         backgroundColor:'#1f1f1f',
         borderTopLeftRadius: 60,
-        padding:30
+        padding:20
         
   } , 
 
     buttoncontainer:{
-        padding:20
+        padding:10
     },
     container:{
-      flex:1
+      flex:1,
     },
     errormessage:{
         color: color.danger,
-        textAlign:'center'
+        textAlign:'center',
+        fontFamily:'Helvetica-light'
     },
     screen:{
         paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
@@ -205,8 +215,8 @@ const styles = StyleSheet.create({
     heading:{
         fontSize:25,
         textAlign:'center',
-        fontWeight:'bold',
-        color:'#ffffff'
+        color:'#ffffff',
+        fontFamily:'Helvetica-light'
 
     },
     headingcontainer:{
@@ -216,7 +226,7 @@ const styles = StyleSheet.create({
         textAlign:'center',
         marginTop:10,
         fontSize:15,
-        fontWeight:'bold',
+        fontFamily:'Helvetica-light',
         color:'#8a8a8a'
     },
     textContainer:{
@@ -226,13 +236,13 @@ const styles = StyleSheet.create({
     text:{
         color:'#8a8a8a',
         textAlign:'center',
-        fontSize: 12,
-        fontWeight:'bold'
+        fontSize: 15,
+        fontFamily:'Helvetica-light'
     },
     text1:{
         color:'#8a8a8a',
-        fontSize: 12,
-        fontWeight:'bold',
+        fontSize: 15,
+        fontFamily:'Helvetica-light',
         marginLeft:10
     },
 })

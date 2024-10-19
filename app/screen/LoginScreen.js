@@ -184,11 +184,12 @@ const styles = StyleSheet.create({
   
     errormessage:{
         color: color.danger,
-        textAlign:'center'
+        textAlign:'center',
+        fontFamily:'Helvetica-light'
     },
     container:{
         flex:1,
-        padding:10,
+        padding:20,
         backgroundColor:"#1f1f1f"
     },
     LoginContainer:{
@@ -199,8 +200,8 @@ const styles = StyleSheet.create({
         width:120,
         height:120,
         alignSelf:'left',
-        marginVertical:79,
-        marginBottom: 10,
+        marginVertical:110,
+        marginBottom:20,
     },
     UserContainer:{
         marginTop:30,
@@ -215,13 +216,13 @@ const styles = StyleSheet.create({
         color:'#8a8a8a',
         textAlign:'center',
         fontSize: 15,
-        fontWeight:'bold'
+        fontFamily:'Helvetica-light'
     },
     text1:{
         color:'#8a8a8a',
         fontSize: 15,
-        fontWeight:'bold',
-        marginLeft:10
+        marginLeft:10,
+        fontFamily:'Helvetica-light'
     },
     registercontainer:{
         marginTop:15

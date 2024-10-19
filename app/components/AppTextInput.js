@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   usernameContainer: {
     borderRadius: 10,
     flexDirection:'row',
-    padding: 10,
+    padding: 5,
     marginVertical: 10,
     justifyContent:'space-between',
     borderWidth:2

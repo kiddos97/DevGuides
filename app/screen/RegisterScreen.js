@@ -65,10 +65,7 @@ const RegisterScreen = ({navigation}) => {
     return (
 
             <View style={styles.container}>
-                <LinearGradient 
-                start={{x:0,y:0}}
-                end={{x:1,y:0}}
-                colors={[color.button,color.grad1]}
+                <View 
                 style={styles.backImage}
                 />
                 <View style={styles.whitesheet}>
@@ -87,7 +84,8 @@ const RegisterScreen = ({navigation}) => {
                             <AppTextInput
                                     icon='account'
                                     placeholder='Username'
-                                    backgroundColor={color.light}
+                                    backgroundColor='#252525'
+                                    borderColor='#8a8a8a'
                                     value={values.username}
                                     onChangeText={handleChange('username')}
                                     onBlur={() => setFieldTouched('username')}
@@ -98,7 +96,8 @@ const RegisterScreen = ({navigation}) => {
                                     icon='email'
                                     keyboardType='email-address'
                                     placeholder='Email'
-                                    backgroundColor={color.light}
+                                    backgroundColor='#252525'
+                                    borderColor='#8a8a8a'
                                     value={values.email}
                                     onChangeText={handleChange('email')}
                                     onBlur={() => setFieldTouched('email')}
@@ -109,7 +108,8 @@ const RegisterScreen = ({navigation}) => {
                                     icon='lock'
                                     secureTextEntry
                                     placeholder='Password'
-                                    backgroundColor={color.light}
+                                    backgroundColor='#252525'
+                                    borderColor='#8a8a8a'
                                     value={values.password}
                                     onChangeText={handleChange('password')}
                                     onBlur={() => setFieldTouched('password')}
@@ -120,7 +120,8 @@ const RegisterScreen = ({navigation}) => {
                                     icon='lock'
                                     secureTextEntry
                                     placeholder='Confirm Password'
-                                    backgroundColor={color.light}
+                                    backgroundColor='#252525'
+                                    borderColor='#8a8a8a'
                                     value={values.confirmPassword}
                                     onChangeText={handleChange('confirmPassword')}
                                     onBlur={() => setFieldTouched('confirmPassword')}
@@ -133,6 +134,7 @@ const RegisterScreen = ({navigation}) => {
                                     loading ? (
                                         <ActivityIndicator size='large' color={color.white} />) 
                                     :(  <Button title='Register' 
+                                        fontSize={15}
                                     disabled={!isValid}
                                     onPress={handleSubmit} 
                                     backgroundColor={isValid ? color.button2 : color.button}
@@ -172,14 +174,14 @@ const styles = StyleSheet.create({
         position:'absolute',
         top:0,
         resizedMode: 'cover',
-        backgroundColor:color.danger
+        backgroundColor:'#8a8a8a'
       },  
     whitesheet:{
         width:'100%',
         height:'75%',
         position:'absolute',
         bottom:0,
-        backgroundColor:color.white,
+        backgroundColor:'#1f1f1f',
         borderTopLeftRadius: 60,
         padding:30
         
@@ -204,7 +206,7 @@ const styles = StyleSheet.create({
         fontSize:25,
         textAlign:'center',
         fontWeight:'bold',
-        color:color.button
+        color:'#ffffff'
 
     },
     headingcontainer:{
@@ -215,20 +217,20 @@ const styles = StyleSheet.create({
         marginTop:10,
         fontSize:15,
         fontWeight:'bold',
-        color:color.button
+        color:'#8a8a8a'
     },
     textContainer:{
         flexDirection:'row',
         alignSelf:'center'
     },
     text:{
-        color:color.button,
+        color:'#8a8a8a',
         textAlign:'center',
         fontSize: 12,
         fontWeight:'bold'
     },
     text1:{
-        color:color.button,
+        color:'#8a8a8a',
         fontSize: 12,
         fontWeight:'bold',
         marginLeft:10

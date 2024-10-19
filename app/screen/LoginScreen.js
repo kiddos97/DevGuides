@@ -78,7 +78,7 @@ const LoginScreen = ({navigation}) => {
             <Text style={styles.welcomeStext}>DevGuide</Text>
             </View>
             <View style={styles.welcomeLcontainer}>
-            <Text style={styles.welcomeLtext}>The Most Popular Social Media App</Text>
+            <Text style={styles.welcomeLtext}>The Most Popular Social Media App.</Text>
             </View>
            </View>
            <SafeAreaView>
@@ -122,7 +122,7 @@ const LoginScreen = ({navigation}) => {
                    <View style={styles.LoginContainer}>
                        {isLoading ? ( 
                        <ActivityIndicator size='large' color={color.white} />) : (
-                       <Button fontSize={20} onPress={handleSubmit} title='Login'color={isValid ? color.white:color.grey}/>
+                       <Button fontSize={15} onPress={handleSubmit} title='Login'color={isValid ? color.white:color.grey}/>
                        )
                        }
                        <View style={styles.textContainer}>
@@ -193,13 +193,13 @@ const styles = StyleSheet.create({
     },
     LoginContainer:{
         padding:30,
-        marginTop:50,
+        marginTop:10,
     },
     logo:{
         width:120,
         height:120,
         alignSelf:'left',
-        marginVertical:90,
+        marginVertical:79,
         marginBottom: 10,
     },
     UserContainer:{

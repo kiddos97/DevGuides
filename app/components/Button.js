@@ -25,8 +25,6 @@ const Button = ({ onPress,title, backgroundColor, color, disabled, borderColor,f
         style={styles.buttonContainer}
         onPress={onPress}
         >
-        
-
 <Text style={[styles.text,{color:color,fontSize:fontSize,fontFamily:'Helvetica-light'}]}>{title}</Text>
        
         </TouchableHighlight>
@@ -39,7 +37,7 @@ const Button = ({ onPress,title, backgroundColor, color, disabled, borderColor,f
 const styles = StyleSheet.create({
 
     buttonContainer:{
-        padding:10,
+        padding:5,
     },
     text:{
         textAlign:'center',
@@ -50,7 +48,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 15,
         borderRadius: 10,
-        padding:10,
+        padding:5,
       },
 
 });

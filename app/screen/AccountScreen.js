@@ -7,11 +7,16 @@ import {useState, useEffect} from 'react';
 import { useAuth } from '../authContext';
 import { Image } from 'expo-image';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { blurhash } from '../../utils/index';
 import { useRoute } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { userRef,db} from '../../FireBase/FireBaseConfig';
 import { query,getDoc,doc } from 'firebase/firestore';
+import javascript from '../assets/javascript.png'
+
+const blurhash =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
+
 const AccountScreen = () => {
 
   const [users, setUsers] = useState('')
@@ -58,7 +63,7 @@ const AccountScreen = () => {
         <Image
             style={{height:hp(15), aspectRatio:1, borderRadius:100}}
             source={user?.profileImage}
-            placeholder={blurhash}
+            placeholder={{blurhash}}
             transition={500}/>
             {!isCurrentUser && (
             <TouchableOpacity onPress={() => navigation.navigate('Chat',{userid:userId,name:users?.username})}>
@@ -137,9 +142,7 @@ const styles = StyleSheet.create({
     justifyContent:'space-around'
   },
   profileContainer:{
-    padding:10,
-    paddingTop:10,
-
+    padding:20,
   },
   screen:{
     backgroundColor:color.white,

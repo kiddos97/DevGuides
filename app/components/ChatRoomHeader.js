@@ -4,8 +4,8 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import color from '../../config/color';
 import { Image } from 'expo-image';
-import { blurhash } from '../../utils/index';
 import { useAuth } from '../authContext';
+import { blurhash} from '../../utils/index'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
@@ -16,6 +16,9 @@ import {
     MenuTrigger,
   } from 'react-native-popup-menu';
 import { MenuItems } from './CustomMenu';
+
+
+
   
 const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
 
@@ -63,8 +66,8 @@ const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
         <View>
         <Image
         style={{height:hp(4.3), aspectRatio:1, borderRadius:100}}
-        source={user?.profileImage}
-        placeholder={blurhash}
+        source={user?.profileimage}
+        placeholder={{blurhash}}
         transition={500}/>
         </View>
       </MenuTrigger>

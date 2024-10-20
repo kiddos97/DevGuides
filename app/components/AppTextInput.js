@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     padding: 5,
     marginVertical: 10,
     justifyContent:'space-between',
-    borderWidth:2
+    borderWidth:2,
     
   },
   icon:{

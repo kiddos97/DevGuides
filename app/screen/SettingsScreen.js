@@ -79,9 +79,9 @@ const SettingsScreen = () => {
             <View>
                 <View style={styles.profile}>
                 <Image
-                    style={{height:hp(10), aspectRatio:1, borderRadius:100}}
+                    style={{height:hp(15), aspectRatio:1, borderRadius:100}}
                     source={user?.profileImage}
-                    placeholder={blurhash}
+                    placeholder={{blurhash}}
                     transition={500}/>
                 </View>
                 <Text style={styles.text}>{user?.username}</Text>

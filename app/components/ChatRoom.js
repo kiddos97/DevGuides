@@ -60,7 +60,8 @@ const ChatRoom = ({next_item, onPress,User}) => {
           <View>
           <Image
               style={{height:hp(4.3), aspectRatio:1, borderRadius:100}}
-              placeholder={blurhash}
+              placeholder={{blurhash}}
+              source={user?.profileImage}
               transition={500}/>
           </View>
          <View style={styles.detailsContainer}>

@@ -869,3 +869,16 @@ const ChatScreen = ({item, route}) => {
                     <Text style={styles.heading}>Register</Text>
                     <Text style={styles.bottomText}>Create a new account</Text>
                 </View>
+
+
+                   <View style={styles.bodyContainer}>
+    <Text style={styles.bodyText}>Welcome to DevGuide the 
+    Ultimate source to connect new developers to the software world!</Text>
+    <View style={{height:10}}></View>
+    <Text style={styles.bodyText}>
+      Here you are able to connect and work with other like-minded developers, from all different skills. Connect, meet and code!!!
+    </Text>
+   </View>
+
+
+   

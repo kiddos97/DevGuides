@@ -20,7 +20,10 @@ const TabNavigation = () => {
   initialRouteName='Welcome'
   labeled={false}
   barStyle={{ 
-    backgroundColor:color.button,
+    bottom: 10,
+    height: 100,
+    position: 'absolute',
+    backgroundColor:'transparent',
   }}
 >
     <Tab.Screen 
@@ -29,7 +32,7 @@ const TabNavigation = () => {
      options={{
         tabBarColor:color.danger,
         tabBarIcon:() => (
-        <MaterialCommunityIcons name='home' color={color.Buttoncolor} size={25}
+        <MaterialCommunityIcons name='home' color='#8a8a8a' size={20}
         />),
        
      }}
@@ -38,14 +41,14 @@ const TabNavigation = () => {
      name='Search'
      component={SearchScreen}
      options={{
-      tabBarIcon: () => <MaterialCommunityIcons name='account-search' size={25} color={color.Buttoncolor}/>
+      tabBarIcon: () => <MaterialCommunityIcons name='account-search' size={20} color='#8a8a8a'/>
      }}
     />
       <Tab.Screen 
         name="Notification"
      component={NotificationScreen}
      options={{
-        tabBarIcon:() => <MaterialIcons name='notifications' color={color.Buttoncolor} size={25}/>
+        tabBarIcon:() => <MaterialIcons name='notifications' color='#8a8a8a' size={20}/>
      }}
      />
       </Tab.Navigator>

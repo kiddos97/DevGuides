@@ -10,7 +10,7 @@ const Cards = ({title,text1,text2,image,backgroundColor,navigation, color}) => {
     
   return (
     <TouchableOpacity onPress={handlePress}>
- <View style={[styles.container,{backgroundColor}]}>
+ <View style={styles.container}>
     {image && ( <View style={styles.imagecontainer}>
         <Image
     style={styles.image}
@@ -31,25 +31,26 @@ const Cards = ({title,text1,text2,image,backgroundColor,navigation, color}) => {
 
 const styles = StyleSheet.create({
     container:{
-        borderWidth: 4,
+        borderWidth:'0.5px',
         borderRadius:8,
-        borderColor:color.white,
-        padding: 10,
-        backgroundColor:color.TextbackgroundColor
-       
+        width:80,
+        paddingTop:5,
+        borderColor:'#8a8a8a',
+        backgroundColor:"#252525"
     },
     imagecontainer:{
         flexDirection:'row',
         justifyContent:'center'
     },
     image:{
-        width:100,
-        height:100,
-        borderRadius: 35
+        width:30,
+        height:30,
+        borderRadius:100
     },
     text:{
-        fontWeight:'bold',
-        textAlign:'center'
+        textAlign:'center',
+        fontFamily:'Helvetica-light',
+        fontSize:10
     },
     Textcontainer:{
         margin:10
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
         marginVertical:5
     },
     message:{
-        color:color.AppBackgroundColor,
+        color:'#ffffff',
         fontWeight:'bold',
     }
 })

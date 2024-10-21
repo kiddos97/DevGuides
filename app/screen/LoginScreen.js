@@ -150,11 +150,11 @@ const LoginScreen = ({navigation}) => {
 
 
 const styles = StyleSheet.create({
-
     welcome:{
         padding:5,
        
     },
+  
     welcomeText:{
         fontSize:30,
         marginLeft:20,

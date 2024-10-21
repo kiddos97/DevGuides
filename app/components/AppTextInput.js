@@ -13,6 +13,7 @@ const AppTextInput = ({onPress,placeholder,backgroundColor,borderColor,secureTex
       secureTextEntry={secureTextEntry}
       textAlign={textAlign}
       maxLength={maxLength}
+      style={styles.inputColor}
       placeholder={placeholder}
       placeholderTextColor='#8a8a8a'
       onChangeText={onChangeText}
@@ -40,6 +41,9 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     borderWidth:2,
     
+  },
+  inputColor:{
+        color:'#ffffff'
   },
   icon:{
     margin:10

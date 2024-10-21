@@ -54,7 +54,7 @@ const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
 
    
     return (
-    <View style={[styles.container,{paddingTop: ios ? top: top + 10,backgroundColor:backgroundColor}]}>
+    <View style={[styles.container,{paddingTop: ios ? top: top + 10}]}>
          <TouchableOpacity onPress={onPress}>
          { icon && <MaterialCommunityIcons name={icon} color={color.white} size={30} />}
         </TouchableOpacity>
@@ -118,11 +118,12 @@ const styles = StyleSheet.create({
         overflow:'hidden',
         borderBottomLeftRadius:20,
         borderBottomRightRadius:20,
+        backgroundColor:'#252525'
 
     },
     text:{
         color:'#fff',
-        fontWeight:'bold',
+        fontFamily:'Helvetica-light',
         textAlign:'center'
     }
 })

@@ -2,7 +2,7 @@
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import color from '../../config/color';
 import HomeScreen from '../screen/HomeScreen';
 import NotificationScreen from '../screen/NotificationScreen';
@@ -11,28 +11,33 @@ import SearchScreen from '../screen/SearchScreen';
 
 
 const TabNavigation = () => {
-  const Tab = createMaterialBottomTabNavigator();
+  const Tab = createBottomTabNavigator()
 
 
   return (
  
   <Tab.Navigator 
   initialRouteName='Welcome'
-  labeled={false}
-  barStyle={{ 
-    bottom: 10,
-    height: 100,
-    position: 'absolute',
-    backgroundColor:'transparent',
+  screenOptions={{
+    headerShown: false, 
+    tabBarStyle: {
+      position: 'absolute',
+      bottom: 0,
+      height: 100,
+      backgroundColor:'transparent',  
+      elevation: 0, 
+      borderTopWidth: 0, 
+    },
+    tabBarActiveBackgroundColor:'#252525',
+    tabBarShowLabel: false,                  
   }}
 >
     <Tab.Screen 
         name="Welcome"
      component={HomeScreen}
      options={{
-        tabBarColor:color.danger,
         tabBarIcon:() => (
-        <MaterialCommunityIcons name='home' color='#8a8a8a' size={20}
+        <MaterialCommunityIcons name='home' color='#00bf63' size={20}
         />),
        
      }}
@@ -41,14 +46,14 @@ const TabNavigation = () => {
      name='Search'
      component={SearchScreen}
      options={{
-      tabBarIcon: () => <MaterialCommunityIcons name='account-search' size={20} color='#8a8a8a'/>
+      tabBarIcon: () => <MaterialCommunityIcons name='account-search' size={20} color='#00bf63'/>
      }}
     />
       <Tab.Screen 
         name="Notification"
      component={NotificationScreen}
      options={{
-        tabBarIcon:() => <MaterialIcons name='notifications' color='#8a8a8a' size={20}/>
+        tabBarIcon:() => <MaterialIcons name='notifications' color='#00bf63' size={20}/>
      }}
      />
       </Tab.Navigator>

@@ -1,23 +1,47 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {View, Text, StyleSheet,  TouchableHighlight, TouchableOpacity, FlatList, Platform,StatusBar, ActivityIndicator,ImageBackground, ScrollView} from 'react-native'
 import Cards from '../components/Cards'
-import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { GestureHandlerRootView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import color from '../../config/color';
-import person from '../assets/person.jpg';
-import background from '../assets/background.jpg';
 import javascript from '../assets/javascript.png';
 import react from '../assets/react.png';
 import python from '../assets/python.png';
 import { useNavigation } from '@react-navigation/native';
-import ChatRoomHeader from '../components/ChatRoomHeader';
-import { useRoute } from '@react-navigation/native';
+import ChatRoomHeader from '../components/ChatRoomHeader';;
 import { useAuth } from '../authContext';
-import { blurhash } from '../../utils/index'
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import { Image } from 'expo-image';
+import PostComponent from '../components/PostComponent';
+
+
+
 const DATA = [
+  {
+    id: 1,
+    content: `🚀Excited to see where #WebDevelopment is heading! The rise of #AI, #PWAs, and #WebAssembly is going to change the game. Time to level up our coding skills! 💻🔥 #TechTrends #FutureIsNow'`
+  },
+  {
+    id: 2,
+    content: `🚀Excited to see where #WebDevelopment is heading! The rise of #AI, #PWAs, and #WebAssembly is going to change the game. Time to level up our coding skills! 💻🔥 #TechTrends #FutureIsNow'`
+  },
+  {
+    id: 3,
+    content: `🚀Excited to see where #WebDevelopment is heading! The rise of #AI, #PWAs, and #WebAssembly is going to change the game. Time to level up our coding skills! 💻🔥 #TechTrends #FutureIsNow'`
+  },
+  {
+    id: 4,
+    content:`🚀Excited to see where #WebDevelopment is heading! The rise of #AI, #PWAs, and #WebAssembly is going to change the game. Time to level up our coding skills! 💻🔥 #TechTrends #FutureIsNow'`
+  },
+  {
+    id: 5,
+    content: `🚀Excited to see where #WebDevelopment is heading! The rise of #AI, #PWAs, and #WebAssembly is going to change the game. Time to level up our coding skills! 💻🔥 #TechTrends #FutureIsNow'`
+  },
+  {
+    id: 6,
+    content: `🚀Excited to see where #WebDevelopment is heading! The rise of #AI, #PWAs, and #WebAssembly is going to change the game. Time to level up our coding skills! 💻🔥 #TechTrends #FutureIsNow'`
+  },
+];
+
+const DATA1 = [
   {
     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
     image: python,
@@ -57,11 +81,7 @@ const Separator = () => {
 
 const HomeScreen = () => {
 
- 
   const navigation = useNavigation();
-
- 
-
   //current User logged in
   const {user} = useAuth()
   console.log('Welcome username: ',user)
@@ -73,8 +93,6 @@ const HomeScreen = () => {
   const handleMessage = () => {
     navigation.navigate('Message')
   }
-
-  
   return (
     <View
     style={styles.screen}
@@ -99,79 +117,23 @@ const HomeScreen = () => {
         <View style={styles.newcontainer}>
     <Text style={styles.newsText}>Quick Topics</Text>
     <FlatList
-      data={DATA}
+      data={DATA1}
      horizontal
       keyExtractor={item => item.id.toString()}
       renderItem={({item}) => <Cards navigation={navigation} color='#ffffff' image={item.image} title={item.title} backgroundColor={color.grey}/>}
       ItemSeparatorComponent={Separator}/>
    </View>
-   <ScrollView>
-   <View style={styles.card}>
-    <View style={styles.imageText}>
-    <Image
-        style={{height:hp(4.3), aspectRatio:1, borderRadius:100}}
-        source={user?.profileImage}
-        placeholder={{blurhash}}
-        transition={500}/>
-    <View>
-    <Text style={styles.userPost}>Isa Kuhn</Text>
-    <Text style={styles.userTime}>Time</Text>
-    </View>
-    </View>
-    <View style={styles.postContainer}>
-      <Text style={styles.postText}>🚀 Excited to see where #WebDevelopment is heading! 
-        The rise of #AI, #PWAs, and #WebAssembly is going to change the game. 
-        Time to level up our coding skills! 💻🔥 #TechTrends #FutureIsNow
-      </Text>
-    </View>
-  </View>
-  </ScrollView>
+    <FlatList
+    data={DATA}
+    renderItem={({item}) => <PostComponent content={item.content}/>}
+    keyExtractor={item => item.id}
+    />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  card:{
-    padding:20,
-  },
-  image:{
-    width:30,
-    height:30,
-    borderRadius:100
-},
-imageText:{
-  flexDirection:'row',
   
-}
-,
-userPost:{
-  fontFamily:'Helvetica-light',
-  color:'#ffffff',
-  marginLeft:50
-
-}
-,
-userTime:{
-  fontFamily:'Helvetica-light',
-  color:'#ffffff',
-  marginLeft:50,
-  marginTop:5
-
-}
-,
-postContainer:{
-  marginTop:10,
-  padding:10,
-  backgroundColor:'#252525',
-  borderBottomLeftRadius:20,
-  borderBottomRightRadius:20
-
-},
-postText:{
-  fontFamily:'Helvetica-light',
-  color:'#ffffff',
-},
-
   bodyContainer:{
     padding:20
   },
@@ -219,7 +181,7 @@ postText:{
   },
   newcontainer:{
     marginVertical:10,
-    padding:5,
+    padding:10,
   },
   newsText:{
     fontSize:20,

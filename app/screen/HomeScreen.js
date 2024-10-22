@@ -100,10 +100,10 @@ const HomeScreen = () => {
        
         <View>
           <ChatRoomHeader
-          title='DevGuides'
           onPress={handlePress}
+          title={'Welcome back ' + user?.username}
           icon='menu'
-          icon2='android-messages'
+          icon2='new-message'
           onPress2={handleMessage}
           backgroundColor={color.button}
           />

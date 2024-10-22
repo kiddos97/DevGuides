@@ -37,8 +37,9 @@ const TabNavigation = () => {
      component={HomeScreen}
      options={{
         tabBarIcon:() => (
-        <MaterialCommunityIcons name='home' color='#00bf63' size={20}
+        <MaterialCommunityIcons name='home' color='#00bf63' size={25}
         />),
+        gestureEnabled: false
        
      }}
      />
@@ -46,14 +47,14 @@ const TabNavigation = () => {
      name='Search'
      component={SearchScreen}
      options={{
-      tabBarIcon: () => <MaterialCommunityIcons name='account-search' size={20} color='#00bf63'/>
+      tabBarIcon: () => <MaterialCommunityIcons name='account-search' size={25} color='#00bf63'/>
      }}
     />
       <Tab.Screen 
         name="Notification"
      component={NotificationScreen}
      options={{
-        tabBarIcon:() => <MaterialIcons name='notifications' color='#00bf63' size={20}/>
+        tabBarIcon:() => <MaterialIcons name='notifications' color='#00bf63' size={25}/>
      }}
      />
       </Tab.Navigator>

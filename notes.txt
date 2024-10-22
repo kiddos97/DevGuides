@@ -882,3 +882,6 @@ const ChatScreen = ({item, route}) => {
 
 
    import { useAuth } from '../authContext';
+
+
+   {fontSize:hp(3)}]

@@ -13,6 +13,8 @@ import ChatRoomHeader from '../components/ChatRoomHeader';
 //import ChatRoomHeader from '../components/ChatRoomHeader';
 import { useNavigation } from '@react-navigation/native';
 import AccountScreen from '../screen/AccountScreen';
+import PostComponent from '../components/PostComponent';
+import PostScreen from '../screen/PostScreen';
 
 const Stack = createStackNavigator();
 
@@ -34,7 +36,8 @@ const StackNavigation = () => {
         name="Login"
         component={LoginScreen}
         options={{
-          headerShown:false
+          headerShown:false,
+          
         }}
       />
       <Stack.Screen
@@ -69,6 +72,13 @@ const StackNavigation = () => {
       options={{
         header:({route}) => <ChatRoomHeader onPress={()=>navigation.navigate('Welcome')} backgroundColor={color.button} icon='keyboard-backspace' onPress2={() => navigation.navigate('Message')}/>
       }}/>
+      <Stack.Screen
+      name='Post'
+      component={PostScreen}
+      options={{
+        headerShown:false
+      }}
+      />
     </Stack.Navigator>
   );
 }

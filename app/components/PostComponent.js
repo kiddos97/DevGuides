@@ -50,11 +50,11 @@ const PostComponent = ({content}) => {
                  </View>
                  </TouchableHighlight>
         <TouchableOpacity style={styles.reactionIcon}>
-        <MaterialCommunityIcons name="comment-processing-outline" size={20}/>
+        <MaterialCommunityIcons name="comment-processing-outline" size={20} color='#ffffff'/>
           <Text style={styles.reactionText}>Comment</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.reactionIcon}>
-          <EvilIcons name='retweet' size={20}/>
+          <EvilIcons name='retweet' size={20} color='#ffffff'/>
           <Text style={styles.reactionText}>Repost</Text>
         </TouchableOpacity>
       </View>
@@ -93,12 +93,12 @@ const styles = StyleSheet.create({
     
     },
     userLocationContainer:{
-        flexDirection:'row'
+        flexDirection:'row',
     },
     userLocation:{
         fontFamily:'Helvetica-light',
         color:'#ffffff',
-        marginLeft:50,
+        marginLeft:150,
         marginTop:5,
         fontSize:10,
     },

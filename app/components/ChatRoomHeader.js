@@ -16,11 +16,12 @@ import {
     MenuTrigger,
   } from 'react-native-popup-menu';
 import { MenuItems } from './CustomMenu';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 
 
   
-const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
+const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor,icon2}) => {
 
     
 
@@ -56,11 +57,20 @@ const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor}) => {
     return (
     <View style={[styles.container,{paddingTop: ios ? top: top + 10}]}>
          <TouchableOpacity onPress={onPress}>
-         { icon && <MaterialCommunityIcons name={icon} color={color.white} size={30} />}
+          <View style={styles.icon}>
+          { icon && <MaterialCommunityIcons name={icon} color='#ffffff' size={20} />}
+          </View>
         </TouchableOpacity>
         <View>
-            <Text style={[styles.text,{fontSize:hp(3)}]}>{title}</Text>
+          {title && <Text style={styles.text}>{title}</Text>}
         </View>
+        <TouchableOpacity
+        style={styles.messageIcon}
+         onPress={() => navigation.navigate('Post')}>
+        <View style={styles.icon}>
+          {icon2 && <Entypo name={icon2} size={20} color='#ffffff'/>}
+        </View>
+        </TouchableOpacity>
         <Menu>
       <MenuTrigger>
         <View>
@@ -124,8 +134,14 @@ const styles = StyleSheet.create({
     text:{
         color:'#fff',
         fontFamily:'Helvetica-light',
-        textAlign:'center'
-    }
+        textAlign:'center',
+        fontSize:15,
+        padding:10,
+        paddingLeft:20
+    },
+    icon:{
+      margin:10
+    },
 })
 
 export default ChatRoomHeader

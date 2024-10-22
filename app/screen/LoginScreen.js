@@ -135,8 +135,6 @@ const LoginScreen = ({navigation}) => {
                    </>
            )}
            </Formik>
-          
-
            </SafeAreaView>
            
            <StatusBar style="light" />

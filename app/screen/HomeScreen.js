@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import {View, Text, StyleSheet,  TouchableHighlight, TouchableOpacity, FlatList, Platform,StatusBar, ActivityIndicator,ImageBackground, ScrollView} from 'react-native'
 import Cards from '../components/Cards'
 import { GestureHandlerRootView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
@@ -11,7 +11,8 @@ import { useNavigation } from '@react-navigation/native';
 import ChatRoomHeader from '../components/ChatRoomHeader';;
 import { useAuth } from '../authContext';
 import PostComponent from '../components/PostComponent';
-
+import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query, getDocs,where} from "firebase/firestore"; 
+import { IdRef, db, roomRef,userRef } from '../../FireBase/FireBaseConfig';
 
 
 const DATA = [
@@ -84,7 +85,38 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   //current User logged in
   const {user} = useAuth()
-  console.log('Welcome username: ',user)
+  console.log('Homescree:',user)
+
+
+
+
+  const [post, setPost] = useState([])
+
+  useEffect(() => {
+      fetchPosts(); 
+    
+  
+  }, [post]); 
+  
+  const fetchPosts = async () => {
+    try {
+   
+        const q = query(collection(db, 'post'), orderBy('createdAt', 'desc'));
+        const querySnapShot = await getDocs(q);
+        let data = [];
+        querySnapShot.forEach(doc => {
+          data.push({ ...doc.data(),id:doc.id });
+        })
+      
+        setPost(data);
+      }  catch (e) {
+      console.log(`Error: ${e}`);
+    }
+  };
+
+
+  
+ 
 
   const handlePress = () => {
     navigation.openDrawer();
@@ -124,9 +156,9 @@ const HomeScreen = () => {
       ItemSeparatorComponent={Separator}/>
    </View>
     <FlatList
-    data={DATA}
-    renderItem={({item}) => <PostComponent content={item.content}/>}
-    keyExtractor={item => item.id}
+    data={post}
+    renderItem={({item}) => <PostComponent name={item.name} content={item.content} date={item.createdAt.toDate().toLocaleString()}/>}
+    keyExtractor={(item)=> item.id}
     />
     </View>
   )

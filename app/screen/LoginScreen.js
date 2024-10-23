@@ -1,4 +1,4 @@
-import { SafeAreaView, View, StyleSheet,Text, Image, ActivityIndicator,Alert} from 'react-native'
+import { SafeAreaView, View, StyleSheet,Text, Image, ActivityIndicator,Alert,Platform} from 'react-native'
 import AppTextInput from '../components/AppTextInput'
 import color from '../../config/color'
 import Button from '../components/Button'
@@ -68,8 +68,10 @@ const LoginScreen = ({navigation}) => {
   return (
    
   
-           <View style={styles.container}>
-           <Image
+   
+           <CustomKeyboardView>
+            <View style={styles.back}>
+            <Image
            source={require('../assets/DevGuide.png')}
            style={styles.logo}/>
            <View style={styles.welcome}>
@@ -136,10 +138,13 @@ const LoginScreen = ({navigation}) => {
            )}
            </Formik>
            </SafeAreaView>
-           
            <StatusBar style="light" />
+            </View>
+           
 
-   </View>
+        
+    </CustomKeyboardView>
+        
   
  
   
@@ -148,6 +153,11 @@ const LoginScreen = ({navigation}) => {
 
 
 const styles = StyleSheet.create({
+    back:{
+        backgroundColor:'#1f1f1f',
+        flex:1,
+    }
+    ,
     welcome:{
         padding:5,
        
@@ -187,8 +197,6 @@ const styles = StyleSheet.create({
     },
     container:{
         flex:1,
-        padding:20,
-        backgroundColor:"#1f1f1f"
     },
     LoginContainer:{
         padding:30,

@@ -1,31 +1,32 @@
 import React from 'react'
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 
+const ios = Platform.OS === 'ios'
+
 const CustomKeyboardView = ({children,inChat}) => {
 
-    const ios = Platform.OS == 'ios'
+    
 
     let kavConfig = {}
     let ScrollConfig = {}
 
     if(inChat){
-        kavConfig = {keyboardVerticalOffset:90}
+        kavConfig = {keyboardVerticalOffset:0}
         ScrollConfig = {contentContainerStyle:{flex:1}}
     }
   return (
    <KeyboardAvoidingView
    behavior={ios ? 'padding':'height'}
-    {...kavConfig}
-   style={{flex:1}}
+   style={{flex:1,backgroundColor: inChat ? '':'#1f1f1f'}}
+   {...kavConfig}
    >
     <ScrollView
     style={{flex:1}}
-    {...ScrollConfig}
     bounces={false}
     showsVerticalScrollIndicator={false}
+    {...ScrollConfig}
     >
         {children}
-
     </ScrollView>
    </KeyboardAvoidingView>
   )

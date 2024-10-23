@@ -31,12 +31,17 @@ const StackNavigation = () => {
   //   navigation.goBack();
   // }
   return (
-    <Stack.Navigator initialRouteName='Login'>
+    <Stack.Navigator
+    screenOptions={{
+      gestureEnabled:false
+    }}
+    initialRouteName='Login'>
       <Stack.Screen
         name="Login"
         component={LoginScreen}
         options={{
           headerShown:false,
+          gestureEnabled:false
           
         }}
       />
@@ -44,14 +49,15 @@ const StackNavigation = () => {
         name='Homepage'
         component={TabNavigation}
         options={{
-          headerShown: false
-        }}
+          headerShown: false, 
+        gestureEnabled:false}}
       />
       <Stack.Screen
       name="Register"
       component={RegisterScreen}
       options={{
-        headerShown:false
+        headerShown:false,
+        gestureEnable:false
       }}/>
     <Stack.Screen 
      name='Message'
@@ -63,20 +69,29 @@ const StackNavigation = () => {
       name='Chat'
       component={ChatScreen}
       options={{
-        headerShown:false
+        headerShown:false,
+        gestureEnabled:false
       }}
       />
       <Stack.Screen
       name='Profile'
       component={AccountScreen}
       options={{
-        header:({route}) => <ChatRoomHeader onPress={()=>navigation.navigate('Welcome')} backgroundColor={color.button} icon='keyboard-backspace' onPress2={() => navigation.navigate('Message')}/>
+        header:({route}) => 
+        <ChatRoomHeader 
+        onPress={()=>navigation.navigate('Welcome')} 
+        backgroundColor={color.button} 
+        icon='keyboard-backspace' 
+        onPress2={() => navigation.navigate('Message')}
+        />,
+        gestureEnabled:false
       }}/>
       <Stack.Screen
       name='Post'
       component={PostScreen}
       options={{
-        headerShown:false
+        headerShown:false,
+        gestureEnabled:false
       }}
       />
     </Stack.Navigator>

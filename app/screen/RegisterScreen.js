@@ -77,6 +77,7 @@ const RegisterScreen = ({navigation}) => {
                     <Text style={styles.heading}>Register</Text>
                     <Text style={styles.bottomText} >Create a new account</Text>
                 </View>
+                <CustomKeyboardView>
                 <Formik
                    initialValues={initialValues}
                     onSubmit={handleRegister}
@@ -154,6 +155,8 @@ const RegisterScreen = ({navigation}) => {
                         </>
                     )}
                 </Formik>
+                </CustomKeyboardView>
+            
                 </View>
                
             </View>

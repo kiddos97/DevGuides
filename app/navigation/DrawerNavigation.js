@@ -20,14 +20,18 @@ const DrawerNavigation = ({route}) => {
     initialRouteName='Home'
     screenOptions={{
       drawerStyle:{
-        backgroundColor:color.white
+        backgroundColor:color.white,
+        
       }
     }}>
       <Drawer.Screen
       name='Home'
       component={StackNavigation}
       initialParams={{route}}
-      options={{headerShown:false}}/>
+      options={{headerShown:false,
+        swipeEnabled:false
+       
+      }}/>
     <Drawer.Screen 
     name="Settings" 
     component={SettingsScreen}  
@@ -37,6 +41,7 @@ const DrawerNavigation = ({route}) => {
         color:color.textcolor
       },
       drawerActiveTintColor:color.white,
+      swipeEnabled:false,
       header: () => <ChatRoomHeader  icon='keyboard-backspace' onPress={handleBack} backgroundColor={color.button} title='Settings'/> }} />
     </Drawer.Navigator>
 

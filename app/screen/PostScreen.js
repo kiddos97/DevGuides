@@ -1,14 +1,55 @@
-import React from 'react'
-import {View,Text,StyleSheet,SafeAreaView,TextInput,Platform} from 'react-native'
+import React,{useEffect,useState} from 'react'
+import {View,Text,StyleSheet,SafeAreaView,TextInput,Platform,Alert} from 'react-native'
 import {Image} from 'expo-image'
 import { blurhash } from '../../utils/index'
 import { useAuth } from '../authContext'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import CustomKeyboardView from '../components/CustomKeyboardView';
-const PostScreen = () => {
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query, getDoc} from "firebase/firestore"; 
+import { IdRef, db, roomRef } from '../../FireBase/FireBaseConfig';
+const PostScreen = ({navigation}) => {
 
     const { user } = useAuth()
+    const [text,setText] = useState('')
+    const hasUnsavedChanges = Boolean(text);
 
+    const handlePost = async () => {
+        try{
+         await setDoc(doc(db,'post',user?.userId),{
+            name:user.username,
+            content:text,
+            createdAt: Timestamp.fromDate(new Date())
+          })
+          setText('')
+          setTimeout(() =>{
+            navigation.navigate('Welcome')
+            Alert.alert('Success!!', 'post has sent!!');
+          },1000)
+        } catch (error) {
+          console.error("Error creating room:", error);
+        }
+      };
+
+      // Handle the "Cancel" button with unsaved changes check
+  const handleCancel = () => {
+    if (hasUnsavedChanges) {
+      Alert.alert(
+        'Discard changes?',
+        'You have unsaved changes. Are you sure to discard them and leave the screen?',
+        [
+          { text: "Don't leave", style: 'cancel', onPress: () => {} },
+          {
+            text: 'Discard',
+            style: 'destructive',
+            onPress: () => navigation.navigate('Welcome'), // Navigate only if user confirms
+          },
+        ]
+      );
+    } else {
+      navigation.navigate('Welcome'); // No unsaved changes, navigate immediately
+    }
+}
 
   return (
     
@@ -17,12 +58,16 @@ const PostScreen = () => {
     behavior={Platform.OS === "ios" ? "padding" : 'height'}>
           <SafeAreaView  style={styles.screen}>
             <View style={styles.container}>
-                <View style={styles.cancelContainer}>
-                <Text style={styles.text}>Cancel</Text>
-                </View>
-                <View style={styles.postContainer}>
-                <Text style={styles.text}>Post</Text>
-                </View>
+                <TouchableOpacity onPress={handleCancel}>
+                    <View style={styles.cancelContainer}>
+                    <Text style={styles.text}>Cancel</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handlePost}>
+                    <View style={styles.postContainer}>
+                    <Text style={styles.text}>Post</Text>
+                    </View>
+                </TouchableOpacity>
             </View>
             <View style={styles.textcontainer}>
                 <Image
@@ -33,10 +78,12 @@ const PostScreen = () => {
                 />
                 <TextInput
                 style={styles.textarea}
+                value={text}
+                onChangeText={setText}
                 numberOfLines={10}
                 multiline={true}
                 placeholder='Enter a post......'
-                
+                placeholderTextColor='#ffffff'
                 />
             </View>
         </SafeAreaView> 
@@ -75,14 +122,14 @@ const styles = StyleSheet.create({
         fontSize:15
     },
     textcontainer:{
-        borderWidth:4,
         flexDirection:'row',
         padding:10,
         marginTop:10
     },
     textarea:{
         padding:20,
-        borderWidth:4
+        paddingTop:10,
+        color:'#ffffff'
     }
 })
 

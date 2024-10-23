@@ -7,11 +7,12 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import { useAuth } from '../authContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const PostComponent = ({content}) => {
+const PostComponent = ({content,date,name}) => {
 
     const [press,setIsPress] = useState(false)
     const [count, setCount] = useState(0)
     const {user} = useAuth();
+    console.log('user BLOCK',user)
 
     const handleLike = () => {
         setCount(count + 1)
@@ -25,7 +26,7 @@ const PostComponent = ({content}) => {
         placeholder={{blurhash}}
         transition={500}/>
     <View>
-    <Text style={styles.userPost}>Isa Kuhn</Text>
+    <Text style={styles.userPost}>{name}</Text>
     <View style={styles.userLocationContainer}>
     <Text style={styles.userTime}>Time</Text>
     <Text style={styles.userLocation}>Near Domain Street</Text>
@@ -35,6 +36,7 @@ const PostComponent = ({content}) => {
     <View style={styles.postContainer}>
       <Text style={styles.postText}>{content}
       </Text>
+      <Text style={styles.postDate}>{date}</Text>
     </View>
     <View style={styles.reactionContainer}>
     <TouchableHighlight
@@ -104,16 +106,27 @@ const styles = StyleSheet.create({
     },
     postContainer:{
       marginTop:10,
-      padding:10,
+      padding:20,
       backgroundColor:'#252525',
       borderBottomLeftRadius:20,
-      borderBottomRightRadius:20
+      borderBottomRightRadius:20,
     
     },
     postText:{
       fontFamily:'Helvetica-light',
       color:'#ffffff',
     },
+    postDate:{
+
+      marginTop:10,
+      paddin:5,
+      fontSize:9,
+      color:'#8a8a8a',
+      fontFamily:'Helvetica-light',
+      
+
+    },
+
     reactionContainer:{
       flexDirection:'row',
       justifyContent:'space-evenly',

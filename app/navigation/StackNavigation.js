@@ -15,6 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import AccountScreen from '../screen/AccountScreen';
 import PostComponent from '../components/PostComponent';
 import PostScreen from '../screen/PostScreen';
+import CommentScreen from '../screen/CommentScreen';
 
 const Stack = createStackNavigator();
 
@@ -94,6 +95,13 @@ const StackNavigation = () => {
         gestureEnabled:false
       }}
       />
+      <Stack.Screen
+      name='Comment'
+      component={CommentScreen}
+      options={{
+        gestureEnabled:false,
+        header: () => <ChatRoomHeader onPress={handlePress} icon='keyboard-backspace' backgroundColor={color.button}/>
+      }}/>
     </Stack.Navigator>
   );
 }

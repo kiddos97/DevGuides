@@ -16,8 +16,10 @@ const PostScreen = ({navigation}) => {
 
     const handlePost = async () => {
         try{
-         await setDoc(doc(db,'post',user?.userId),{
-            name:user.username,
+          const docRef = doc(db,'post','postID')
+          const postmessageRef = collection(docRef,'post-messages')
+          const newDoc = await addDoc(postmessageRef,{
+            name: user?.username,
             content:text,
             createdAt: Timestamp.fromDate(new Date())
           })
@@ -109,17 +111,16 @@ const styles = StyleSheet.create({
         backgroundColor:'#00bf63'
     },
     cancelContainer:{
-        borderWidth:2,
         padding:5,
         borderRadius:10,
         width:90,
-        backgroundColor:'#8a8a8a'
+        backgroundColor:'#8a8a8a',
     },
     text:{
         textAlign:'center',
         color:'#ffffff',
         fontFamily:'Helvetica-light',
-        fontSize:15
+        fontSize:12
     },
     textcontainer:{
         flexDirection:'row',

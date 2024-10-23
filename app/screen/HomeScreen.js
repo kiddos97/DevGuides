@@ -85,10 +85,6 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   //current User logged in
   const {user} = useAuth()
-  console.log('Homescree:',user)
-
-
-
 
   const [post, setPost] = useState([])
 
@@ -101,19 +97,19 @@ const HomeScreen = () => {
   const fetchPosts = async () => {
     try {
    
-        const q = query(collection(db, 'post'), orderBy('createdAt', 'desc'));
-        const querySnapShot = await getDocs(q);
-        let data = [];
-        querySnapShot.forEach(doc => {
-          data.push({ ...doc.data(),id:doc.id });
-        })
-      
-        setPost(data);
-      }  catch (e) {
-      console.log(`Error: ${e}`);
-    }
-  };
-
+      const docRef = doc(db, 'post','postID')
+      const postmessagRef = collection(docRef, 'post-messages')
+      const q = query(postmessagRef,orderBy('createdAt', 'desc'));
+      const querySnapShot = await getDocs(q);
+      let data = [];
+      querySnapShot.forEach(doc => {
+        data.push({ ...doc.data(),id:doc.id });
+      })
+      setPost([...data]);
+    }  catch (e) {
+    console.log(`Error: ${e}`);
+  }
+};
 
   
  

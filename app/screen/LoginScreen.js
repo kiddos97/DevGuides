@@ -124,7 +124,7 @@ const LoginScreen = ({navigation}) => {
                    <View style={styles.LoginContainer}>
                        {isLoading ? ( 
                        <ActivityIndicator size='large' color={color.white} />) : (
-                       <Button fontSize={15} onPress={handleSubmit} title='Login'color={isValid ? color.white:color.grey}/>
+                       <Button fontSize={15} onPress={handleSubmit} title='Login'color={isValid ? color.white:color.grey} disabled={!isValid}/>
                        )
                        }
                        <View style={styles.textContainer}>

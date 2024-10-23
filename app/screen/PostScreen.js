@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react'
-import {View,Text,StyleSheet,SafeAreaView,TextInput,Platform,Alert} from 'react-native'
+import {View,Text,StyleSheet,SafeAreaView,TextInput,Platform,Alert,ActivityIndicator} from 'react-native'
 import {Image} from 'expo-image'
 import { blurhash } from '../../utils/index'
 import { useAuth } from '../authContext'
@@ -12,9 +12,11 @@ const PostScreen = ({navigation}) => {
 
     const { user } = useAuth()
     const [text,setText] = useState('')
+    const [loading,setLoading] = useState(false)
     const hasUnsavedChanges = Boolean(text);
 
     const handlePost = async () => {
+      setLoading(true)
         try{
           const docRef = doc(db,'post','postID')
           const postmessageRef = collection(docRef,'post-messages')
@@ -25,6 +27,7 @@ const PostScreen = ({navigation}) => {
           })
           setText('')
           setTimeout(() =>{
+            setLoading(false)
             navigation.navigate('Welcome')
             Alert.alert('Success!!', 'post has sent!!');
           },1000)
@@ -67,7 +70,9 @@ const PostScreen = ({navigation}) => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={handlePost}>
                     <View style={styles.postContainer}>
-                    <Text style={styles.text}>Post</Text>
+                      {loading ? <View>
+                        <ActivityIndicator  size='small' color='#fff'/>
+                        </View> :<Text style={styles.text}>Post</Text> }
                     </View>
                 </TouchableOpacity>
             </View>
@@ -109,6 +114,10 @@ const styles = StyleSheet.create({
         borderRadius:10,
         width:90,
         backgroundColor:'#00bf63'
+    },
+    loading:{
+      justifyContent:'center',
+      alignItems:'center'
     },
     cancelContainer:{
         padding:5,

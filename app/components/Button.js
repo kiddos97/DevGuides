@@ -20,12 +20,12 @@ const Button = ({ onPress,title, backgroundColor, color, disabled, borderColor,f
           style={styles.gradientContainer}
         >
         <TouchableHighlight
-        activeOpacity={4}
         disabled={disabled}
         style={styles.buttonContainer}
+        underlayColor='transparent'
         onPress={onPress}
         >
-<Text style={[styles.text,{color:color,fontSize:fontSize,fontFamily:'Helvetica-light'}]}>{title}</Text>
+          <Text style={[styles.text,{color:color,fontSize:fontSize,fontFamily:'Helvetica-light'}]}>{title}</Text>
        
         </TouchableHighlight>
         </LinearGradient>

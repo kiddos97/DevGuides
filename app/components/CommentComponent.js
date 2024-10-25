@@ -8,8 +8,7 @@ import { useAuth } from '../authContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 
-const PostComponent = ({content,date,name}) => {
-
+const CommentComponent = ({content,}) => {
     const [press,setIsPress] = useState(false)
     const [count, setCount] = useState(0)
     const {user} = useAuth();
@@ -28,7 +27,6 @@ const PostComponent = ({content,date,name}) => {
         placeholder={{blurhash}}
         transition={500}/>
     <View>
-    <Text style={styles.userPost}>{name}</Text>
     <View style={styles.userLocationContainer}>
     <Text style={styles.userTime}>Time</Text>
     <Text style={styles.userLocation}>Near Domain Street</Text>
@@ -38,7 +36,7 @@ const PostComponent = ({content,date,name}) => {
     <View style={styles.postContainer}>
       <Text style={styles.postText}>{content}
       </Text>
-      <Text style={styles.postDate}>{date}</Text>
+      {/* <Text style={styles.postDate}>{date}</Text> */}
     </View>
     <View style={styles.reactionContainer}>
     <TouchableHighlight
@@ -49,21 +47,15 @@ const PostComponent = ({content,date,name}) => {
                  style={styles.reactionIcon}
                  >
                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                     <MaterialCommunityIcons name={press ? "heart" : "cards-heart-outline"} size={20} color={press ? '#fff':""}/>
+                     <MaterialCommunityIcons name={press ? "heart" : "cards-heart-outline"} size={20}/>
                      <Text style={styles.reactionText}>{count}</Text>
                  </View>
                  </TouchableHighlight>
         <TouchableOpacity onPress={() => navigation.navigate('Comment')} style={styles.reactionIcon}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <MaterialCommunityIcons name="comment-processing-outline" size={20} color='#ffffff'/>
-            <Text style={styles.reactionText}>{count}</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.reactionIcon}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <EvilIcons name='retweet' size={20} color='#ffffff'/>
-          <Text style={styles.reactionText}>{count}</Text>
-          </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <MaterialCommunityIcons name="comment-processing-outline" size={20}/>
+                <Text style={styles.reactionText}>{count}</Text>
+            </View>
         </TouchableOpacity>
       </View>
   </View>
@@ -113,9 +105,11 @@ const styles = StyleSheet.create({
     postContainer:{
       marginTop:10,
       padding:20,
-      backgroundColor:'#252525',
+      backgroundColor:'#8a8a8a',
       borderBottomLeftRadius:20,
       borderBottomRightRadius:20,
+      borderTopRightRadius:20,
+      borderTopLeftRadius:4
     
     },
     postText:{
@@ -140,20 +134,19 @@ const styles = StyleSheet.create({
     },
     reactionIcon:{
       padding:5,
-      width:70,
+      width:100,
       flexDirection:'row',
-      borderRadius:15,
-      backgroundColor:'#252525',
+      borderRadius:10,
     },
     reactionText:{
-      color:'#ffffff',
+      color:'#000',
       marginLeft:10,
       fontFamily:'Helvetica-light',
-      fontSize:15
+      fontSize:10,
+      textAlign:'center',
+      
      
     },
 })
 
-
-
-export default PostComponent
+export default CommentComponent

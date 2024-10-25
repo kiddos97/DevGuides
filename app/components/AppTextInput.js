@@ -18,7 +18,7 @@ const AppTextInput = ({onPress,placeholder,backgroundColor,borderColor,secureTex
       placeholderTextColor='#8a8a8a'
       onChangeText={onChangeText}
       onBlur={onBlur}
-      />
+      />  
       <View style={styles.inputContainer}>
         <TouchableOpacity onPress={onPress}>
         {icon && <MaterialCommunityIcons name={icon} size={25} style={styles.icon} color={iconcolor}/>}

@@ -1,19 +1,12 @@
-import React, {useState, useEffect} from 'react'
-import {View, Text, StyleSheet, Platform, StatusBar, TouchableOpacity, FlatList,Alert,ActivityIndicator} from 'react-native'
-import SearchComponent from '../components/SearchComponent';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import ListItem from '../../List/ListItem';
-import ListItemDelete from '../../List/ListItemDelete'
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import React, {useState, useEffect,lazy,Suspense} from 'react'
+import {View, Text, StyleSheet, Platform, StatusBar,ActivityIndicator} from 'react-native'
 import color from '../../config/color';
-import NewMessageModal from '../components/NewMessageModal';
-import {  db, userRef, roomRef, IdRef } from '../../FireBase/FireBaseConfig';
-import { collection, doc, setDoc,getDocs,query,where } from "firebase/firestore"; 
-import ChatList from '../../List/ChatList';
+import {  userRef, } from '../../FireBase/FireBaseConfig';
+import { getDocs,query,where } from "firebase/firestore"; 
+
 import { useAuth } from '../authContext';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { getRoomID } from '../../utils';
-import { useRoute } from '@react-navigation/native';
+
+const ChatList = lazy(() => import('../../List/ChatList'))
 
 const MessageScreen = () => {
 
@@ -60,17 +53,14 @@ const MessageScreen = () => {
       <View style={styles.container}>
       <View style={{marginTop:10}}>
        {users.length > 0 ? (
-      <ChatList currentUser={user} otherusers={users}/>
+        <Suspense fallback={<ActivityIndicator size='small' color='#000'/>}>
+            <ChatList currentUser={user} otherusers={users}/>
+        </Suspense>
        ): (<View>
         <Text>Send a new message!</Text>
        </View>)}
        </View>
     </View>
-{/* 
-    <TouchableOpacity onPress={handleModal}  style={styles.messageIcon}>
-        <AntDesign name='pluscircle' size={35} color={color.button}/>
-       </TouchableOpacity>
-       <NewMessageModal modalVisible={modalVisible} setModalVisible={setModalVisible}/> */}
   </View>
   )
 }
@@ -112,11 +102,5 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 4.65,
       }
-      // listContainer:{
-      //   flex:1,
-      //   paddingHorizontal:10,
-      //   marginVertical:10
-      // }
-   
 })
 export default MessageScreen

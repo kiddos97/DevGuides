@@ -9,39 +9,38 @@ const SplashScreen = () => {
 
     const [progress, setProgress] = useState(0);
 
-    useEffect(() => {
-      const timer = setInterval(() => {
-        setProgress((prevProgress) => {
-          if (prevProgress < 1) {
-            return prevProgress + 0.01; // Increase gradually
-          }
-          clearInterval(timer); // Stop once complete
-          return prevProgress;
-        });
-      }, 10); // Adjust interval speed
-  
-      return () => clearInterval(timer); // Cleanup on component unmount
-    }, []);
+  useEffect(() => {
+    const timer = setInterval(() => {
+        setProgress((prev) => {
+            if(prev < 1){
+                return prev + 0.01
+            }
+            clearInterval(timer)
+            return prev
+        })
+
+    },10)
+    return () => clearInterval(timer)
+  },[])
   return (
     <View style={styles.container}>
       <View style={styles.headingContainer}>
-        <Text style={styles.heading}>DevGuides</Text>
         <View style={styles.imageContainer}>
           <Image 
             source={require('../assets/DevGuide.png')}
             style={styles.image}
             resizeMode="contain" // Adjust to maintain aspect ratio
           />
-        </View>
-      </View>
-      <View style={{justifyContent:'center',alignItems:'center',paddingTop:70}}>
+            <View style={{justifyContent:'center',alignItems:'center'}}>
       <ProgressBar 
       progress={progress} 
       width={width*0.8} 
       height={20} 
       color='#7ed957'/>
       </View>
-      <View style={styles.footer}>
+        </View>
+      </View>
+      <View  style={styles.imageContainer}>
         <Image 
           source={require('../assets/People.png')}
           style={styles.footerImage}
@@ -56,16 +55,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1f1f1f',
+    padding:20
   },
   headingContainer: {
-    paddingTop: 90,
-    alignItems: 'center', // Center the content horizontally
-  },
-  heading: {
-    color: '#ffffff',
-    textAlign: 'center',
-    fontFamily: 'Helvetica-light',
-    fontSize: 20,
+    alignItems: 'center',
+    padding:10, // Center the content horizontally
   },
   image: {
     width: 170,
@@ -74,18 +68,17 @@ const styles = StyleSheet.create({
   imageContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop:45
   },
   footer: {
-    justifyContent: 'center',
-    alignItems: 'center',
     position:'absolute',
     bottom: 0,
     left: 0,
-    right: 0
+    right: 0,
   },
   footerImage: {
-    height: 470, // 80% of screen width
-    width: 470,  // 80% of screen width
+    height: 535, // 80% of screen width
+    width: width * 0.8,  // 80% of screen width
   },
   
 });

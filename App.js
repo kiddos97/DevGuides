@@ -18,7 +18,7 @@ export default function App() {
 
     },3000)
 
-  },)
+  },[])
   return (
 
     <MenuProvider>

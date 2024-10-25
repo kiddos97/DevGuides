@@ -916,3 +916,17 @@ const ChatScreen = ({item, route}) => {
     console.log(`Error: ${e}`);
   }
 };
+
+ <ImageBackground 
+        source={require('../assets/splashpage.png')}  // Correct asset loading
+        style={styles.image}
+        resizeMode="cover"
+      >
+        {/* Optional content here */}
+      </ImageBackground>
+
+        <Image
+        source={require('../assets/splashpage.png')}
+        style={styles.image}
+        resizeMode='cover'
+        />

@@ -70,9 +70,9 @@ const PostScreen = ({navigation}) => {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={handlePost}>
                     <View style={styles.postContainer}>
-                      {loading ? <View>
+                      {loading ? 
                         <ActivityIndicator  size='small' color='#fff'/>
-                        </View> :<Text style={styles.text}>Post</Text> }
+                        :<Text style={styles.text}>Post</Text> }
                     </View>
                 </TouchableOpacity>
             </View>

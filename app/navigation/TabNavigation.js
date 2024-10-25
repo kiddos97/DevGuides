@@ -1,13 +1,37 @@
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import color from '../../config/color';
-import HomeScreen from '../screen/HomeScreen';
-import NotificationScreen from '../screen/NotificationScreen';
-import SearchScreen from '../screen/SearchScreen';
+import { lazy,Suspense } from 'react';
+import { ActivityIndicator } from 'react-native';
 
+const HomeScreen = lazy(() => import('../screen/HomeScreen'))
+const NotificationScreen = lazy(() => import('../screen/NotificationScreen'))
+const SearchScreen = lazy(() => import('../screen/SearchScreen'))
+
+const HomeScreenWrapper = (props) => {
+  
+  return(
+    <Suspense fallback={<ActivityIndicator size='small' color='"#000'/>}>
+    <HomeScreen {...props}/>
+  </Suspense>
+  )}
+
+const SearchScreenWrapper = (props) => {
+  
+    return(
+      <Suspense fallback={<ActivityIndicator size='small' color='"#000'/>}>
+        <SearchScreen  {...props}/>
+      </Suspense>
+    )}
+
+const NotificationScreenWrapper = (props) => {
+  
+      return(
+        <Suspense fallback={<ActivityIndicator size='small' color='"#000'/>}>
+        <NotificationScreen  {...props}/>
+      </Suspense>
+      )}
 
 
 const TabNavigation = () => {
@@ -33,8 +57,8 @@ const TabNavigation = () => {
   }}
 >
     <Tab.Screen 
-        name="Welcome"
-     component={HomeScreen}
+      name="Welcome"
+     component={HomeScreenWrapper}
      options={{
         tabBarIcon:() => (
         <MaterialCommunityIcons name='home' color='#00bf63' size={25}
@@ -45,14 +69,14 @@ const TabNavigation = () => {
      />
      <Tab.Screen
      name='Search'
-     component={SearchScreen}
+     component={SearchScreenWrapper}
      options={{
       tabBarIcon: () => <MaterialCommunityIcons name='account-search' size={25} color='#00bf63'/>
      }}
     />
-      <Tab.Screen 
+    <Tab.Screen 
         name="Notification"
-     component={NotificationScreen}
+        component={NotificationScreenWrapper}
      options={{
         tabBarIcon:() => <MaterialIcons name='notifications' color='#00bf63' size={25}/>
      }}

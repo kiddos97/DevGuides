@@ -2,11 +2,23 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import color from '../../config/color';
 import StackNavigation from './StackNavigation';
 import ChatRoomHeader from '../components/ChatRoomHeader';
-import SettingsScreen from '../screen/SettingsScreen';
 import { useNavigation } from '@react-navigation/native';
-
+import { lazy,Suspense } from 'react';
+import { ActivityIndicator } from 'react-native';
 
 const Drawer = createDrawerNavigator();
+
+const SettingsScreen = lazy(() => import('../screen/SettingsScreen'))
+
+const SettingsScreenWrapper = (props) => {
+  
+  return (
+
+  <Suspense fallback={<ActivityIndicator size='small' color='#000' />}>
+    <SettingsScreen {...props}/>
+  </Suspense>
+
+)}
 
 const DrawerNavigation = ({route}) => {
   const navigation = useNavigation();
@@ -34,7 +46,7 @@ const DrawerNavigation = ({route}) => {
       }}/>
     <Drawer.Screen 
     name="Settings" 
-    component={SettingsScreen}  
+    component={SettingsScreenWrapper}  
     options={{ 
       drawerLabel: 'Settings',
       drawerLabelStyle:{

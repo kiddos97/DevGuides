@@ -9,7 +9,7 @@ const color = {
     medium:'#E5B800',
     dark:"#0c0c0c",
     danger:"#E50000",
-    lightblue: '#3DE2E5',
+    lightblue: '#7ed957',
     Buttoncolor:'#040053',
     textcolor:'#040053',
     grey:'#D3D3D3',

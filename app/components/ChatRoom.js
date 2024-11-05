@@ -16,8 +16,6 @@ const ChatRoom = ({next_item, onPress,User}) => {
  
     const [lastMessage, setLastMessage] = useState(undefined);
     useEffect(() => {
-       
-    
         roomId = getRoomID(User?.userId,next_item?.userId)
         const docRef = doc(db,'rooms',roomId);
         const messageRef = collection(docRef,'messages')
@@ -39,7 +37,6 @@ const ChatRoom = ({next_item, onPress,User}) => {
             return formatDate(new Date(date?.seconds * 1000))
         }
       }
-
       const renderLastMessage =() => {
         if(typeof lastMessage == 'undefined') return 'Loading...'
         if(lastMessage){
@@ -80,7 +77,7 @@ const ChatRoom = ({next_item, onPress,User}) => {
 const styles = StyleSheet.create({
   container:{
       flexDirection:'row',
-      padding: 10,
+      padding: 15,
       alignItems:'center',
   },
   detailsContainer:{

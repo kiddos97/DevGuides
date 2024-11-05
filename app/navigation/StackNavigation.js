@@ -1,7 +1,5 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { DrawerActions } from '@react-navigation/native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoginScreen from '../screen/LoginScreen';
 import TabNavigation from './TabNavigation';
 import color from '../../config/color';
@@ -16,7 +14,7 @@ const MessageScreen = lazy(() => import('../screen/MessageScreen'))
 const AccountScreen = lazy(() => import('../screen/AccountScreen'))
 const PostScreen = lazy(() => import('../screen/PostScreen'))
 const CommentScreen = lazy(() => import('../screen/CommentScreen'))
-
+const CommentReplyScreen = lazy(() => import('../screen/CommentReplyScreen'))
 
 const RegisterScreenWrapper = (props) => {
   
@@ -79,6 +77,29 @@ const CommentScreenWrapper = (props) => {
 
 }
 
+const CommentReplyScreenWrapper = (props) => {
+  
+  return (
+    <Suspense fallback={<ActivityIndicator size='small' color='#000'/>}>
+    <CommentReplyScreen  {...props}/>
+  </Suspense>
+
+  )
+
+}
+
+const config = {
+  animation: 'spring',
+  config: {
+    stiffness: 1000,
+    damping: 500,
+    mass: 3,
+    overshootClamping: true,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01,
+  },
+};
+
 const Stack = createStackNavigator();
 
 const StackNavigation = () => {
@@ -87,12 +108,12 @@ const StackNavigation = () => {
 
 
   const handlePress = () => {
-    //navigation.dispatch(DrawerActions.openDrawer())
     navigation.navigate('Welcome');
   }
-  // const handleBack = () => {
-  //   navigation.goBack();
-  // }
+  const handleComment = () => {
+    navigation.navigate('Comment')
+  }
+
   return (
     <Stack.Navigator
     screenOptions={{
@@ -163,6 +184,17 @@ const StackNavigation = () => {
       options={{
         gestureEnabled:false,
         header: () => <ChatRoomHeader onPress={handlePress} icon='keyboard-backspace' backgroundColor={color.button}/>
+      }}/>
+      <Stack.Screen
+      name='CommentReply'
+      component={CommentReplyScreenWrapper}
+      options={{
+        ransitionSpec: {
+          open: config,
+          close: config,
+        },
+        headerShown:false,
+        gestureEnabled:false,
       }}/>
     </Stack.Navigator>
   );

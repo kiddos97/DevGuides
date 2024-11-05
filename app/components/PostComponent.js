@@ -21,6 +21,7 @@ const PostComponent = ({content,date,name}) => {
     }
   return (
     <View style={styles.card}>
+    <View style={styles.postContainer}>
     <View style={styles.imageText}>
     <Image
         style={{height:hp(4.3), aspectRatio:1, borderRadius:100}}
@@ -35,12 +36,11 @@ const PostComponent = ({content,date,name}) => {
     </View>
     </View>
     </View>
-    <View style={styles.postContainer}>
       <Text style={styles.postText}>{content}
       </Text>
       <Text style={styles.postDate}>{date}</Text>
-    </View>
-    <View style={styles.reactionContainer}>
+      <View style={{borderBottomColor:'#8a8a8a',borderBottomWidth:'0.5px',marginTop:30}}></View>
+      <View style={styles.reactionContainer}>
     <TouchableHighlight
                  onShowUnderlay={() => setIsPress(true)}
                  onHideUnderlay={() => setIsPress(false)}
@@ -66,6 +66,8 @@ const PostComponent = ({content,date,name}) => {
           </View>
         </TouchableOpacity>
       </View>
+    </View>
+ 
   </View>
   )
 }
@@ -82,6 +84,7 @@ const styles = StyleSheet.create({
     },
     imageText:{
       flexDirection:'row',
+      marginBottom:20
       
     }
     ,
@@ -106,8 +109,8 @@ const styles = StyleSheet.create({
     userLocation:{
         fontFamily:'Helvetica-light',
         color:'#ffffff',
-        marginLeft:150,
         marginTop:5,
+        marginLeft:100,
         fontSize:10,
     },
     postContainer:{
@@ -116,6 +119,7 @@ const styles = StyleSheet.create({
       backgroundColor:'#252525',
       borderBottomLeftRadius:20,
       borderBottomRightRadius:20,
+      borderTopRightRadius:20
     
     },
     postText:{
@@ -129,21 +133,16 @@ const styles = StyleSheet.create({
       fontSize:9,
       color:'#8a8a8a',
       fontFamily:'Helvetica-light',
-      
-
     },
 
     reactionContainer:{
       flexDirection:'row',
-      justifyContent:'space-evenly',
+      justifyContent:'space-between',
       marginTop:20
     },
     reactionIcon:{
       padding:5,
-      width:70,
       flexDirection:'row',
-      borderRadius:15,
-      backgroundColor:'#252525',
     },
     reactionText:{
       color:'#ffffff',

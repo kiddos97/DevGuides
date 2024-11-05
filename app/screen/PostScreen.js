@@ -21,6 +21,7 @@ const PostScreen = ({navigation}) => {
           const docRef = doc(db,'post','postID')
           const postmessageRef = collection(docRef,'post-messages')
           const newDoc = await addDoc(postmessageRef,{
+            id:user.userId,
             name: user?.username,
             content:text,
             createdAt: Timestamp.fromDate(new Date())

@@ -70,7 +70,7 @@ const ChatScreen = () => {
       console.error("Error creating room:", error);
     }
   };
-  console.log('Message',messages)
+
 
   const handleSend = async () => {
     let message = textRef.current.trim();
@@ -112,10 +112,10 @@ const ChatScreen = () => {
       style={styles.container}
     >
       <ChatRoomHeader 
-      title={route?.params?.name} 
+      title={item.username} 
       backgroundColor={color.button} 
       icon='keyboard-backspace'
-      onPress={() => navigation.navigate('Welcome')}/>
+      onPress={() => navigation.navigate('Message')}/>
       <View style={styles.messagesContainer}>
         <MessageList messages={messages} currentUser={user} />
       </View>
@@ -132,7 +132,7 @@ const ChatScreen = () => {
             <View style={styles.sendButton}>
             <Feather
             name='send'
-            size={hp(2.7)}
+            size={20}
             color='#737373'/>
             </View>
           </TouchableOpacity>
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   messagesContainer: {
     flex: 1,
     paddingBottom: 10,
-    padding:10 // Adjust this value according to your needs
+    padding:5 // Adjust this value according to your needs
   },
   inputContainer: {
     flexDirection: 'row',
@@ -168,18 +168,16 @@ const styles = StyleSheet.create({
     backgroundColor:color.white,
     borderWidth:2,
     borderColor:color.grey,
-    padding:5,
     borderRadius:30
   },
   textinput:{
     flex:1,
-    marginRight:2
+    marginRight:2,
+    padding:5
   },
   sendButton: {
-    padding: 10,
-    borderRadius:100,
-    marginRight:1,
-    backgroundColor:color.grey
+    padding: 5,
+    marginRight:1
   },
 });
 

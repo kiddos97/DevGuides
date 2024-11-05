@@ -1,8 +1,5 @@
-import React,{useState,useEffect} from 'react'
-import {View, Text, StyleSheet,  TouchableHighlight, TouchableOpacity, FlatList, Platform,StatusBar, ActivityIndicator,ImageBackground, ScrollView} from 'react-native'
-import Cards from '../components/Cards'
-import { GestureHandlerRootView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import React,{useState,useEffect,lazy, Suspense} from 'react'
+import {View, Text, StyleSheet,TouchableOpacity, FlatList, Platform,StatusBar, ActivityIndicator} from 'react-native'
 import color from '../../config/color';
 import javascript from '../assets/javascript.png';
 import react from '../assets/react.png';
@@ -10,37 +7,14 @@ import python from '../assets/python.png';
 import { useNavigation } from '@react-navigation/native';
 import ChatRoomHeader from '../components/ChatRoomHeader';;
 import { useAuth } from '../authContext';
-import PostComponent from '../components/PostComponent';
-import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query, getDocs,where} from "firebase/firestore"; 
-import { IdRef, db, roomRef,userRef } from '../../FireBase/FireBaseConfig';
+
+import {  collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query, getDocs,where} from "firebase/firestore"; 
+import {db} from '../../FireBase/FireBaseConfig';
+
+const PostComponent = lazy(() => import('../components/PostComponent'))
+const Cards = lazy(() => import('../components/Cards'))
 
 
-const DATA = [
-  {
-    id: 1,
-    content: `🚀Excited to see where #WebDevelopment is heading! The rise of #AI, #PWAs, and #WebAssembly is going to change the game. Time to level up our coding skills! 💻🔥 #TechTrends #FutureIsNow'`
-  },
-  {
-    id: 2,
-    content: `🚀Excited to see where #WebDevelopment is heading! The rise of #AI, #PWAs, and #WebAssembly is going to change the game. Time to level up our coding skills! 💻🔥 #TechTrends #FutureIsNow'`
-  },
-  {
-    id: 3,
-    content: `🚀Excited to see where #WebDevelopment is heading! The rise of #AI, #PWAs, and #WebAssembly is going to change the game. Time to level up our coding skills! 💻🔥 #TechTrends #FutureIsNow'`
-  },
-  {
-    id: 4,
-    content:`🚀Excited to see where #WebDevelopment is heading! The rise of #AI, #PWAs, and #WebAssembly is going to change the game. Time to level up our coding skills! 💻🔥 #TechTrends #FutureIsNow'`
-  },
-  {
-    id: 5,
-    content: `🚀Excited to see where #WebDevelopment is heading! The rise of #AI, #PWAs, and #WebAssembly is going to change the game. Time to level up our coding skills! 💻🔥 #TechTrends #FutureIsNow'`
-  },
-  {
-    id: 6,
-    content: `🚀Excited to see where #WebDevelopment is heading! The rise of #AI, #PWAs, and #WebAssembly is going to change the game. Time to level up our coding skills! 💻🔥 #TechTrends #FutureIsNow'`
-  },
-];
 
 const DATA1 = [
   {
@@ -148,12 +122,17 @@ const HomeScreen = () => {
       data={DATA1}
      horizontal
       keyExtractor={item => item.id.toString()}
-      renderItem={({item}) => <Cards navigation={navigation} color='#ffffff' image={item.image} title={item.title} backgroundColor={color.grey}/>}
+      renderItem={({item}) =>
+        <Suspense fallback={<ActivityIndicator size='small' color='#000'/>}>
+          <Cards navigation={navigation} color='#ffffff' image={item.image} title={item.title} backgroundColor={color.grey}/>
+        </Suspense>}
       ItemSeparatorComponent={Separator}/>
    </View>
     <FlatList
     data={post}
-    renderItem={({item}) => <PostComponent name={item.name} content={item.content} date={item.createdAt.toDate().toLocaleString()}/>}
+    renderItem={({item}) => <Suspense fallback={<ActivityIndicator size='small' color='#000'/>}>
+      <PostComponent name={item.name} content={item.content} date={item.createdAt.toDate().toLocaleString()}/>
+      </Suspense>}
     keyExtractor={(item)=> item.id}
     />
     </View>

@@ -9,19 +9,21 @@ const MessageItem = ({ message, current_User }) => {
         return (
             
             <View style={styles.container}>
-                <View style={{width:wp(60)}}>
+                <View style={{width:wp(70)}}>
                     <View style={[styles.textContainer,{backgroundColor:color.grey}]}>
-                    <Text style={{ fontSize: hp(1.9) }}>{message?.text}</Text>
+                    <Text style={{ fontSize: hp(1.5),fontFamily:'Helvetica-light' }}>{message?.text}</Text>
                     </View>
+                    <Text style={styles.time}>{message.createdAt.toDate().toLocaleTimeString()}</Text>
                 </View>
             </View>
         );
     } else {
         return (
-            <View style={[styles.leftcontainer, , {width:wp(60)}]}>
+            <View style={[styles.leftcontainer, , {width:wp(70)}]}>
                 <View style={[styles.lefttextcontainer, { backgroundColor: color.lightblue }]}>
-                        <Text style={{ fontSize: hp(1.9) }}>{message?.text}</Text>
+                        <Text style={{ fontSize: hp(1.5),fontFamily:'Helvetica-light' }}>{message?.text}</Text>
                     </View>
+                    <Text style={styles.lefttime}>{message.createdAt.toDate().toLocaleTimeString()}</Text>
             </View>
            
         );
@@ -32,16 +34,14 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
-        marginBottom: 3,
-        marginRight: 3
+        marginBottom: 10,
+        marginRight: 1
     },
     textContainer: {
-        borderRadius: 30,
-        padding: 10,
+        padding:5,
+        borderRadius: 10,
         felx:1,
         alignSelf:'flex-end',
-        paddingLeft:10,
-        paddingRight:10,
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
@@ -51,16 +51,14 @@ const styles = StyleSheet.create({
         shadowRadius: 4.65,
     },
     leftcontainer: {
-        marginLeft: 3,
-        marginBottom: 3
+        marginLeft: 1,
+        marginBottom: 10
     },
     lefttextcontainer: {
-        padding: 5,
+        padding:5,
         flex:1,
         alignSelf:'flex-start',
-        paddingLeft:5,
-        paddingRight:5,
-        borderRadius:30,
+        borderRadius:10,
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
@@ -68,7 +66,19 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 1,
         shadowRadius: 4.65,
-
+    },
+    time:{
+        fontSize:8,
+        fontFamily:'Helvetica-light',
+        alignSelf:'flex-end',
+        marginTop:10,
+        paddingLeft:5
+    },
+    lefttime:{
+        fontSize:8,
+        fontFamily:'Helvetica-light',
+        marginTop:10,
+        paddingLeft:5
     }
 });
 

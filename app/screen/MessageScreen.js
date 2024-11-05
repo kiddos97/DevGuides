@@ -3,19 +3,16 @@ import {View, Text, StyleSheet, Platform, StatusBar,ActivityIndicator} from 'rea
 import color from '../../config/color';
 import {  userRef, } from '../../FireBase/FireBaseConfig';
 import { getDocs,query,where } from "firebase/firestore"; 
-
 import { useAuth } from '../authContext';
 
 const ChatList = lazy(() => import('../../List/ChatList'))
 
 const MessageScreen = () => {
 
- 
-  const [modalVisible, setModalVisible] = useState(false);
+
   const [users, setUsers] = useState([]);
 
   const { user} = useAuth();
-
 
   useEffect(() => {
     if(user?.userId){
@@ -40,18 +37,11 @@ const MessageScreen = () => {
         }
 
   }
-  
-
-  const handleModal = () => {
-    setModalVisible(true);
-  }
-
-
 
   return (
     <View style={styles.screen}>
       <View style={styles.container}>
-      <View style={{marginTop:10}}>
+      <View style={{marginTop:5}}>
        {users.length > 0 ? (
         <Suspense fallback={<ActivityIndicator size='small' color='#000'/>}>
             <ChatList currentUser={user} otherusers={users}/>
@@ -66,41 +56,18 @@ const MessageScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  container:{
-    padding:10,
-  },
     screen:{
       paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
       flex:1,
       backgroundColor:color.white
-    },
-    headingText:{
-      textAlign:'center',
-      fontSize:25,
-      fontWeight:'bold',
-      marginBottom:15,
-      color:color.white
-
     },
     text:{
       color:'#fff',
       fontWeight:'bold',
       fontSize:15
       },
-      messageIcon:{
-        borderRadius:100,
-        backgroundColor:color.grey,
-        position:'absolute',
-        bottom:20,
-        right:20,
-        padding:10,
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 7,
-        },
-        shadowOpacity: 1,
-        shadowRadius: 4.65,
+      container:{
+        padding:10
       }
 })
 export default MessageScreen

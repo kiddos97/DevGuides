@@ -119,7 +119,8 @@ const styles = StyleSheet.create({
       backgroundColor:'#252525',
       borderBottomLeftRadius:20,
       borderBottomRightRadius:20,
-      borderTopRightRadius:20
+      borderTopRightRadius:20,
+      borderTopLeftRadius:20
     
     },
     postText:{

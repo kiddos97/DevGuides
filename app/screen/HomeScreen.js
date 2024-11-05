@@ -48,8 +48,6 @@ const DATA1 = [
     title: 'Javascript',
   },
 ];
-
-
 const Separator = () => {
   return <View style={{marginRight:10}}/>
 }
@@ -64,8 +62,6 @@ const HomeScreen = () => {
 
   useEffect(() => {
       fetchPosts(); 
-    
-  
   }, [post]); 
   
   const fetchPosts = async () => {
@@ -84,14 +80,9 @@ const HomeScreen = () => {
     console.log(`Error: ${e}`);
   }
 };
-
-  
- 
-
   const handlePress = () => {
     navigation.openDrawer();
   }
-
   const handleMessage = () => {
     navigation.navigate('Message')
   }

@@ -122,12 +122,12 @@ const styles = StyleSheet.create({
     container:{
         flexDirection:'row',
         justifyContent:'space-between',
-        padding:20,
-        paddingLeft:20,
-        paddingRight:20,
+        padding:10,
+        paddingLeft:10,
+        paddingRight:10,
         overflow:'hidden',
-        borderBottomLeftRadius:20,
-        borderBottomRightRadius:20,
+        borderBottomLeftRadius:10,
+        borderBottomRightRadius:10,
         backgroundColor:'#252525'
 
     },

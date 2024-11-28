@@ -7,7 +7,6 @@ import Button from '../components/Button';
 import * as Yup from 'yup';
 import { useAuth,  } from '../authContext';
 import CustomKeyboardView from '../components/CustomKeyboardView';
-import { LinearGradient } from 'expo-linear-gradient';
 
 
 

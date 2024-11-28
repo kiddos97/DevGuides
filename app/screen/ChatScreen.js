@@ -87,10 +87,10 @@ const ChatScreen = () => {
       if(inputRef) inputRef?.current?.clear();
       
       const recipentNamec = route?.params?.userid 
-  ? route?.params?.name 
-  : item?.userId 
-  ? item.username 
-  : 'Unknown Recipient';
+            ? route?.params?.name 
+            : item?.userId 
+            ? item.username 
+            : 'Unknown Recipient';
 
 
       const newDoc = await addDoc(messageRef,{

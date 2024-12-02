@@ -30,7 +30,6 @@ const CommentComponent = ({content,name}) => {
       
   const fetchReply = async () => {
     try {
-   
       const docRef = doc(db, 'post','postID')
       const postmessageRef = collection(docRef, 'post-messages')
       const replymessageRef = doc(postmessageRef,'sPgBSFVL9frm0RLgoikW')

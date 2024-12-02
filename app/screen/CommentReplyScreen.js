@@ -15,7 +15,7 @@ const CommentReplyScreen = () => {
   const [loading,setLoading] = useState(false)
   const hasUnsavedChanges = Boolean(text);
   const navigation = useNavigation();
-  const handlePost = async () => {
+  const handlePost = async ({postid,commentid}) => {
     setLoading(true)
       try{
         const docRef = doc(db,'post','postID')

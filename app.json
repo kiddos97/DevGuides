@@ -13,9 +13,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "newArchEnabled":true
     },
     "android": {
+      "newArchEnabled":true,
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
       }

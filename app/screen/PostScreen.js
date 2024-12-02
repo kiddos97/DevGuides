@@ -6,26 +6,29 @@ import { useAuth } from '../authContext'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import CustomKeyboardView from '../components/CustomKeyboardView';
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query, getDoc} from "firebase/firestore"; 
-import { IdRef, db, roomRef } from '../../FireBase/FireBaseConfig';
+import {  addDoc, collection, doc,Timestamp} from "firebase/firestore"; 
+import { db} from '../../FireBase/FireBaseConfig';
+import { useDispatch } from 'react-redux'
+import { addPost } from '../features/PostandComments/socialSlice';
 const PostScreen = ({navigation}) => {
 
     const { user } = useAuth()
     const [text,setText] = useState('')
     const [loading,setLoading] = useState(false)
     const hasUnsavedChanges = Boolean(text);
+    const dispatch = useDispatch()
 
-    const handlePost = async () => {
+    const handlePost = async () => {   // grab unique id from firebase and put it in the redux store
       setLoading(true)
         try{
-          const docRef = doc(db,'post','postID')
-          const postmessageRef = collection(docRef,'post-messages')
-          const newDoc = await addDoc(postmessageRef,{
+          const newDoc = await addDoc(collection(db,'posts'),{
             id:user.userId,
             name: user?.username,
             content:text,
             createdAt: Timestamp.fromDate(new Date())
           })
+          console.log('New post id: ', newDoc.id)
+          dispatch(addPost({id:newDoc.id}))// grabbing the id of the post and will set to redux store
           setText('')
           setTimeout(() =>{
             setLoading(false)

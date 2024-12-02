@@ -5,7 +5,8 @@ import { AuthContextProvider } from './app/authContext';
 import { StatusBar } from 'expo-status-bar';
 import {useEffect,useState} from 'react'
 import SplashScreen from './app/screen/SplashScreen';
-
+import store from './app/store';
+import { Provider } from 'react-redux';
 export default function App() {
 
   const [loading,setLoading] = useState(true)
@@ -19,7 +20,8 @@ export default function App() {
   },[])
   return (
 
-    <MenuProvider>
+    <Provider store={store}>
+        <MenuProvider>
           <AuthContextProvider>
         <NavigationContainer>
           {loading ? <SplashScreen/> :   <DrawerNavigation/>}
@@ -27,13 +29,8 @@ export default function App() {
     </AuthContextProvider>
     <StatusBar style="light" />
     </MenuProvider>
-
-       
-
-   
-   
- 
-
+    </Provider>
+  
   );
 }
 

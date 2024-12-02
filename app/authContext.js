@@ -2,10 +2,9 @@ import React,{ createContext, useEffect, useState} from 'react'
 import { useContext } from 'react';
 import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db,userRef } from '../FireBase/FireBaseConfig';
-import { doc, getDoc, setDoc,getDocs,query,where} from 'firebase/firestore';
+import { doc, getDoc, setDoc} from 'firebase/firestore';
 import { signOut } from 'firebase/auth';
 import { Alert} from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage';
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({children}) => {
@@ -30,7 +29,7 @@ export const AuthContextProvider = ({children}) => {
 
     const login = async (email,pasword) => {
         try{
-            const response = signInWithEmailAndPassword(auth, email,pasword)
+            const response = await signInWithEmailAndPassword(auth, email,pasword)
             return {success:true}
         }catch(error){
             console.error(`${error}`)

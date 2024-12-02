@@ -18,7 +18,6 @@ const SplashScreen = () => {
             clearInterval(timer)
             return prev
         })
-
     },10)
     return () => clearInterval(timer)
   },[])

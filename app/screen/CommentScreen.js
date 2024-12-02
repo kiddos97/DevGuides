@@ -3,10 +3,10 @@ import {View,Text,StyleSheet,FlatList,Platform,ScrollView, TextInput,TouchableOp
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Feather from 'react-native-vector-icons/Feather';
 import CustomKeyboardView from '../components/CustomKeyboardView';
-import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query, getDocs,where,or} from "firebase/firestore"; 
-import { db,  } from '../../FireBase/FireBaseConfig';
+import { addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query, getDocs,where,or} from "firebase/firestore"; 
+import { db} from '../../FireBase/FireBaseConfig';
 import { useAuth } from '../authContext';
-
+import { useSelector } from 'react-redux';
 
 const CommentComponent = lazy(() => import('../components/CommentComponent'))
 const PostComponent = lazy(() => import('../components/PostComponent'))
@@ -23,68 +23,82 @@ const list_comments = [
 // fixed the functionality of the comment sending to the firebase and then rednering on the screen, depending on render may add a lazy affect
 
 const CommentScreen = () => {
-
-  const [text,setText] = useState('')
-
   const {user} = useAuth()
-
   const [currentComment,setCurrentComment] = useState([])
   const [comments, setComment] = useState([])
+  const [text,setText] = useState('')
 
   useEffect(() => {
-    grabCurrentComment()
 
-  },[])
+    let unsub
+    const fetchID = async () => {
+      const postid = await grabCurrentComment()
+      if(postid){
+        unsub = onSnapshot(collection(db,'posts',postid,'comments'),(querySnapShot) => {
+          try{
+              let data = []
+              querySnapShot.forEach(doc =>{
+                data.push({ ...doc.data(),id:doc.id });
+              })
+              setComment([...data])
+          }catch(e){
+            console.log(e)
+          }
+        }
+        ) 
+      }
+    }
 
-  useEffect(() => {
-    grabComment()
-  },[comments])
+    fetchID()
   
+    return () =>{
+      if(unsub){
+        unsub()
+      }
+    }
+  },[])
+  // const grabComment = async () => { //grabbing all of the comments, will take a postId to grab comments only for a certain post
+  //   try{
+  //     const docRef = doc(db,'post','postID')
+  //     const comment = collection(docRef,'post-messages')
+  //     const comment_message = doc(comment,'sPgBSFVL9frm0RLgoikW')
+  //     const message_comment = collection(comment_message,'comment-message')
+  //     const q = query(message_comment,orderBy('createdAt', 'desc'));
+  //     const querySnapShot = await getDocs(q);
+  //     let data = [];
+  //     querySnapShot.forEach(doc => {
+  //       data.push({ ...doc.data(),id:doc.id });
+  //     })
+  //     setComment([...data]);
+  //   }  catch (e) {
+  //   console.log(`Error: ${e}`);
+  // }
+  // }
 
-  const grabComment = async () => { //grabbing all of the comments
+  const handleSend = async ({postid}) => { // will handle sending the comment to firebase, and parentId key and set value to postId ( id of post)
+
     try{
-      const docRef = doc(db,'post','postID')
-      const comment = collection(docRef,'post-messages')
-      const comment_message = doc(comment,'sPgBSFVL9frm0RLgoikW')
-      const message_comment = collection(comment_message,'comment-message')
-      const q = query(message_comment,orderBy('createdAt', 'desc'));
-      const querySnapShot = await getDocs(q);
-      let data = [];
-      querySnapShot.forEach(doc => {
-        data.push({ ...doc.data(),id:doc.id });
-      })
-      setComment([...data]);
-    }  catch (e) {
-    console.log(`Error: ${e}`);
-  }
-  }
-
-  const handleSend = async () => { // will handle sending the comment to firebase
-
-    try{
-      const docRef = doc(db,'post','postID')
-      const commentMessageRef = collection(docRef,'post-messages')
-      const commentmessage = doc(commentMessageRef)
-      const commentCollection = collection(commentmessage,'comment-message')
-      const newDoc = await addDoc(commentCollection,{
+      const commentMessageRef = collection(db,'post',postid,'comments')
+      const newDoc = await addDoc(commentMessageRef,{
         id:user?.userId,
+        parentId:null,
         name:user?.username,
         content:text,
         createdAt: Timestamp.fromDate(new Date())
       })
+      console.log('comment id:',newDoc.id) // grab the new comment id add to redux store.
       setText('')
     }catch(e){
       console.log(e)
     }
   
   }
-
-const grabCurrentComment = async () => { /// grabbing the current comment 
+const grabCurrentComment = async () => { /// grabbing the current comment can use postId to grab current comment from redux store
   try{
-    const docRef = doc(db, 'post','postID')
-    const postmessageRef = collection(docRef, 'post-messages')
+    const docRef = collection(db, 'posts')
+    // const postmessageRef = collection(docRef,)
     const q = query(
-      postmessageRef,
+      docRef,
       or(
         where('id', '!=', user.userId),
         where('id', '==', user.userId)
@@ -97,10 +111,11 @@ const grabCurrentComment = async () => { /// grabbing the current comment
     })
     console.log(data)
     setCurrentComment([...data])
+    return querySnapShot.id
   }catch(e){
     console.error('ERROR:',e)
   }
-
+  
 }
 
   return (

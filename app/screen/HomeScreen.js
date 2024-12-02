@@ -1,4 +1,4 @@
-import React,{useState,useEffect,lazy, Suspense} from 'react'
+import React,{useState,useEffect,lazy, Suspense,useMemo} from 'react'
 import {View, Text, StyleSheet,TouchableOpacity, FlatList, Platform,StatusBar, ActivityIndicator} from 'react-native'
 import color from '../../config/color';
 import javascript from '../assets/javascript.png';
@@ -7,7 +7,6 @@ import python from '../assets/python.png';
 import { useNavigation } from '@react-navigation/native';
 import ChatRoomHeader from '../components/ChatRoomHeader';;
 import { useAuth } from '../authContext';
-
 import {  collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query, getDocs,where} from "firebase/firestore"; 
 import {db} from '../../FireBase/FireBaseConfig';
 
@@ -57,28 +56,32 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   //current User logged in
   const {user} = useAuth()
-
   const [post, setPost] = useState([])
 
-  useEffect(() => {
-      fetchPosts(); 
-  }, [post]); 
+  useEffect(() => { //useMemo for the posts
+
+    setTimeout(() => {
+      fetchPosts();
+    },2000)
+      
+  }, []); 
   
-  const fetchPosts = async () => {
+
+  const memoPost = useMemo(() => {return post},[post])
+  const fetchPosts = async () => { // will change getDocs to onSnapShot to just grab from the post collection
     try {
-   
-      const docRef = doc(db, 'post','postID')
-      const postmessagRef = collection(docRef, 'post-messages')
-      const q = query(postmessagRef,orderBy('createdAt', 'desc'));
-      const querySnapShot = await getDocs(q);
-      let data = [];
-      querySnapShot.forEach(doc => {
-        data.push({ ...doc.data(),id:doc.id });
+      const docRef = collection(db, 'posts')
+      const querySnapShot = query(docRef,orderBy('createdAt', 'desc'))
+      const snap = onSnapshot(querySnapShot,(snapShot) => {
+        let data = [];
+        snapShot.forEach(doc => {
+          data.push({ ...doc.data(),id:doc.id });
       })
-      setPost([...data]);
+        setPost([...data]);
+      });
     }  catch (e) {
-    console.log(`Error: ${e}`);
-  }
+    console.log(`Error post can not be found: ${e}`);
+  } 
 };
   const handlePress = () => {
     navigation.openDrawer();
@@ -120,7 +123,7 @@ const HomeScreen = () => {
       ItemSeparatorComponent={Separator}/>
    </View>
     <FlatList
-    data={post}
+    data={memoPost}
     renderItem={({item}) => <Suspense fallback={<ActivityIndicator size='small' color='#000'/>}>
       <PostComponent name={item.name} content={item.content} date={item.createdAt.toDate().toLocaleString()}/>
       </Suspense>}

@@ -183,12 +183,14 @@ const StackNavigation = () => {
       component={CommentScreenWrapper}
       options={{
         gestureEnabled:false,
-        header: () => <ChatRoomHeader onPress={handlePress} icon='keyboard-backspace' backgroundColor={color.button}/>
+        header: () => <ChatRoomHeader onPress={handlePress} icon='keyboard-backspace' backgroundColor={color.button}/>,
+        unmountOnBlur: false
       }}/>
       <Stack.Screen
       name='CommentReply'
       component={CommentReplyScreenWrapper}
       options={{
+        unmountOnBlur:false,
         ransitionSpec: {
           open: config,
           close: config,

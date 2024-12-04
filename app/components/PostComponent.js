@@ -8,7 +8,7 @@ import { useAuth } from '../authContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 
-const PostComponent = ({content,date,name}) => {
+const PostComponent = ({content,date,name,id}) => {
 
     const [press,setIsPress] = useState(false)
     const [count, setCount] = useState(0)
@@ -53,7 +53,7 @@ const PostComponent = ({content,date,name}) => {
                      <Text style={styles.reactionText}>{count}</Text>
                  </View>
                  </TouchableHighlight>
-        <TouchableOpacity onPress={() => navigation.navigate('Comment')} style={styles.reactionIcon}>
+        <TouchableOpacity onPress={() => navigation.navigate('Comment',{id})} style={styles.reactionIcon}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <MaterialCommunityIcons name="comment-processing-outline" size={20} color='#ffffff'/>
             <Text style={styles.reactionText}>{count}</Text>

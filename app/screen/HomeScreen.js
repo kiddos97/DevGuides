@@ -57,10 +57,12 @@ const HomeScreen = () => {
   //current User logged in
   const {user} = useAuth()
   const [post, setPost] = useState([])
+  const [mount, setMount] = useState(false)
 
   useEffect(() => { //useMemo for the posts
-
+    setMount(true)
     setTimeout(() => {
+      setMount(false)
       fetchPosts();
     },2000)
       
@@ -125,7 +127,7 @@ const HomeScreen = () => {
     <FlatList
     data={memoPost}
     renderItem={({item}) => <Suspense fallback={<ActivityIndicator size='small' color='#000'/>}>
-      <PostComponent name={item.name} content={item.content} date={item.createdAt.toDate().toLocaleString()}/>
+      <PostComponent id={item.id} name={item.name} content={item.content} date={item.createdAt.toDate().toLocaleString()}/>
       </Suspense>}
     keyExtractor={(item)=> item.id}
     />

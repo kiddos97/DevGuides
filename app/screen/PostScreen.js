@@ -6,7 +6,7 @@ import { useAuth } from '../authContext'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import CustomKeyboardView from '../components/CustomKeyboardView';
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import {  addDoc, collection, doc,Timestamp} from "firebase/firestore"; 
+import {  addDoc, collection, doc,Timestamp, updateDoc} from "firebase/firestore"; 
 import { db} from '../../FireBase/FireBaseConfig';
 import { useDispatch } from 'react-redux'
 import { addPost } from '../features/PostandComments/socialSlice';
@@ -22,13 +22,16 @@ const PostScreen = ({navigation}) => {
       setLoading(true)
         try{
           const newDoc = await addDoc(collection(db,'posts'),{
-            id:user.userId,
+            id:user?.userId,
             name: user?.username,
             content:text,
             createdAt: Timestamp.fromDate(new Date())
           })
+          await updateDoc(newDoc,{
+            id:newDoc.id
+          })
           console.log('New post id: ', newDoc.id)
-          dispatch(addPost({id:newDoc.id}))// grabbing the id of the post and will set to redux store
+          dispatch(addPost({id:newDoc.id,content:text}))// grabbing the id of the post and will set to redux store
           setText('')
           setTimeout(() =>{
             setLoading(false)

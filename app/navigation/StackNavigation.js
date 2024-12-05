@@ -147,7 +147,7 @@ const StackNavigation = () => {
      name='Message'
      component={MessageScreenWrapper}
      options={{
-      header: () => <ChatRoomHeader title='Message' onPress={handlePress} icon='keyboard-backspace' backgroundColor={color.button}/>
+      headerShown:false
      }}/>
       <Stack.Screen
       name='Chat'
@@ -161,13 +161,14 @@ const StackNavigation = () => {
       name='Profile'
       component={ProfileScreenWrapper}
       options={{
-        header:({route}) => 
-        <ChatRoomHeader 
-        onPress={()=>navigation.navigate('Welcome')} 
-        backgroundColor={color.button} 
-        icon='keyboard-backspace' 
-        onPress2={() => navigation.navigate('Message')}
-        />,
+        headerShown:false,
+        // header:({route}) => 
+        // <ChatRoomHeader 
+        // onPress={()=>navigation.navigate('Welcome')} 
+        // backgroundColor={color.button} 
+        // icon='keyboard-backspace' 
+        // onPress2={() => navigation.navigate('Message')}
+        // />,
         gestureEnabled:false
       }}/>
       <Stack.Screen

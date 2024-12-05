@@ -4,14 +4,15 @@ import color from '../../config/color';
 import {  userRef, } from '../../FireBase/FireBaseConfig';
 import { getDocs,query,where } from "firebase/firestore"; 
 import { useAuth } from '../authContext';
-
+import ChatRoomHeader from '../components/ChatRoomHeader';
+import { useNavigation } from '@react-navigation/native';
 const ChatList = lazy(() => import('../../List/ChatList'))
 
 const MessageScreen = () => {
 
 
   const [users, setUsers] = useState([]);
-
+  const navigation = useNavigation();
   const { user} = useAuth();
 
   useEffect(() => {
@@ -20,6 +21,9 @@ const MessageScreen = () => {
     }
   },[])
   
+  const handlePress = () => {
+    navigation.navigate('Welcome');
+  }
 
   const grabUser = async () => {
 
@@ -40,6 +44,7 @@ const MessageScreen = () => {
 
   return (
     <View style={styles.screen}>
+      <ChatRoomHeader title='Message' onPress={handlePress} icon='keyboard-backspace' backgroundColor={color.button}/>
       <View style={styles.container}>
       <View style={{marginTop:5}}>
        {users.length > 0 ? (

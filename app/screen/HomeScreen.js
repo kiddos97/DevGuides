@@ -124,13 +124,14 @@ const HomeScreen = () => {
         </Suspense>}
       ItemSeparatorComponent={Separator}/>
    </View>
-    <FlatList
+   {mount ? <ActivityIndicator size='Large' color='#fff'/> :  <FlatList
     data={memoPost}
     renderItem={({item}) => <Suspense fallback={<ActivityIndicator size='small' color='#000'/>}>
       <PostComponent id={item.id} name={item.name} content={item.content} date={item.createdAt.toDate().toLocaleString()}/>
       </Suspense>}
     keyExtractor={(item)=> item.id}
-    />
+    />}
+
     </View>
   )
 }

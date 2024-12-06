@@ -1,5 +1,6 @@
 
-import {View, Text, StyleSheet, ScrollView, TouchableOpacity,Dimensions} from 'react-native'
+import {View, Text, StyleSheet, ScrollView, TouchableOpacity,Dimensions,ActivityIndicator} from 'react-native'
+import {lazy,Suspense} from 'react'
 import color from '../../config/color';
 import { useNavigation } from '@react-navigation/native';
 import {useState, useEffect} from 'react';
@@ -12,10 +13,14 @@ import {db} from '../../FireBase/FireBaseConfig';
 import {getDoc,doc } from 'firebase/firestore';
 import ChatRoomHeader from '../components/ChatRoomHeader';
 import SmallButton from '../components/SmallButton';
-import PostComponent from '../components/PostComponent';
+import { FlatGrid} from 'react-native-super-grid'
+import FollowComponent from '../components/FollowComponent';
+
 const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
+
+const PostComponent = lazy(() => import('../components/PostComponent'))
  
 const AccountScreen = () => {
 
@@ -30,11 +35,8 @@ const AccountScreen = () => {
 
   const navigation = useNavigation();
 
-  const skills = [ // this i will be coming from the database and can be updatred by the user
-    { name:'Python'},
-  {name:'JavaScript'},
-  {name:'React Native'}
-  ]
+  const skills = ['Python','react','react native','Javascript','SQL','HTML/CSS']
+  const follow_items = [{count:500,content:'following'},{count:2000,content:'followers'},{count:100,content:'posts'}]
 
   useEffect(() => {
     if(userId){
@@ -76,7 +78,7 @@ const AccountScreen = () => {
         />
       <ScrollView>
       <View style={styles.profileContainer}>
-        <View style={{flexDirection:'row', justifyContent:'space-between',padding:10}}>
+        <View style={{flexDirection:'row', justifyContent:'space-between'}}>
         <Image
             style={{height:hp(15), aspectRatio:1, borderRadius:100}}
             source={user?.profileImage}
@@ -100,21 +102,9 @@ const AccountScreen = () => {
             <View style={styles.textcontainer}>
               <View style={{flexDirection:'column',alignItems:'stretch'}}>
                 <View style={{flexDirection:'row', justifyContent:'space-around'}}>
-                  <View style={{flexDirection:'column',alignItems:'center',padding:10,borderRadius:40}}>
-                  <Text style={{color:'#fff',fontFamily:'Helvetica-light'}}>500</Text>
-                  <Text style={{color:'#fff',fontFamily:'Helvetica-light'}}>following</Text>
-                  <View style={{marginTop:5,borderWidth:1,borderColor:'#000',width:50,borderColor:'#00BF63'}}></View>
-                  </View>
-                  <View style={{flexDirection:'column',alignItems:'center',padding:10,borderRadius:40}}>
-                  <Text style={{color:'#fff',fontFamily:'Helvetica-light'}}>2000</Text>
-                  <Text style={{color:'#fff',fontFamily:'Helvetica-light'}}>followers</Text>
-                  <View style={{marginTop:5,borderWidth:1,borderColor:'#000',width:50,borderColor:'#00BF63'}}></View>
-                  </View>
-                  <View style={{flexDirection:'column',alignItems:'center',padding:10,borderRadius:40}}>
-                  <Text style={{color:'#fff',fontFamily:'Helvetica-light'}}>100</Text>
-                  <Text style={{color:'#fff',fontFamily:'Helvetica-light'}}>posts</Text>
-                  <View style={{marginTop:5,borderWidth:1,borderColor:'#000',width:50,borderColor:'#00BF63'}}></View>
-                  </View>
+                  {follow_items.map((item,index)=>{
+                    return <FollowComponent key={index} count={item.count} content={item.content}/>
+                  })}
                 </View>
               </View>
             </View>
@@ -136,25 +126,34 @@ const AccountScreen = () => {
                  pagingEnabled={true}
                 >
                    <View style={{width,height}}>
-                    <View style={{paddingLeft:80,justifyContent:'center',alignItems:'flex-start'}}>
+                    <View style={{paddingLeft:85,justifyContent:'center',alignItems:'flex-start'}}>
                     <View style={{marginTop:5,borderWidth:1,borderColor:'#000',width:50,borderColor:'#00BF63'}}></View>
                     </View>
                     {skills.map((skill,index) => {
-                      return <View style={{padding:10}}key={index}>
+                      return <Suspense key={index} fallback={<ActivityIndicator size='small' color='#000'/>}>
+                        <View style={{padding:10}}>
                         <PostComponent/>
                       </View>
+                        </Suspense>
                     })}
                    </View>
-              <View style={{width,height }}>
-                    <View style={{paddingRight:125,justifyContent:'center',alignItems:'flex-end'}}>
+              <View style={{width,height}}>
+                    <View style={{paddingRight:120,justifyContent:'center',alignItems:'flex-end'}}>
                     <View style={{marginTop:5,borderWidth:1,borderColor:'#000',width:50,borderColor:'#00BF63'}}></View>
                     </View>
-                    {skills.map((skill,index) => {
-                      return <View style={{padding:50}}key={index}>
-                        <Text style={{color:'#fff'}}>{skill.name}</Text>
-                      </View>
-                    })}
-              </View>
+                    <View style={{padding:10,paddingRight:50}}>
+                    <FlatGrid
+                      itemDimension={150}
+                      data={skills}
+                      renderItem={({ item }) => 
+                        ( 
+                        <View style={{backgroundColor:'#252525',padding:30,borderRadius:25,}}>
+                          <Text style={{textAlign:'center'}}>{item}</Text>
+                          </View>
+                      )}
+                      />
+                    </View>
+             </View>
                 </ScrollView>
               </View>
       </View>

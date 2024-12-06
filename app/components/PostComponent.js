@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     },
     imageText:{
       flexDirection:'row',
-      marginBottom:20
+      marginBottom:10
       
     }
     ,
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     },
     postContainer:{
       marginTop:10,
-      padding:20,
+      padding:5,
       backgroundColor:'#252525',
       borderBottomLeftRadius:20,
       borderBottomRightRadius:20,
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
     postText:{
       fontFamily:'Helvetica-light',
       color:'#ffffff',
+      marginLeft:10
     },
     postDate:{
 
@@ -134,12 +135,13 @@ const styles = StyleSheet.create({
       fontSize:9,
       color:'#8a8a8a',
       fontFamily:'Helvetica-light',
+      marginLeft:10
     },
 
     reactionContainer:{
       flexDirection:'row',
       justifyContent:'space-between',
-      marginTop:20
+      marginTop:10
     },
     reactionIcon:{
       padding:5,

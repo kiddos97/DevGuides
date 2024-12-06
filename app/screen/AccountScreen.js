@@ -11,7 +11,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {db} from '../../FireBase/FireBaseConfig';
 import {getDoc,doc } from 'firebase/firestore';
 import ChatRoomHeader from '../components/ChatRoomHeader';
-
+import SmallButton from '../components/SmallButton';
+import PostComponent from '../components/PostComponent';
 const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
@@ -119,8 +120,8 @@ const AccountScreen = () => {
             </View>
             <View style={styles.aboutContainer}>
               <View style={{flexDirection:'row', justifyContent:'space-around'}}>
-                <View style={{backgroundColor:'#00BF63', padding:10, borderRadius:100,width:100}}><Text style={{textAlign:'center',fontFamily:'Helvetica-light',fontSize:15}}>Post</Text></View>
-                <View style={{backgroundColor:'#00BF63', padding:10, borderRadius:100,width:100}}><Text style={{textAlign:'center',fontFamily:'Helvetica-light',fontSize:15}}>Projects</Text></View>
+                <SmallButton name='Post'/>
+                <SmallButton name='Projects'/>
               </View>
               </View>
               <View>
@@ -139,8 +140,8 @@ const AccountScreen = () => {
                     <View style={{marginTop:5,borderWidth:1,borderColor:'#000',width:50,borderColor:'#00BF63'}}></View>
                     </View>
                     {skills.map((skill,index) => {
-                      return <View style={{padding:50}}key={index}>
-                        <Text>{skill.name}</Text>
+                      return <View style={{padding:10}}key={index}>
+                        <PostComponent/>
                       </View>
                     })}
                    </View>
@@ -150,7 +151,7 @@ const AccountScreen = () => {
                     </View>
                     {skills.map((skill,index) => {
                       return <View style={{padding:50}}key={index}>
-                        <Text>{skill.name}</Text>
+                        <Text style={{color:'#fff'}}>{skill.name}</Text>
                       </View>
                     })}
               </View>

@@ -24,7 +24,7 @@ const RegisterScreen = ({navigation}) => {
             if(response){
                 setLoading((prev)=> !prev)
                 resetForm({values:initialValues})
-                navigation.navigate('Homepage')
+                navigation.navigate('Main')
                 Alert.alert('Success','You have registered!')
             }
         }catch(error){

@@ -1,31 +1,21 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from '../screen/LoginScreen';
-import TabNavigation from './TabNavigation';
 import color from '../../config/color';
 import ChatRoomHeader from '../components/ChatRoomHeader';
 import { useNavigation } from '@react-navigation/native';
 import { lazy,Suspense } from 'react';
 import { ActivityIndicator } from 'react-native';
 
-const RegisterScreen = lazy(() => import('../screen/RegisterScreen'))
+const HomeScreen = lazy(() => import('../screen/HomeScreen'))
 const ChatScreen = lazy(() => import('../screen/ChatScreen'))
 const MessageScreen = lazy(() => import('../screen/MessageScreen'))
 const AccountScreen = lazy(() => import('../screen/AccountScreen'))
 const PostScreen = lazy(() => import('../screen/PostScreen'))
 const CommentScreen = lazy(() => import('../screen/CommentScreen'))
 const CommentReplyScreen = lazy(() => import('../screen/CommentReplyScreen'))
+const EditScreen = lazy(() => import('../screen/EditScreen'))
 
-const RegisterScreenWrapper = (props) => {
-  
-  return (
-    <Suspense fallback={<ActivityIndicator size='small' color='#000'/>}>
-    <RegisterScreen  {...props}/>
-  </Suspense>
 
-  )
-
-}
 const ChatScreenWrapper = (props) => {
   
   return (
@@ -87,6 +77,21 @@ const CommentReplyScreenWrapper = (props) => {
   )
 
 }
+const HomeScreenWrapper = (props) => {
+  
+  return(
+    <Suspense fallback={<ActivityIndicator size='small' color='"#000'/>}>
+    <HomeScreen {...props}/>
+  </Suspense>
+  )}
+
+const EditScreenWrapper = (props) => {
+  return (
+    <Suspense fallback={<ActivityIndicator size='small' color='#000'/>}>
+    <EditScreen  {...props}/>
+  </Suspense>
+  )
+}
 
 const config = {
   animation: 'spring',
@@ -108,7 +113,7 @@ const StackNavigation = () => {
 
 
   const handlePress = () => {
-    navigation.navigate('Welcome');
+    navigation.navigate('Main');
   }
   const handleComment = () => {
     navigation.navigate('Comment')
@@ -119,30 +124,14 @@ const StackNavigation = () => {
     screenOptions={{
       gestureEnabled:false
     }}
-    initialRouteName='Login'>
+    initialRouteName='Main'>
       <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{
-          headerShown:false,
-          gestureEnabled:false
-          
-        }}
-      />
-      <Stack.Screen
-        name='Homepage'
-        component={TabNavigation}
+        name='Main'
+        component={HomeScreenWrapper}
         options={{
           headerShown: false, 
         gestureEnabled:false}}
       />
-      <Stack.Screen
-      name="Register"
-      component={RegisterScreenWrapper}
-      options={{
-        headerShown:false,
-        gestureEnable:false
-      }}/>
     <Stack.Screen 
      name='Message'
      component={MessageScreenWrapper}
@@ -162,13 +151,6 @@ const StackNavigation = () => {
       component={ProfileScreenWrapper}
       options={{
         headerShown:false,
-        // header:({route}) => 
-        // <ChatRoomHeader 
-        // onPress={()=>navigation.navigate('Welcome')} 
-        // backgroundColor={color.button} 
-        // icon='keyboard-backspace' 
-        // onPress2={() => navigation.navigate('Message')}
-        // />,
         gestureEnabled:false
       }}/>
       <Stack.Screen
@@ -199,6 +181,14 @@ const StackNavigation = () => {
         headerShown:false,
         gestureEnabled:false,
       }}/>
+       <Stack.Screen
+      name='Edit'
+      component={EditScreenWrapper}
+      options={{
+        headerShown:false,
+        gestureEnabled:false
+      }}
+      />
     </Stack.Navigator>
   );
 }

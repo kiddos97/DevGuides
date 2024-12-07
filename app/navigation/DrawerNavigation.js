@@ -9,7 +9,7 @@ import { ActivityIndicator } from 'react-native';
 const Drawer = createDrawerNavigator();
 
 const SettingsScreen = lazy(() => import('../screen/SettingsScreen'))
-
+const TabNavigation = lazy(() => import('./TabNavigation'))
 const SettingsScreenWrapper = (props) => {
   
   return (
@@ -19,6 +19,16 @@ const SettingsScreenWrapper = (props) => {
   </Suspense>
 
 )}
+
+const TabNavigationWrapper = (props) =>{
+  return (
+
+    <Suspense fallback={<ActivityIndicator size='small' color='#000' />}>
+    <TabNavigation {...props}/>
+  </Suspense>
+
+  )
+}
 
 const DrawerNavigation = ({route}) => {
   const navigation = useNavigation();
@@ -38,7 +48,7 @@ const DrawerNavigation = ({route}) => {
     }}>
       <Drawer.Screen
       name='Home'
-      component={StackNavigation}
+      component={TabNavigationWrapper}
       initialParams={{route}}
       options={{headerShown:false,
         swipeEnabled:false

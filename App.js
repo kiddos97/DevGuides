@@ -7,6 +7,7 @@ import {useEffect,useState} from 'react'
 import SplashScreen from './app/screen/SplashScreen';
 import store from './app/store';
 import { Provider } from 'react-redux';
+import AuthNavigation from './app/navigation/AuthNavigation';
 export default function App() {
 
   const [loading,setLoading] = useState(true)
@@ -24,7 +25,7 @@ export default function App() {
         <MenuProvider>
           <AuthContextProvider>
         <NavigationContainer>
-          {loading ? <SplashScreen/> :   <DrawerNavigation/>}
+          {loading ? <SplashScreen/> :   <AuthNavigation/>}
       </NavigationContainer>
     </AuthContextProvider>
     <StatusBar style="light" />

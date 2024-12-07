@@ -22,7 +22,7 @@ const MessageScreen = () => {
   },[])
   
   const handlePress = () => {
-    navigation.navigate('Welcome');
+    navigation.navigate('Main');
   }
 
   const grabUser = async () => {

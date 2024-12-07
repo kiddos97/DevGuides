@@ -5,17 +5,19 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { lazy,Suspense } from 'react';
 import { ActivityIndicator } from 'react-native';
 
-const HomeScreen = lazy(() => import('../screen/HomeScreen'))
 const NotificationScreen = lazy(() => import('../screen/NotificationScreen'))
 const SearchScreen = lazy(() => import('../screen/SearchScreen'))
+const StackNavigation = lazy(() => import('./StackNavigation'))
 
-const HomeScreenWrapper = (props) => {
-  
-  return(
+
+const StackNavigationwrapper = (props) =>{
+  return (
     <Suspense fallback={<ActivityIndicator size='small' color='"#000'/>}>
-    <HomeScreen {...props}/>
+    <StackNavigation {...props}/>
   </Suspense>
   )}
+
+
 
 const SearchScreenWrapper = (props) => {
   
@@ -58,7 +60,7 @@ const TabNavigation = () => {
 >
     <Tab.Screen 
       name="Welcome"
-     component={HomeScreenWrapper}
+     component={StackNavigationwrapper}
      options={{
         tabBarIcon:() => (
         <MaterialCommunityIcons name='home' color='#00bf63' size={25}

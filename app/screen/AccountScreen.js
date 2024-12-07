@@ -31,20 +31,21 @@ const AccountScreen = () => {
   const { user } = useAuth();
   let route  = useRoute();
   const {userId} = route?.params
+  console.log('test:',userId)
   const isCurrentUser = user?.userId === route?.params?.user?.userId;
 
   const navigation = useNavigation();
 
-  const skills = ['Python','react','react native','Javascript','SQL','HTML/CSS']
+  const skills = ['Python','react','react native','Javascript','SQL','HTML/CSS','Linux','Django']
   const follow_items = [{count:500,content:'following'},{count:2000,content:'followers'},{count:100,content:'posts'}]
 
   useEffect(() => {
-    if(userId){
-      fetchUser();
-    }
-  
-
-  },[userId])
+    setTimeout(()=>{
+      if(userId){
+        fetchUser();
+      }
+    },5000)
+  },[])
 
   const fetchUser = async () => {
     const userDoc = doc(db,'users',userId)
@@ -71,7 +72,7 @@ const AccountScreen = () => {
   return (
     <View style={styles.screen}>
       <ChatRoomHeader 
-        onPress={()=>navigation.navigate('Welcome')} 
+        onPress={()=>navigation.navigate('Main')} 
         backgroundColor={color.button} 
         icon='keyboard-backspace' 
         onPress2={() => navigation.navigate('Message')}
@@ -112,6 +113,9 @@ const AccountScreen = () => {
               <View style={{flexDirection:'row', justifyContent:'space-around'}}>
                 <SmallButton name='Post'/>
                 <SmallButton name='Projects'/>
+                <TouchableOpacity onPress={() => navigation.navigate('Edit')}>
+                  {isCurrentUser &&  <SmallButton name='Edit Profile'/>}
+                </TouchableOpacity>
               </View>
               </View>
               <View>
@@ -125,13 +129,13 @@ const AccountScreen = () => {
                  scrollEventThrottle={16}
                  pagingEnabled={true}
                 >
-                   <View style={{width,height}}>
+                   <View style={{width,height,paddingRight:10}}>
                     <View style={{paddingLeft:85,justifyContent:'center',alignItems:'flex-start'}}>
                     <View style={{marginTop:5,borderWidth:1,borderColor:'#000',width:50,borderColor:'#00BF63'}}></View>
                     </View>
                     {skills.map((skill,index) => {
                       return <Suspense key={index} fallback={<ActivityIndicator size='small' color='#000'/>}>
-                        <View style={{padding:10}}>
+                        <View style={{padding:10,paddingRight:20}}>
                         <PostComponent/>
                       </View>
                         </Suspense>

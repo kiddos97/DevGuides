@@ -16,7 +16,8 @@ const color = {
     button:'#1ED7FE',
     button2:'#BBF2FA',
     grad1:'#003D9E',
-    grad2:'#021253'
+    grad2:'#021253',
+    backgroundcolor:'#1f1f1f'
 }
 
 export default color

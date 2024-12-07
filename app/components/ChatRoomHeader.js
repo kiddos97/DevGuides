@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
         textAlign:'center',
         fontSize:15,
         padding:10,
-        paddingLeft:40
+        paddingLeft:70
     },
     icon:{
       margin:10

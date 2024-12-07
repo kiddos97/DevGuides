@@ -7,9 +7,9 @@ import python from '../assets/python.png';
 import { useNavigation } from '@react-navigation/native';
 import ChatRoomHeader from '../components/ChatRoomHeader';;
 import { useAuth } from '../authContext';
-import {  collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query, getDocs,where} from "firebase/firestore"; 
+import {  collection, onSnapshot, orderBy,query, } from "firebase/firestore"; 
 import {db} from '../../FireBase/FireBaseConfig';
-
+import { useDispatch} from 'react-redux';
 const PostComponent = lazy(() => import('../components/PostComponent'))
 const Cards = lazy(() => import('../components/Cards'))
 
@@ -54,6 +54,7 @@ const Separator = () => {
 const HomeScreen = () => {
 
   const navigation = useNavigation();
+  const dispatch = useDispatch()
   //current User logged in
   const {user} = useAuth()
   const [post, setPost] = useState([])
@@ -61,6 +62,7 @@ const HomeScreen = () => {
 
   useEffect(() => { //useMemo for the posts
     setMount(true)
+    dispatch(addId({id:user.userId}))
     setTimeout(() => {
       setMount(false)
       fetchPosts();

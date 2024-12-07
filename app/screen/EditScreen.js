@@ -4,9 +4,11 @@ import color from '../../config/color';
 import { useNavigation } from '@react-navigation/native';
 import AppTextInput from '../components/AppTextInput';
 import Button from '../components/Button';
+import { useAuth } from '../authContext';
 const EditScreen = () => {
 
     const navigation = useNavigation();
+    const {user} = useAuth()
 
 
     const handleSubmit = () =>{
@@ -15,7 +17,7 @@ const EditScreen = () => {
   return (
     <View style={styles.screen}>
          <ChatRoomHeader 
-        onPress={()=>navigation.navigate('Main')} 
+        onPress={()=>navigation.navigate('Profile',{user})} 
         backgroundColor={color.button}
         title='Edit Profile'
         icon='keyboard-backspace' 

@@ -12,7 +12,6 @@ import { useNavigation } from '@react-navigation/native';
 import {
     Menu,
     MenuOptions,
-    MenuOption,
     MenuTrigger,
   } from 'react-native-popup-menu';
 import { MenuItems } from './CustomMenu';

@@ -15,7 +15,7 @@ import { StatusBar } from 'expo-status-bar';
 const LoginScreen = ({navigation}) => {
     const [isLoading, setLoading] = useState(false)
     const { login } = useAuth()
-
+    const [focus,setFocus] = useState('')
     
     
     const LoginPress = async (values,{resetForm}) => {
@@ -29,18 +29,13 @@ const LoginScreen = ({navigation}) => {
                     navigation.navigate('Drawer');
                     Alert.alert('Success!!', 'you have logged in!');
                 }, 2000); 
-            }
-        
-        }catch(error){
-            setLoading(false);
-            if(error){
-                console.error(`Unauthorized username and password ${error}`)
-                Alert.alert('Login failed','Invalid username or password')
             }else{
-                console.error(`Login failed: ${error}`)
-                Alert.alert('Login failed','Error occurred!')
+                setLoading(false)
             }
-           
+        }catch(error){
+            setLoading(false)
+            console.log(`Unauthorized username and password ${error}`)
+            Alert.alert('Login failed','Invalid username or password')  
         }
     }
     const RegisterPress = () => {
@@ -97,8 +92,9 @@ const LoginScreen = ({navigation}) => {
                    icon='account' 
                    placeholder='E-mail' 
                    backgroundColor="#252525"
-                   borderColor="#8a8a8a"
+                   borderColor={focus === 'email' ? '#00BF63' : '#8a8a8a'}
                    onChangeText={handleChange('email')}
+                   onFocus={() => setFocus('email')}
                    values={values.username}
                    onBlur={() => setFieldTouched('email')}
                    iconcolor={color.button}/>
@@ -112,9 +108,10 @@ const LoginScreen = ({navigation}) => {
                    secureTextEntry
                    placeholder='Password'
                    backgroundColor="#252525"
-                   borderColor="#8a8a8a"
+                   borderColor={focus === 'password' ? '#00BF63' : '#8a8a8a'}
                    onChangeText={handleChange('password')}
                    values={values.password}
+                   onFocus={() => setFocus('password')}
                    onBlur={() => setFieldTouched('password')}
                    iconcolor={color.button}/>
                    { touched.password && errors.password && (

@@ -10,10 +10,14 @@ import { useAuth } from '../authContext';
 import {  collection, onSnapshot, orderBy,query, } from "firebase/firestore"; 
 import {db} from '../../FireBase/FireBaseConfig';
 import { useDispatch} from 'react-redux';
+import { addId } from '../features/user/userSlice';
+import store from '../store';
+
 const PostComponent = lazy(() => import('../components/PostComponent'))
 const Cards = lazy(() => import('../components/Cards'))
 
-
+const state = store.getState()
+console.log('Redux Store State:', state.user.ID);
 
 const DATA1 = [
   {
@@ -62,7 +66,7 @@ const HomeScreen = () => {
 
   useEffect(() => { //useMemo for the posts
     setMount(true)
-    dispatch(addId({id:user.userId}))
+    dispatch(addId({ID:user.userId}))
     setTimeout(() => {
       setMount(false)
       fetchPosts();
@@ -70,7 +74,8 @@ const HomeScreen = () => {
       
   }, []); 
   
-
+  const state = store.getState()
+  console.log('Redux Store State:', state.user.ID);
   const memoPost = useMemo(() => {return post},[post])
   const fetchPosts = async () => { // will change getDocs to onSnapShot to just grab from the post collection
     try {

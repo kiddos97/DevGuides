@@ -10,6 +10,7 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({children}) => {
 
     const [user, setUser] = useState(null)
+    const [loading,setLoading] = useState(false)
     const [isAuthenticated, setIsAuthenticated] = useState(undefined)
 
     useEffect(() => {
@@ -29,10 +30,13 @@ export const AuthContextProvider = ({children}) => {
 
     const login = async (email,pasword) => {
         try{
+            setLoading(true)
             const response = await signInWithEmailAndPassword(auth, email,pasword)
+            setLoading(false)
             return {success:true}
         }catch(error){
-            console.error(`${error}`)
+            setLoading(false)
+            console.log(`Error:${error}`)
         }
        
 

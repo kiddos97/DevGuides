@@ -1,43 +1,48 @@
 import React,{useState, useEffect} from 'react'
-import {View, Text, SafeAreaView, StyleSheet,FlatList,Image, TouchableOpacity} from 'react-native';
+import {View, Text, SafeAreaView, StyleSheet,FlatList,Image, TouchableOpacity,ActivityIndicator} from 'react-native';
 import SearchComponent from '../components/SearchComponent';
 import color from '../../config/color';
 import person from '../assets/person.jpg'
 import { userRef} from '../../FireBase/FireBaseConfig';
-import { collection, doc, setDoc,getDocs,query,where } from "firebase/firestore"; 
+import {doc, getDocs,query,where } from "firebase/firestore"; 
 import { useNavigation } from '@react-navigation/native';
-
+import { useDispatch } from 'react-redux';
+import { addsearchID } from '../features/search/searchSlice';
+import store from '../store';
 const SearchScreen = () => {
 
+  
   const [searchQuery, setSearchQuery] = useState('')
   const [results, setResults] = useState([]);
+  const [loading,setLoading] = useState(false)
   const navigation = useNavigation();
+  const dispatch = useDispatch()
 
   const handleSearch = async () => {
+    setLoading(true)
     if(searchQuery.trim() === '') return;
     try{
       const q = query(userRef,where('username','==',searchQuery))
       const querySnapShot = await getDocs(q)
       let user = [];
-
       querySnapShot.forEach(doc => {
-        user.push({...doc.data()})
+        user.push({...doc.data(), id:doc.id})
+        console.log('search id:',doc.id)
+        dispatch(addsearchID({searchID:doc.id}))
       })
+      setLoading(false)
       setResults(user);
-
+      setSearchQuery('')
     }catch(error){
       console.error(`Cant find user: ${error}`)
 
     }
 
   }
+  const state = store.getState()
+  console.log('Redux Store State Search:', state.search.searchID);
 
 
-//   const skills = [ // this i will be coming from the database and can be updatred by the user
-//   { id:1,name:'Python',title:'Engineer'},
-// {id:2,name:'JavaScript',title:'Engineer'},
-// {id:3,name:'React Native',title:'Engineer'}
-// ]
   return (
     <View style={styles.screen}>
         <View style={{padding:30, marginTop:40}}>
@@ -48,24 +53,26 @@ const SearchScreen = () => {
           onPress={handleSearch}
           searchQuery={searchQuery}/>
         </View>
-          <FlatList
-          data={results}
-          keyExtractor={(item) => item.id}
-          renderItem={({item}) =>
-            <TouchableOpacity onPress={() => navigation.navigate('Profile',{userId:item.userId})}>
-                <View style={{padding:10}}> 
-              <View style={styles.userContainer}>
-            <Image
-            style={styles.image}
-            source={person}/>
-          <Text style={styles.text}>{item.username}</Text>
-          {/* <Text style={styles.text}>{item.title}</Text> */}
-        </View>
-        </View>
-            </TouchableOpacity>
-          
-          }
-          />
+        {loading ? <ActivityIndicator size='small' color='#000'/> :
+               <FlatList
+               data={results}
+               keyExtractor={(item) => item.id}
+               renderItem={({item}) =>
+                 <TouchableOpacity onPress={() => navigation.navigate('Profile',{userId:item.userId})}>
+                     <View style={{padding:10}}> 
+                   <View style={styles.userContainer}>
+                 <Image
+                 style={styles.image}
+                 source={person}/>
+               <Text style={styles.text}>{item.username}</Text>
+               {/* <Text style={styles.text}>{item.title}</Text> */}
+             </View>
+             </View>
+                 </TouchableOpacity>
+               
+               }
+               /> }
+   
     </View>
   
   )

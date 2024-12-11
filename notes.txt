@@ -930,3 +930,94 @@ const ChatScreen = ({item, route}) => {
         style={styles.image}
         resizeMode='cover'
         />
+
+
+<View style={{padding:40}}>
+            <Text>Name</Text>
+            <AppTextInput
+            icon='lock'
+            placeholder='Name'
+            borderColor={focus === 'name' ? '#00BF63' : '#8a8a8a'}
+            backgroundColor="#252525"
+            onChangeText={(text) => setName(text)}
+            onFocus={() => setFocus('name')}
+            values={name}
+            />
+            <Text>Username</Text>
+            <AppTextInput
+             icon='lock'
+             placeholder='Username'
+             borderColor={focus === 'username' ? '#00BF63' : '#8a8a8a'}
+             backgroundColor="#252525"
+             onChangeText={text => setUsername(text)}
+             values={username}
+             onFocus={() => setFocus('username')}/>
+            <Text>Password</Text>
+            <AppTextInput
+             icon='lock'
+             placeholder='Password'
+             borderColor={focus === 'password' ? '#00BF63' : '#8a8a8a'}
+             backgroundColor="#252525"
+             onChangeText={(text)=>setPassword(text)}
+             values={password}
+             onFocus={() => setFocus('password')}/>
+            <Text>Job Title</Text>
+            <AppTextInput
+             icon='lock'
+             placeholder='Job Title'
+             borderColor={focus === 'jobtitle' ? '#00BF63' : '#8a8a8a'}
+             backgroundColor="#252525"
+             onChangeText={(text)=>setJobTitle (text)}
+             values={jobtitle}
+             onFocus={() => setFocus('jobtitle')}/>
+            <View style={{padding:40}}>
+            <TouchableOpacity onPress={handleSubmit}>
+            <Button
+            title={isloading ? 'Submitting...' : 'Submit'}
+            />
+            </TouchableOpacity>
+            </View>            
+        </View>
+
+View style={{ marginTop: 30, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <View style={{ backgroundColor: '#3b3b3b', borderRadius: 5, width: 30, padding: 5 }}>
+                    <View style={{ alignItems: 'center' }}>
+                    <Ionicons name="person" size={15} color="#ffffff" />
+                        </View>
+                        </View>
+                <View style={{ paddingLeft: 10, flex: 1 }}>
+                <Text style={{ fontSize: 18,color:'#fff' }}>@{item.name}</Text>
+                <View style={{ marginTop: 3 }}>
+                <Text style={{ fontSize: 12,color:'#fff' }}>Username</Text>
+                </View>
+                </View>
+                <View style={{ backgroundColor: '#3b3b3b', borderRadius: 5, width: 30, padding: 5 }}>
+                <View style={{ alignItems: 'center' }}>
+                <FontAwesome6 name="greater-than" size={15} color="#ffffff"/>
+                </View>
+                </View>
+                </View>
+
+              
+  {items.map(({id,icon,nav})=>{
+                <View key={id} style={{ marginTop: 30, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <View style={{ backgroundColor: '#3b3b3b', borderRadius: 5, width: 30, padding: 5 }}>
+                    <View style={{ alignItems: 'center' }}>
+                    <MaterialIcons name={icon} size={15} color="#ffffff" />
+                        </View>
+                        </View>
+                <View style={{ paddingLeft: 10, flex: 1 }}>
+                <Text style={{ fontSize: 18,color:'#fff' }}>@{name}</Text>
+                <View style={{ marginTop: 3 }}>
+                <Text style={{ fontSize: 12,color:'#fff' }}>Username</Text>
+                </View>
+                </View>
+                <View style={{ backgroundColor: '#3b3b3b', borderRadius: 5, width: 30, padding: 5 }}>
+                <View style={{ alignItems: 'center' }}>
+                <MaterialIcons name={nav} size={15} color="#ffffff"/>
+                </View>
+                </View>
+                </View>
+                
+              })}
+

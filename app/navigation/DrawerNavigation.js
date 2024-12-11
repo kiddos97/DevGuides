@@ -10,15 +10,15 @@ const Drawer = createDrawerNavigator();
 
 const SettingsScreen = lazy(() => import('../screen/SettingsScreen'))
 const TabNavigation = lazy(() => import('./TabNavigation'))
-const SettingsScreenWrapper = (props) => {
+// const SettingsScreenWrapper = (props) => {
   
-  return (
+//   return (
 
-  <Suspense fallback={<ActivityIndicator size='small' color='#000' />}>
-    <SettingsScreen {...props}/>
-  </Suspense>
+//   <Suspense fallback={<ActivityIndicator size='small' color='#000' />}>
+//     <SettingsScreen {...props}/>
+//   </Suspense>
 
-)}
+// )}
 
 const TabNavigationWrapper = (props) =>{
   return (
@@ -54,7 +54,7 @@ const DrawerNavigation = ({route}) => {
         swipeEnabled:false
        
       }}/>
-    <Drawer.Screen 
+    {/* <Drawer.Screen 
     name="Settings" 
     component={SettingsScreenWrapper}  
     options={{ 
@@ -64,7 +64,7 @@ const DrawerNavigation = ({route}) => {
       },
       drawerActiveTintColor:color.white,
       swipeEnabled:false,
-      header: () => <ChatRoomHeader  icon='keyboard-backspace' onPress={handleBack} backgroundColor={color.button} title='Settings'/> }} />
+      header: () => <ChatRoomHeader  icon='keyboard-backspace' onPress={handleBack} backgroundColor={color.button} title='Settings'/> }} /> */}
     </Drawer.Navigator>
 
   )

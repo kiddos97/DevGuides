@@ -166,7 +166,7 @@ const StackNavigation = () => {
       component={CommentScreenWrapper}
       options={{
         gestureEnabled:false,
-        header: () => <ChatRoomHeader onPress={handlePress} icon='keyboard-backspace' backgroundColor={color.button}/>,
+        headerShown:false,
         unmountOnBlur: false
       }}/>
       <Stack.Screen

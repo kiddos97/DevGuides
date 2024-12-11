@@ -1,5 +1,5 @@
 import React,{lazy,Suspense,useEffect,useState} from 'react'
-import {View,Text,StyleSheet,FlatList,Platform,ScrollView, TextInput,TouchableOpacity, ActivityIndicator} from 'react-native'
+import {View,Text,StyleSheet,FlatList,Platform,ScrollView, TextInput,TouchableOpacity, ActivityIndicator,KeyboardAvoidingView,SafeAreaView} from 'react-native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Feather from 'react-native-vector-icons/Feather';
 import CustomKeyboardView from '../components/CustomKeyboardView';
@@ -9,8 +9,9 @@ import { useAuth } from '../authContext';
 import { useSelector,useDispatch } from 'react-redux';
 import { addComment } from '../features/PostandComments/socialSlice';
 import { useRoute } from '@react-navigation/native';
-
-
+import ChatRoomHeader from '../components/ChatRoomHeader';
+import color from '../../config/color';
+import { useNavigation } from '@react-navigation/native';
 const CommentComponent = lazy(() => import('../components/CommentComponent'))
 const PostComponent = lazy(() => import('../components/PostComponent'))
 const list_comments = [
@@ -34,6 +35,7 @@ const CommentScreen = () => {
   const [postid,setPostId] = useState([])
   const [text,setText] = useState('')
   const dispatch = useDispatch()
+  const navigation = useNavigation()
   //const postIds = useSelector(state => state.social.posts.allIds);
   useEffect(() => {
     setTimeout(() => {
@@ -74,6 +76,9 @@ const CommentScreen = () => {
   //   console.log(`Error: ${e}`);
   // }
   // }
+  const handlePress = () => {
+    navigation.navigate('Main');
+  }
 
   const handleSend = async () => { // will handle sending the comment to firebase, and parentId key and set value to postId ( id of post)
     try{
@@ -116,10 +121,14 @@ const grabCurrentComment = async () => {
 }
 
   return (
-    <CustomKeyboardView inChat={true}
-    behavior={Platform.OS === "ios" ? "padding" : 'height'}
-    style={styles.container}>
-       <ScrollView style={styles.list}>
+    <View style={styles.container}>
+       <ChatRoomHeader onPress={handlePress} icon='keyboard-backspace' backgroundColor={color.button}/>
+      <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    keyboardVerticalOffset={Platform.OS === 'ios' ? 80: 20}
+    >
+       <ScrollView
+       keyboardShouldPersistTaps="handled">
        <View>
         {currentComment.map((comment) => {
           return <Suspense key={comment.id} fallback={<ActivityIndicator size='small' color='#000'/>}>
@@ -133,7 +142,7 @@ const grabCurrentComment = async () => {
             </Suspense>
         })}
         </ScrollView>
-       <View style={{marginBottom:hp(1.7), paddingTop:5}}>
+        <View style={{marginTop:50}}>
        <View style={styles.inputContainer}>
         <View style={styles.messageInput}>
           <TextInput
@@ -141,6 +150,7 @@ const grabCurrentComment = async () => {
           onChangeText={(item) => setText(item)}
           style={[styles.textinput,{fontSize:hp(1.5)}]}
             placeholder='Comment....'
+            placeholderTextColor="#000"
           />
           <TouchableOpacity onPress={handleSend}>
             <View style={styles.sendButton}>
@@ -153,9 +163,10 @@ const grabCurrentComment = async () => {
         </View>
         </View>
        </View>
-       </CustomKeyboardView>
+       </KeyboardAvoidingView>
+    </View>
     
-    
+   
   )
 }
 
@@ -165,18 +176,19 @@ const styles = StyleSheet.create({
   },
   textinput:{
     flex:1,
-    marginRight:2
+    marginRight:2,
+    padding:5
   },
   messageInput: {
     flexDirection:'row',
     justifyContent:'space-between',
     borderColor:'#8a8a8a',
-    borderWidth:'0.5px',
+    borderWidth:0.5,
     padding:2,
     borderRadius:20
   },
   sendButton: {
-    padding: 5,
+    padding: 10,
     marginRight:1,
   },
   inputContainer: {
@@ -185,12 +197,9 @@ const styles = StyleSheet.create({
     alignItems:'center',
     marginRight:3,
     marginLeft:3,
-    paddingBottom: Platform.OS === "ios" ? 20 : 10,
     padding:5,
   },
-  list:{
-    marginTop:10
-  }
+  
 })
 
 export default CommentScreen

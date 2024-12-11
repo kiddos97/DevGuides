@@ -1021,3 +1021,47 @@ View style={{ marginTop: 30, flexDirection: 'row', alignItems: 'center', justify
                 
               })}
 
+
+      <View>
+                  <ScrollView
+                   style={{ flex: 1 }}
+                   horizontal={true}
+                   showsHorizontalScrollIndicator={false}
+                   onScroll={(event) => {
+                    handleScroll(event)
+                   }}
+                   scrollEventThrottle={16}
+                   pagingEnabled={true}
+                  >
+                     <View style={{width,height,paddingRight:10}}>
+                      <View style={{paddingLeft:85,justifyContent:'center',alignItems:'flex-start'}}>
+                      <View style={{marginTop:5,borderWidth:1,borderColor:'#000',width:50,borderColor:'#00BF63'}}></View>
+                      </View>
+                      {skills.map((skill,index) => {
+                        return <Suspense key={index} fallback={<ActivityIndicator size='small' color='#000'/>}>
+                          <View style={{padding:10,paddingRight:20}}>
+                          <PostComponent/>
+                        </View>
+                          </Suspense>
+                      })}
+                     </View>
+                <View style={{width,height}}>
+                      <View style={{paddingRight:120,justifyContent:'center',alignItems:'flex-end'}}>
+                      <View style={{marginTop:5,borderWidth:1,borderColor:'#000',width:50,borderColor:'#00BF63'}}></View>
+                      </View>
+                      <View style={{padding:10,paddingRight:50}}>
+                      <FlatGrid
+                        itemDimension={150}
+                        data={skills}
+                        renderItem={({ item }) => 
+                          ( 
+                          <View style={{backgroundColor:'#252525',padding:30,borderRadius:25,}}>
+                            <Text style={{textAlign:'center'}}>{item}</Text>
+                            </View>
+                        )}
+                        />
+                      </View>
+               </View>
+                  </ScrollView>
+                </View>
+

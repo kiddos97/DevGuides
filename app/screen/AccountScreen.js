@@ -17,9 +17,99 @@ import { FlatGrid} from 'react-native-super-grid'
 import FollowComponent from '../components/FollowComponent';
 import { blurhash } from '../../utils/index';
 import { useSelector } from 'react-redux';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-
+const { width, height } = Dimensions.get('window');
+const skills = ['Python','react','react native','Javascript','SQL','HTML/CSS','Linux','Django']
 const PostComponent = lazy(() => import('../components/PostComponent'))
+
+const Screen1 = () => {
+  return (
+    <ScrollView style={{backgroundColor:color.backgroundcolor}}>
+       <View style={{backgroundColor:color.backgroundcolor}}>
+                      <View style={{width,height}}>
+                      <View style={{paddingLeft:85,justifyContent:'center',alignItems:'flex-start'}}>
+                      </View>
+                      {skills.map((skill,index) => {
+                        return <Suspense key={index} fallback={<ActivityIndicator size='small' color='#000'/>}>
+                          <View style={{padding:10,paddingRight:20}}>
+                          <PostComponent/>
+                        </View>
+                          </Suspense>
+                      })}
+                     </View>
+                     </View>
+                     </ScrollView>
+  )
+   
+   
+}
+const Screen2 = () => {
+  return (
+    <View style={{flex:1,backgroundColor:color.backgroundcolor}}>
+                       <View style={{width,height}}>
+                      <View style={{paddingRight:120,justifyContent:'center',alignItems:'flex-end'}}>
+                      </View>
+                      <View style={{padding:10,paddingRight:50}}>
+                      <FlatGrid
+                        itemDimension={150}
+                        data={skills}
+                        renderItem={({ item }) => 
+                          ( 
+                          <View style={{backgroundColor:'#252525',padding:30,borderRadius:25,}}>
+                            <Text style={{textAlign:'center'}}>{item}</Text>
+                            </View>
+                        )}
+                        />
+                      </View>
+               </View>
+                     </View>
+  )
+}
+const Tab = createMaterialTopTabNavigator();
+
+const Navigation = () => {
+  return (
+    <View style={{ flex: 1, height: hp(100) }}>
+       <Tab.Navigator
+    screenOptions={{
+      headerShown:false,
+      swipeEnabled:true,
+      tabBarIndicatorStyle:{
+        backgroundColor:'#00BF63'
+      },
+      tabBarStyle:{
+        backgroundColor:color.backgroundcolor,
+      },
+      tabBarShowLabel:false
+    }}
+    >
+      <Tab.Screen
+        name='here'
+        component={Screen1}
+        options={{
+          tabBarIcon:() => (
+            <MaterialCommunityIcons name='home' color='#00bf63' size={25}
+            />),
+        }}
+        />
+         <Tab.Screen
+        name='here1'
+        component={Screen2}
+        options={{
+          lazy,
+          tabBarIcon:() => (
+            <MaterialCommunityIcons name='home' color='#00bf63' size={25}
+            />),
+        }}
+        />
+      </Tab.Navigator>
+    </View>
+   
+
+  )
+}
  
 const AccountScreen = () => {
 
@@ -27,7 +117,7 @@ const AccountScreen = () => {
   const [isloading,setLoading] = useState(false)
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const totalPages = 2;
-  const { width, height } = Dimensions.get('window');
+ 
   const { user } = useAuth();
   let route  = useRoute();
   const navigation = useNavigation();
@@ -40,7 +130,7 @@ const AccountScreen = () => {
   const user_id = useSelector((state) => state.user.ID)
   const other_user_id = useSelector((state)=>state.search.searchID)
 
-  const skills = ['Python','react','react native','Javascript','SQL','HTML/CSS','Linux','Django']
+  
   const follow_items = [{count:500,content:'following'},{count:2000,content:'followers'},{count:100,content:'posts'}]
 
   useEffect(() => {
@@ -130,48 +220,10 @@ const AccountScreen = () => {
                   </TouchableOpacity>
                 </View>
                 </View>
-                <View>
-                  <ScrollView
-                   style={{ flex: 1 }}
-                   horizontal={true}
-                   showsHorizontalScrollIndicator={false}
-                   onScroll={(event) => {
-                    handleScroll(event)
-                   }}
-                   scrollEventThrottle={16}
-                   pagingEnabled={true}
-                  >
-                     <View style={{width,height,paddingRight:10}}>
-                      <View style={{paddingLeft:85,justifyContent:'center',alignItems:'flex-start'}}>
-                      <View style={{marginTop:5,borderWidth:1,borderColor:'#000',width:50,borderColor:'#00BF63'}}></View>
-                      </View>
-                      {skills.map((skill,index) => {
-                        return <Suspense key={index} fallback={<ActivityIndicator size='small' color='#000'/>}>
-                          <View style={{padding:10,paddingRight:20}}>
-                          <PostComponent/>
-                        </View>
-                          </Suspense>
-                      })}
-                     </View>
-                <View style={{width,height}}>
-                      <View style={{paddingRight:120,justifyContent:'center',alignItems:'flex-end'}}>
-                      <View style={{marginTop:5,borderWidth:1,borderColor:'#000',width:50,borderColor:'#00BF63'}}></View>
-                      </View>
-                      <View style={{padding:10,paddingRight:50}}>
-                      <FlatGrid
-                        itemDimension={150}
-                        data={skills}
-                        renderItem={({ item }) => 
-                          ( 
-                          <View style={{backgroundColor:'#252525',padding:30,borderRadius:25,}}>
-                            <Text style={{textAlign:'center'}}>{item}</Text>
-                            </View>
-                        )}
-                        />
-                      </View>
-               </View>
-                  </ScrollView>
-                </View>
+            
+                <Navigation/>
+                
+               
         </View>
         </ScrollView> 
         }

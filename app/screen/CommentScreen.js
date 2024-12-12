@@ -32,16 +32,18 @@ const CommentScreen = () => {
   const {id} = route.params
   const [currentComment,setCurrentComment] = useState([])
   const [comments, setComment] = useState([])
-  const [postid,setPostId] = useState([])
+  const [loading,setLoading] = useState(false)
   const [text,setText] = useState('')
   const dispatch = useDispatch()
   const navigation = useNavigation()
   //const postIds = useSelector(state => state.social.posts.allIds);
   useEffect(() => {
+    setLoading(true)
     setTimeout(() => {
+      setLoading(false)
       grabCurrentComment();
       fetchID()
-    },2000)
+    },1000)
   },[])
   const fetchID = async () => {
     if(id){
@@ -122,45 +124,51 @@ const grabCurrentComment = async () => {
 
   return (
     <View style={styles.container}>
-       <ChatRoomHeader onPress={handlePress} icon='keyboard-backspace' backgroundColor={color.button}/>
       <KeyboardAvoidingView
-    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    keyboardVerticalOffset={Platform.OS === 'ios' ? 80: 20}
+    behavior={Platform.OS === 'ios' ? 'position' : 'height'}
+    keyboardVerticalOffset={Platform.OS === 'ios' ? 20: 10}
     >
+       <ChatRoomHeader onPress={handlePress} icon='keyboard-backspace' backgroundColor={color.button}/>
        <ScrollView
        keyboardShouldPersistTaps="handled">
        <View>
         {currentComment.map((comment) => {
-          return <Suspense key={comment.id} fallback={<ActivityIndicator size='small' color='#000'/>}>
+          return <Suspense key={comment.id} fallback={<ActivityIndicator size='small' color='#fff'/>}>
             <PostComponent name={comment.name} content={comment.content}/>
           </Suspense>
         })}</View>
         {comments.map((comment) => {
          
-          return <Suspense key={comment.id}  fallback={<ActivityIndicator size='small' color='#000'/>}>
+          return <Suspense key={comment.id}  fallback={<ActivityIndicator size='small' color='#fff'/>}>
                   <CommentComponent content={comment.content} name={comment.name}/>
             </Suspense>
         })}
         </ScrollView>
-        <View style={{marginTop:50}}>
+        <View style={{marginTop:100}}>
        <View style={styles.inputContainer}>
-        <View style={styles.messageInput}>
-          <TextInput
-          value={text}
-          onChangeText={(item) => setText(item)}
-          style={[styles.textinput,{fontSize:hp(1.5)}]}
-            placeholder='Comment....'
-            placeholderTextColor="#000"
-          />
-          <TouchableOpacity onPress={handleSend}>
-            <View style={styles.sendButton}>
-            <Feather
-            name='send'
-            size={hp(2.0)}
-            color='#737373'/>
-            </View>
-          </TouchableOpacity>
-        </View>
+
+        {loading ? 
+        
+        <View style={{flex:1,height:40,justifyContent:'center',alignItems:'center'}}><ActivityIndicator size='small' color='#fff' /></View>
+         :
+         <View style={styles.messageInput}>
+         <TextInput
+         value={text}
+         onChangeText={(item) => setText(item)}
+         style={[styles.textinput,{fontSize:hp(1.5)}]}
+           placeholder='Comment....'
+           placeholderTextColor="#000"
+         />
+         <TouchableOpacity onPress={handleSend}>
+           <View style={styles.sendButton}>
+           <Feather
+           name='send'
+           size={hp(2.0)}
+           color='#737373'/>
+           </View>
+         </TouchableOpacity>
+       </View>
+        }
         </View>
        </View>
        </KeyboardAvoidingView>
@@ -173,6 +181,7 @@ const grabCurrentComment = async () => {
 const styles = StyleSheet.create({
   container:{
     flex:1,
+    backgroundColor:color.backgroundcolor
   },
   textinput:{
     flex:1,

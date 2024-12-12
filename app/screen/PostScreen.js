@@ -10,12 +10,14 @@ import {  addDoc, collection, doc,Timestamp, updateDoc} from "firebase/firestore
 import { db} from '../../FireBase/FireBaseConfig';
 import { useDispatch } from 'react-redux'
 import { addPost } from '../features/PostandComments/socialSlice';
-const PostScreen = ({navigation}) => {
+import { useNavigation } from '@react-navigation/native'
+const PostScreen = () => {
 
     const { user } = useAuth()
     const [text,setText] = useState('')
     const [loading,setLoading] = useState(false)
     const hasUnsavedChanges = Boolean(text);
+    const navigation = useNavigation()
     const dispatch = useDispatch()
 
     const handlePost = async () => {   // grab unique id from firebase and put it in the redux store
@@ -35,7 +37,7 @@ const PostScreen = ({navigation}) => {
           setText('')
           setTimeout(() =>{
             setLoading(false)
-            navigation.navigate('Welcome')
+            navigation.navigate('Main')
             Alert.alert('Success!!', 'post has sent!!');
           },1000)
         } catch (error) {
@@ -54,12 +56,12 @@ const PostScreen = ({navigation}) => {
           {
             text: 'Discard',
             style: 'destructive',
-            onPress: () => navigation.navigate('Welcome'), // Navigate only if user confirms
+            onPress: () => navigation.navigate('Main'), // Navigate only if user confirms
           },
         ]
       );
     } else {
-      navigation.navigate('Welcome'); // No unsaved changes, navigate immediately
+      navigation.navigate('Main'); // No unsaved changes, navigate immediately
     }
 }
 

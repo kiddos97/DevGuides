@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import color from '../../config/color';
 import ChatRoomHeader from '../components/ChatRoomHeader';
 import { useNavigation } from '@react-navigation/native';
@@ -105,7 +105,7 @@ const config = {
   },
 };
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const StackNavigation = () => {
 
@@ -167,7 +167,7 @@ const StackNavigation = () => {
       options={{
         gestureEnabled:false,
         headerShown:false,
-        unmountOnBlur: false
+        unmountOnBlur: true,
       }}/>
       <Stack.Screen
       name='CommentReply'

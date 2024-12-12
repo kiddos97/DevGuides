@@ -70,7 +70,7 @@ const HomeScreen = () => {
     setTimeout(() => {
       setMount(false)
       fetchPosts();
-    },3000)
+    },1000)
       
   }, []); 
   

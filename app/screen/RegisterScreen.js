@@ -7,14 +7,16 @@ import Button from '../components/Button';
 import * as Yup from 'yup';
 import { useAuth,  } from '../authContext';
 import CustomKeyboardView from '../components/CustomKeyboardView';
+import { useNavigation } from '@react-navigation/native';
 
 
 
 
 
-const RegisterScreen = ({navigation}) => {
+const RegisterScreen = () => {
 
     const [loading, setLoading] = useState(false);
+    const navigation = useNavigation();
 
     const { register } = useAuth();
     const handleRegister = async (values, {resetForm} )=> {

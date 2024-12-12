@@ -25,7 +25,7 @@ const CommentComponent = ({content,name}) => {
 
     useEffect(() => {
       fetchReply()
-    },[reply])
+    },[])
 
       
   const fetchReply = async () => {
@@ -119,14 +119,14 @@ const styles = StyleSheet.create({
     ,
     userPost:{
       fontFamily:'Helvetica-light',
-      color:'#000',
+      color:'#fff',
       marginLeft:50
     
     }
     ,
     userTime:{
       fontFamily:'Helvetica-light',
-      color:'#000',
+      color:'#fff',
       marginLeft:50,
       marginTop:5,
       fontSize:10
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     },
     userLocation:{
         fontFamily:'Helvetica-light',
-        color:'#000',
+        color:'#fff',
         marginLeft:100,
         marginTop:5,
         fontSize:10,
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     },
     postText:{
       fontFamily:'Helvetica-light',
-      color:'#000',
+      color:'#fff',
     },
     postDate:{
       marginTop:5,
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
       borderRadius:10,
     },
     reactionText:{
-      color:'#000',
+      color:'#fff',
       marginLeft:10,
       fontFamily:'Helvetica-light',
       fontSize:10,

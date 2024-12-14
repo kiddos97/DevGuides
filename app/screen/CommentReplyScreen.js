@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react'
-import {View,Text,StyleSheet,SafeAreaView,TextInput,Platform,Alert,ActivityIndicator} from 'react-native'
+import {View,Text,StyleSheet,SafeAreaView,TextInput,Platform,Alert,ActivityIndicator,} from 'react-native'
 import {Image} from 'expo-image'
 import { blurhash } from '../../utils/index'
 import { useAuth } from '../authContext'
@@ -7,36 +7,39 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import CustomKeyboardView from '../components/CustomKeyboardView';
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query, getDoc} from "firebase/firestore"; 
-import { IdRef, db, roomRef } from '../../FireBase/FireBaseConfig';
-import { useNavigation } from '@react-navigation/native';
+import {  db, } from '../../FireBase/FireBaseConfig';
+import { useNavigation, useRoute  } from '@react-navigation/native';
+
 const CommentReplyScreen = () => {
   const { user } = useAuth()
   const [text,setText] = useState('')
   const [loading,setLoading] = useState(false)
   const hasUnsavedChanges = Boolean(text);
   const navigation = useNavigation();
-  const handlePost = async ({postid,commentid}) => {
+  const route = useRoute();
+
+  const {comment_id,post_id} = route?.params
+
+  const handlePost = async () => {
     setLoading(true)
       try{
-        const docRef = doc(db,'post','postID')
-        const postmessageRef = collection(docRef,'post-messages')
-        const replymessageRef = doc(postmessageRef,'sPgBSFVL9frm0RLgoikW')
-        const messagereply = collection(replymessageRef,'comment-message')
-        const newDoc = await addDoc(messagereply,{
+        const docRef = collection(db,'posts',post_id,'comments',comment_id,'replys')
+        const newDoc = await addDoc(docRef,{
           id:user.userId,
           name: user?.username,
           content:text,
-          createdAt: Timestamp.fromDate(new Date())
+          createdAt: Timestamp.fromDate(new Date()),
+          parentId:comment_id
         })
         setText('')
         setTimeout(() =>{
           setLoading(false)
-          navigation.navigate('Comment')
+          navigation.goBack()
           Alert.alert('Success!!', 'post has sent!!');
         },1000)
       } catch (error) {
-        console.error("Error creating room:", error);
         setLoading(false)
+        console.error("Error with reply:", error);
       }
     };
 
@@ -90,7 +93,7 @@ const handleCancel = () => {
               onChangeText={setText}
               numberOfLines={10}
               multiline={true}
-              placeholder='Enter a post......'
+              placeholder='Enter a comment......'
               placeholderTextColor='#ffffff'
               />
           </View>

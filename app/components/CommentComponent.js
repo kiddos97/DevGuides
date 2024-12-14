@@ -7,10 +7,10 @@ import { useAuth } from '../authContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import ReplyComponent from './ReplyComponent';
-import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query, getDocs} from "firebase/firestore"; 
-import { IdRef, db, roomRef } from '../../FireBase/FireBaseConfig';
+import {collection,  onSnapshot, orderBy,query} from "firebase/firestore"; 
+import {  db, } from '../../FireBase/FireBaseConfig';
 
-const CommentComponent = ({content,name}) => {
+const CommentComponent = ({content,name,comment_id,post_id}) => {
     const [press,setIsPress] = useState(false)
     const [count, setCount] = useState(0)
     const [showReply,setShowReply] = useState(false)
@@ -24,28 +24,31 @@ const CommentComponent = ({content,name}) => {
     }
 
     useEffect(() => {
-      fetchReply()
-    },[])
+      const fetchReply = () => {
+        try {
+          const docRef = collection(db, 'posts',post_id,'comments',comment_id,'replys')
+          const q = query(docRef,orderBy('createdAt', 'desc'));
+          const unsub = onSnapshot(q,(SnapShot)=>{
+            let data = [];
+            SnapShot.forEach(doc => {
+              data.push({ ...doc.data(),id:doc.id });
+            })
+            setReply([...data]);
+          })
+          return () => unsub();
+        }  catch (e) {
+        console.log(`Error: ${e}`);
+      }
+    };
 
+    fetchReply()
+    },[comment_id,post_id])
+
+    const toggleReply = () => {
+      setShowReply(!showReply)
+    }
       
-  const fetchReply = async () => {
-    try {
-      const docRef = doc(db, 'post','postID')
-      const postmessageRef = collection(docRef, 'post-messages')
-      const replymessageRef = doc(postmessageRef,'sPgBSFVL9frm0RLgoikW')
-      const messageReply = collection(replymessageRef,'reply-message')
-      const q = query(messageReply,orderBy('createdAt', 'desc'));
-      const querySnapShot = await getDocs(q);
-      let data = [];
-      querySnapShot.forEach(doc => {
-        data.push({ ...doc.data(),id:doc.id });
-      })
-      console.log('DATAMAN:',data)
-      setReply([...data]);
-    }  catch (e) {
-    console.log(`Error: ${e}`);
-  }
-};
+ 
 
   return (
     <View style={styles.card}>
@@ -80,21 +83,22 @@ const CommentComponent = ({content,name}) => {
                      <Text style={styles.reactionText}>{count}</Text>
                  </View>
                  </TouchableHighlight>
-        <TouchableOpacity onPress={() => navigation.navigate('CommentReply')} style={styles.reactionIcon}>
+        <TouchableOpacity onPress={() => navigation.navigate('CommentReply',{comment_id,post_id})} style={styles.reactionIcon}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <MaterialCommunityIcons name="comment-processing-outline" size={20}/>
                 <Text style={styles.reactionText}>{count}</Text>
             </View>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity onPress={() => setShowReply(!showReply)}>
+      <TouchableOpacity onPress={toggleReply}>
         <View style={styles.replycontainer}>
+        <View style={{borderBottomWidth:0.5,width:25,borderColor:'#8a8a8a '}}/>
         <Text style={styles.replies}>
-          <View style={{borderBottomWidth:0.5,width:25,borderColor:'#8a8a8a '}}/>    view 0 replies</Text>
+              view {reply.length} replies</Text>
         </View>
       </TouchableOpacity>
-      { showReply && reply.map((replies,index) => {
-        return <ReplyComponent key={index} name={replies.name} content={replies.content}/>
+      { showReply && reply.map((replies) => {
+        return <ReplyComponent key={replies.id} name={replies.name} content={replies.content}/>
       })}
     </View>
   </View>

@@ -74,7 +74,7 @@ const HomeScreen = () => {
   
 
   const memoPost = useMemo(() => {return post},[post])
-  const fetchPosts = async () => { 
+  const fetchPosts = () => { 
     try {
       const docRef = collection(db, 'posts')
       const querySnapShot = query(docRef,orderBy('createdAt', 'desc'))

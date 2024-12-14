@@ -2,8 +2,7 @@ import React,{lazy,Suspense,useEffect,useState} from 'react'
 import {View,Text,StyleSheet,FlatList,Platform,ScrollView, TextInput,TouchableOpacity, ActivityIndicator,KeyboardAvoidingView,SafeAreaView} from 'react-native'
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Feather from 'react-native-vector-icons/Feather';
-import CustomKeyboardView from '../components/CustomKeyboardView';
-import { addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query, getDocs,where,or} from "firebase/firestore"; 
+import { addDoc, collection,onSnapshot, Timestamp,query, getDocs,where,or,updateDoc} from "firebase/firestore"; 
 import { db} from '../../FireBase/FireBaseConfig';
 import { useAuth } from '../authContext';
 import { useSelector,useDispatch } from 'react-redux';
@@ -18,7 +17,7 @@ const PostComponent = lazy(() => import('../components/PostComponent'))
 const CommentScreen = () => {
   const {user} = useAuth()
   const route = useRoute()
-  const {id} = route.params
+  const {id} = route?.params
   const [currentComment,setCurrentComment] = useState([])
   const [comments, setComment] = useState([])
   const [loading,setLoading] = useState(false)
@@ -30,9 +29,9 @@ const CommentScreen = () => {
     setLoading(true)
     setTimeout(() => {
       setLoading(false)
-      grabCurrentComment();
+      grabCurrentPost();
       fetchID()
-    },1000)
+    },2000)
   },[])
   const fetchID = async () => {
     if(id){
@@ -63,6 +62,9 @@ const CommentScreen = () => {
         content:text,
         createdAt: Timestamp.fromDate(new Date())
       })
+      await updateDoc(newDoc,{
+        id:newDoc.id
+      })
       console.log('comment id:',newDoc.id)
       dispatch(addComment({id:newDoc.id,postId:id,content:text})) // grab the new comment id add to redux store.
       setText('')
@@ -70,7 +72,7 @@ const CommentScreen = () => {
       console.log('Error:',e)
     }
   }
-const grabCurrentComment = async () => { 
+const grabCurrentPost = async () => { 
   /// grabbing the current comment can use postId to grab current comment from redux store
   try{
     const docRef = collection(db, 'posts')
@@ -95,10 +97,11 @@ const grabCurrentComment = async () => {
 }
 
   return (
-    <View style={styles.container}>
+
       <KeyboardAvoidingView
-    behavior={Platform.OS === 'ios' ? 'position' : 'height'}
-    keyboardVerticalOffset={Platform.OS === 'ios' ? 20: 10}
+    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    keyboardVerticalOffset={0} 
+    style={styles.container}
     >
        <ChatRoomHeader onPress={handlePress} icon='keyboard-backspace' backgroundColor={color.button}/>
        <ScrollView
@@ -112,17 +115,12 @@ const grabCurrentComment = async () => {
         {comments.map((comment) => {
          
           return <Suspense key={comment.id}  fallback={<ActivityIndicator size='small' color='#fff'/>}>
-                  <CommentComponent content={comment.content} name={comment.name}/>
+                  <CommentComponent content={comment.content} name={comment.name} comment_id={comment.id} post_id={id}/>
             </Suspense>
         })}
         </ScrollView>
-        <View style={{marginTop:100}}>
+        <View>
        <View style={styles.inputContainer}>
-
-        {loading ? 
-        
-        <View style={{flex:1,height:40,justifyContent:'center',alignItems:'center'}}><ActivityIndicator size='small' color='#fff' /></View>
-         :
          <View style={styles.messageInput}>
          <TextInput
          value={text}
@@ -140,11 +138,10 @@ const grabCurrentComment = async () => {
            </View>
          </TouchableOpacity>
        </View>
-        }
         </View>
        </View>
        </KeyboardAvoidingView>
-    </View>
+    
     
    
   )
@@ -165,11 +162,10 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     borderColor:'#8a8a8a',
     borderWidth:0.5,
-    padding:2,
-    borderRadius:20
+    borderRadius:20,
   },
   sendButton: {
-    padding: 10,
+    padding: 15,
     marginRight:1,
   },
   inputContainer: {
@@ -179,6 +175,7 @@ const styles = StyleSheet.create({
     marginRight:3,
     marginLeft:3,
     padding:5,
+    paddingBottom:70
   },
   
 })

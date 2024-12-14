@@ -48,11 +48,11 @@ const TabNavigation = () => {
     headerShown: false, 
     tabBarStyle: {
       position: 'absolute',
-      bottom: 0,
-      height: 100,
       backgroundColor:'#252525',  
-      elevation: 0, 
-      borderTopWidth: 0, 
+      height:70,
+      borderTopWidth: 0,
+      paddingVertical: 0, // Ensure no vertical padding
+      paddingHorizontal: 0, 
     },
     tabBarActiveBackgroundColor:'#252525',
     tabBarShowLabel: false,                  

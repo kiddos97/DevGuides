@@ -50,7 +50,7 @@ const TabNavigation = () => {
       position: 'absolute',
       bottom: 0,
       height: 100,
-      backgroundColor:'transparent',  
+      backgroundColor:'#252525',  
       elevation: 0, 
       borderTopWidth: 0, 
     },

@@ -96,7 +96,7 @@ const ChatRoomHeader = ({title,onPress,icon,onPress2,backgroundColor,icon2}) => 
         text='Profile'
         value={null}
         icon={<MaterialCommunityIcons name='account' size={20} color={color.textcolor}/>}
-        action={() => navigation.navigate('Profile',{user})}/>
+        action={() => navigation.navigate('Profile')}/>
         <Divider/>
          <MenuItems 
         text='Message'

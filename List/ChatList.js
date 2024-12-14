@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text,FlatList, StyleSheet,SafeAreaView} from 'react-native'
+import {View, Text,FlatList,ScrollView} from 'react-native'
 import ChatRoom from '../app/components/ChatRoom'
 import { useNavigation } from '@react-navigation/native';
 
@@ -13,18 +13,18 @@ const ChatList = ({otherusers,currentUser}) => {
 
   return (
    <View>
-    <FlatList
-     data={otherusers}
-     contentContainerStyle={{paddingVertical:20}}
-     ItemSeparatorComponent={separator}
-     renderItem={({item}) =>
-     <ChatRoom
-     User={currentUser}
-     onPress={() => navigation.navigate('Chat',{item})}
-     next_item={item}
-    />}
-    keyExtractor={item => Math.random()}
-     />
+
+    {otherusers.map((item) =>(
+      <View style={{padding:10}}key={Math.random()}>
+          <ChatRoom
+                    
+                    User={currentUser}
+                    onPress={() => navigation.navigate('Chat',{item})}
+                    next_item={item}
+                   />
+      </View>
+                  
+    ))}
    </View>
   )
 }

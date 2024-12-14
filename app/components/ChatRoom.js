@@ -1,15 +1,18 @@
-import { View, Text, TouchableOpacity,StyleSheet, TouchableHighlight} from 'react-native'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { View, Text, StyleSheet, TouchableHighlight,TouchableOpacity} from 'react-native'
 import { useState, useEffect } from 'react';
 import { useAuth } from '../authContext';
-import { db, roomRef} from '../../FireBase/FireBaseConfig';
-import { collection, doc,query,onSnapshot, orderBy } from "firebase/firestore"; 
+import { db} from '../../FireBase/FireBaseConfig';
+import { collection, doc,query,onSnapshot, orderBy,deleteDoc,getDocs } from "firebase/firestore"; 
 import { blurhash } from '../../utils/index';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { Image } from 'expo-image';
 import { getRoomID,formatDate } from '../../utils';
+import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
+import { useSelector } from 'react-redux';
+
 const ChatRoom = ({next_item, onPress,User}) => {
 
+  
  
 
   const {user } = useAuth();
@@ -48,10 +51,42 @@ const ChatRoom = ({next_item, onPress,User}) => {
             return 'Say Hi'
         }
       }
+
+      const handleDelete = async () => {
+        try {
+          const messagesRef = collection(doc(db, 'rooms', roomId), 'messages');
+          const messagesSnapshot = await getDocs(messagesRef);
+
+          messagesSnapshot.forEach(async (messageDoc) => {
+                await deleteDoc(messageDoc.ref);
+            });
+
+          // Step 2: Delete the chat room document
+          await deleteDoc(doc(db, 'rooms', roomId));
+          console.log('Document deleted successfully');
+        } catch (error) {
+          console.error('Error deleting document: ', error);
+
+        }
+      };
+      
+
+      const renderRightActions = (progress,dragX) =>{
+        return (
+          <View style={{borderRadius:15,backgroundColor: '#252525', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20 }}>
+              <TouchableOpacity onPress={handleDelete} >
+            <Text style={{color: 'white',fontWeight: 'bold',}}>Delete</Text>
+          </TouchableOpacity>
+          </View>
+        
+          
+        )
+      }
   return (
  
-    <TouchableHighlight
-    underlayColor="grey"
+    <Swipeable renderRightActions={renderRightActions}>
+       <TouchableHighlight
+    underlayColor='#252525'
     onPress={onPress}>
         <View style={styles.container}>
           <View>
@@ -63,12 +98,14 @@ const ChatRoom = ({next_item, onPress,User}) => {
           </View>
          <View style={styles.detailsContainer}>
             {/*Name and last message */}
-             <Text numberOfLines={1} style={styles.title}>{next_item?.username}</Text>
+             <Text numberOfLines={1} style={styles.title}>{next_item?.name}</Text>
              <Text  numberOfLines={2} style={styles.subTitle} >{renderLastMessage()}</Text>
          </View>
          <Text  numberOfLines={2} style={styles.subTitle} >{renderTime()}</Text>
         </View>
     </TouchableHighlight>
+   
+    </Swipeable>
    
   
   )
@@ -79,11 +116,14 @@ const styles = StyleSheet.create({
       flexDirection:'row',
       padding: 15,
       alignItems:'center',
+      backgroundColor:'#252525',
+      borderRadius:15
+
   },
   detailsContainer:{
       flex:1,
       marginLeft:10,
-      justifyContent:'center'
+      justifyContent:'center',
   },
   iconContainer:{
       borderRadius:50,

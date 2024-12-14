@@ -5,24 +5,27 @@ import { AuthContextProvider } from './app/authContext';
 import { StatusBar } from 'expo-status-bar';
 import {useEffect,useState} from 'react'
 import SplashScreen from './app/screen/SplashScreen';
-import store from './app/store';
+import {store,persistor} from './app/store'
 import { Provider } from 'react-redux';
 import AuthNavigation from './app/navigation/AuthNavigation';
+import { PersistGate } from 'redux-persist/integration/react';
 export default function App() {
 
   const [loading,setLoading] = useState(true)
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setLoading(false)
 
     },3000)
 
+    return () => clearTimeout(timer)
   },[])
   return (
 
     <Provider store={store}>
-        <MenuProvider>
+      <PersistGate loading={null} persistor={persistor}>
+      <MenuProvider>
           <AuthContextProvider>
         <NavigationContainer>
           {loading ? <SplashScreen/> :   <AuthNavigation/>}
@@ -30,6 +33,7 @@ export default function App() {
     </AuthContextProvider>
     <StatusBar style="light" />
     </MenuProvider>
+      </PersistGate>
     </Provider>
   
   );

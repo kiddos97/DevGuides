@@ -6,28 +6,36 @@ import {  addDoc, collection, doc, onSnapshot, orderBy, setDoc, Timestamp,query,
 import MessageList  from '../components/MessageList';
 import { getRoomID } from '../../utils';
 import { useAuth } from '../authContext';
-import { IdRef, db, roomRef } from '../../FireBase/FireBaseConfig';
+import {  db } from '../../FireBase/FireBaseConfig';
 import { useRoute } from '@react-navigation/native';
 import CustomKeyboardView from '../components/CustomKeyboardView';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import Feather from 'react-native-vector-icons/Feather';
 import ChatRoomHeader from '../components/ChatRoomHeader';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { addID } from '../features/Message/messageidSlice';
 
 const ChatScreen = () => {
   const [messages, setMessages] = useState([]);
  
 
   const route = useRoute();
-  const { item } = route.params;
+  const { item,} = route.params;
   const { user } = useAuth();//current user logged in
 
   const navigation = useNavigation();
+  const dispatch = useDispatch()
 
   const textRef = useRef('');
   const inputRef = useRef(null);
 
   
+  const recipentNamec = route?.params?.userid 
+            ? route?.params?.name 
+            : item?.userId 
+            ? item.name 
+            : 'Unknown Recipient';
   useEffect(() => {
     const loadMessages = (roomId) => {
       const docRef = doc(db, 'rooms', roomId);
@@ -40,11 +48,7 @@ const ChatScreen = () => {
       return unsub;
     };
   
-    const roomId = route?.params?.userid
-      ? getRoomID(user?.userId, route?.params?.userid)
-      : item?.userId
-      ? getRoomID(user?.userId, item.userId)
-      : null;
+    const roomId = route?.params?.userid ? getRoomID(user?.userId, route?.params?.userid) : item?.userId ? getRoomID(user?.userId, item.userId) : null;
   
     if (roomId) {
       createRoom();
@@ -60,12 +64,17 @@ const ChatScreen = () => {
       const roomId = route?.params?.userid
       ? getRoomID(user?.userId, route?.params?.userid)
       : item?.userId
-      ? getRoomID(user?.userId, item.userId)
+      ? getRoomID(user?.userId, item?.userId)
       : null;
       await setDoc(doc(db,'rooms',roomId),{
         roomId,
         createdAt: Timestamp.fromDate(new Date())
       })
+      await setDoc(doc(db,'MessageID',route?.params?.userid),{
+        userId:route?.params?.userid,
+        name:recipentNamec
+      })
+      dispatch(addID(route?.params?.userid))
     } catch (error) {
       console.error("Error creating room:", error);
     }
@@ -86,18 +95,12 @@ const ChatScreen = () => {
       textRef.current ="";
       if(inputRef) inputRef?.current?.clear();
       
-      const recipentNamec = route?.params?.userid 
-            ? route?.params?.name 
-            : item?.userId 
-            ? item.username 
-            : 'Unknown Recipient';
-
-
       const newDoc = await addDoc(messageRef,{
         userId:user?.userId,
         text:message,
         senderName: user?.username,
         recipentName:recipentNamec,
+        sent:'true',
         createdAt: Timestamp.fromDate(new Date())
       })
     }catch(error){
@@ -108,18 +111,17 @@ const ChatScreen = () => {
   return (
     <CustomKeyboardView
     inChat={true}
-      behavior={Platform.OS === "ios" ? "padding" : 'height'}
       style={styles.container}
     >
       <ChatRoomHeader 
-      title={item.username} 
+      title={item?.name}
       backgroundColor={color.button} 
       icon='keyboard-backspace'
       onPress={() => navigation.navigate('Message')}/>
       <View style={styles.messagesContainer}>
         <MessageList messages={messages} currentUser={user} />
       </View>
-      <View style={{marginBottom:hp(1.7), paddingTop:5}}>
+      <View style={{paddingTop:5}}>
       <View style={styles.inputContainer}>
         <View style={styles.messageInput}>
           <TextInput
@@ -160,7 +162,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     marginRight:3,
     marginLeft:3,
-    paddingBottom: Platform.OS === "ios" ? 20 : 10,
+    paddingVertical:110
   },
   messageInput: {
     flexDirection:'row',

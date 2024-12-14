@@ -3,6 +3,7 @@ import { initializeApp,browserLocalPersistence } from "firebase/app";
 import { initializeAuth,getReactNativePersistence  } from "firebase/auth";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getFirestore,collection } from 'firebase/firestore';
+import { getDatabase } from "firebase/database";
 //mport { getAnalytics } from "firebase/analytics";
 // TOD: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -16,7 +17,7 @@ const firebaseConfig = {
   storageBucket: "devguides-1114d.appspot.com",
   messagingSenderId: "1090463216879",
   appId: "1:1090463216879:web:f9199d3462d35d0eb8d71a",
-  measurementId: "G-4RK1QX2NH0"
+  measurementId: "G-4RK1QX2NH0",
 };
 
 // Initialize Firebase

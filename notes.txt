@@ -1065,3 +1065,10 @@ View style={{ marginTop: 30, flexDirection: 'row', alignItems: 'center', justify
                   </ScrollView>
                 </View>
 
+
+                   <ChatRoom
+     User={currentUser}
+     onPress={() => navigation.navigate('Chat',{item})}
+     next_item={item}
+    />}
+

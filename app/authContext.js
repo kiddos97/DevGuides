@@ -1,10 +1,7 @@
-import React,{ createContext, useEffect, useState} from 'react'
-import { useContext } from 'react';
-import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth, db,userRef } from '../FireBase/FireBaseConfig';
+import React,{ createContext, useEffect, useState, useContext} from 'react'
+import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword,signOut,sendPasswordResetEmail } from 'firebase/auth';
+import { auth, db,} from '../FireBase/FireBaseConfig';
 import { doc, getDoc, setDoc} from 'firebase/firestore';
-import { signOut } from 'firebase/auth';
-import { Alert} from 'react-native'
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({children}) => {
@@ -57,21 +54,26 @@ export const AuthContextProvider = ({children}) => {
             const response = await createUserWithEmailAndPassword(auth,email,password)
             await setDoc(doc(db,'users',response?.user?.uid),{
                 username,
-                password,
                 userId: response?.user?.uid
             })
             return {success:true, data: response?.user}
         }catch(error){
             console.error(`${error}`)
             return {success:false, msg: error.message}
+        }   
+    }
+    const resetpassword = async (email) => {
+        try{
+            await sendPasswordResetEmail(auth,email)
+        }catch(e){
+            console.log(e)
         }
-        
+       
+
     }
     const updateUserData = async (userId) => {
         const docRef = doc(db,'users',userId)
         const docSnap = await getDoc(docRef);
-
-
         if(docSnap.exists()){
            let data = docSnap.data()
            setUser({...user, username: data.username, userId:data.userId})
@@ -79,7 +81,7 @@ export const AuthContextProvider = ({children}) => {
     }
 
     return (
-        <AuthContext.Provider value={{user,isAuthenticated,login,register,logout}} >
+        <AuthContext.Provider value={{user,isAuthenticated,login,register,logout,resetpassword}} >
             {children}
         </AuthContext.Provider>
     )

@@ -16,7 +16,7 @@ const CustomKeyboardView = ({children,inChat}) => {
     }
   return (
    <KeyboardAvoidingView
-   behavior={Platform.OS === 'ios' ? 'padding':'height'}
+   behavior='padding'
    style={{flex:1,backgroundColor: inChat ? '':'#1f1f1f'}}
    {...kavConfig}
    >

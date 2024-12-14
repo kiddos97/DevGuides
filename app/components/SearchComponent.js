@@ -9,7 +9,7 @@ const SearchComponent = ({backgroundColor,color,onPress, setSearchQuery,searchQu
     <TextInput
     style={styles.textinput}
     placeholder='Search.....'
-    placeholderTextColor='#fff'
+    placeholderTextColor='#000'
     onChangeText={setSearchQuery}
     value={searchQuery}
     />
@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     textinput: {
         color: color.white,
         fontSize: 15,
+        padding:10
     },
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import color from '../../config/color';
 import ChatRoomHeader from '../components/ChatRoomHeader';
 import { useNavigation } from '@react-navigation/native';
@@ -14,7 +14,7 @@ const PostScreen = lazy(() => import('../screen/PostScreen'))
 const CommentScreen = lazy(() => import('../screen/CommentScreen'))
 const CommentReplyScreen = lazy(() => import('../screen/CommentReplyScreen'))
 const EditScreen = lazy(() => import('../screen/EditScreen'))
-
+const OtherUserScreen = lazy(() => import('../screen/OtherUserScreen'))
 
 const ChatScreenWrapper = (props) => {
   
@@ -40,7 +40,7 @@ const ProfileScreenWrapper = (props) => {
   
   return (
     <Suspense fallback={<ActivityIndicator size='small' color='#000'/>}>
-    <AccountScreen  {...props}/>
+    <AccountScreen/>
   </Suspense>
 
   )
@@ -93,6 +93,16 @@ const EditScreenWrapper = (props) => {
   )
 }
 
+const OtherUserScreenWrapper = (props) => {
+  
+  return (
+    <Suspense fallback={<ActivityIndicator size='small' color='#000'/>}>
+    <OtherUserScreen/>
+  </Suspense>
+
+  )
+
+}
 const config = {
   animation: 'spring',
   config: {
@@ -105,7 +115,7 @@ const config = {
   },
 };
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 const StackNavigation = () => {
 
@@ -189,6 +199,13 @@ const StackNavigation = () => {
         gestureEnabled:false
       }}
       />
+        <Stack.Screen
+      name='SearchAccount'
+      component={OtherUserScreenWrapper}
+      options={{
+        headerShown:false,
+        gestureEnabled:false
+      }}/>
     </Stack.Navigator>
   );
 }

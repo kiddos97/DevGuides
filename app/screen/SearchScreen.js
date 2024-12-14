@@ -4,11 +4,12 @@ import SearchComponent from '../components/SearchComponent';
 import color from '../../config/color';
 import person from '../assets/person.jpg'
 import { userRef} from '../../FireBase/FireBaseConfig';
-import {doc, getDocs,query,where } from "firebase/firestore"; 
+import { getDocs,query,where } from "firebase/firestore"; 
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { addsearchID } from '../features/search/searchSlice';
 import store from '../store';
+import useDebounce from '../hooks/useDebounce';
 const SearchScreen = () => {
 
   
@@ -16,7 +17,19 @@ const SearchScreen = () => {
   const [results, setResults] = useState([]);
   const [loading,setLoading] = useState(false)
   const navigation = useNavigation();
+
+  const debouncedsearch = useDebounce(searchQuery,8000)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (debouncedsearch) {
+        setLoading(true);
+        handleSearch(); // perform search here
+    } else {
+      setResults([]); // reset loading when search query is cleared
+    }
+}, [debouncedsearch]);
+
 
   const handleSearch = async () => {
     setLoading(true)
@@ -39,8 +52,7 @@ const SearchScreen = () => {
     }
 
   }
-  const state = store.getState()
-  console.log('Redux Store State Search:', state.search.searchID);
+
 
 
   return (
@@ -49,16 +61,16 @@ const SearchScreen = () => {
           <SearchComponent 
           setSearchQuery={setSearchQuery}
           backgroundColor={color.grey}
-          color={color.button}
+          color='#00bf63'
           onPress={handleSearch}
           searchQuery={searchQuery}/>
         </View>
-        {loading ? <ActivityIndicator size='small' color='#000'/> :
+        {loading ? <ActivityIndicator size='small' color='#fff'/> :
                <FlatList
                data={results}
                keyExtractor={(item) => item.id}
                renderItem={({item}) =>
-                 <TouchableOpacity onPress={() => navigation.navigate('Profile',{userId:item.userId})}>
+                 <TouchableOpacity onPress={() => navigation.navigate('Welcome',{screen:'SearchAccount',params:{userId:item.userId}})}>
                      <View style={{padding:10}}> 
                    <View style={styles.userContainer}>
                  <Image
@@ -81,7 +93,7 @@ const SearchScreen = () => {
 const styles = StyleSheet.create({
   screen:{
     flex:1,
-    backgroundColor:color.white,
+    backgroundColor:color.backgroundcolor,
   },
   image:{
     width:50,

@@ -1,9 +1,9 @@
 
-import {View, Text, StyleSheet, ScrollView, TouchableOpacity,Dimensions,ActivityIndicator} from 'react-native'
+import {View, Text, StyleSheet, ScrollView, TouchableOpacity,Dimensions,ActivityIndicator,RefreshControl} from 'react-native'
 import {lazy,Suspense} from 'react'
 import color from '../../config/color';
 import { useNavigation } from '@react-navigation/native';
-import {useState, useEffect} from 'react';
+import {useState, useEffect,useCallback} from 'react';
 import { useAuth } from '../authContext';
 import { Image } from 'expo-image';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
@@ -115,57 +115,48 @@ const AccountScreen = () => {
 
   const [users, setUsers] = useState('')
   const [isloading,setLoading] = useState(false)
-  const [scrollPercentage, setScrollPercentage] = useState(0);
-  const totalPages = 2;
- 
-  const { user } = useAuth();
-  let route  = useRoute();
-  const navigation = useNavigation();
-  const {userId} = route?.params
-  console.log('acc id:',userId)
-  console.log('acc2 id:',user)
-  const isCurrentUser = user?.userId === route?.params?.user?.userId;
-  console.log('account:',user)
-  console.log('current:',isCurrentUser)
-  const user_id = useSelector((state) => state.user.ID)
-  const other_user_id = useSelector((state)=>state.search.searchID)
 
+ 
+
+  const { user } = useAuth();
+  const navigation = useNavigation();
+  console.log('account:',user)
+  const isCurrentUser = user
+  console.log('is current user',isCurrentUser)
+  const user_id = useSelector((state) => state.user.currentuserID)
+  //const other_user_id = useSelector((state)=>state.search.searchID)
+  const [refreshing, setRefreshing] = useState(false);
   
   const follow_items = [{count:500,content:'following'},{count:2000,content:'followers'},{count:100,content:'posts'}]
 
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await fetchUser(); // Re-fetch user data
+    setRefreshing(false); // End refreshing state
+  }, [user]);
+
   useEffect(() => {
     setLoading(true)
-    setTimeout(()=>{
-      if(user && userId){
+    const fetchUser = async () => {
+      try{
+        const userDoc = doc(db,'users',user.userId)
+        const userDocRef = await getDoc(userDoc);
+        if(userDocRef.exists()){
+          setUsers(userDocRef.data())
+        }
+        console.log('acc3:',userDocRef.data())
+      }catch(error){
+        console.error(`No such document ${error}`)
+      }finally{
         setLoading(false)
-        fetchUser(other_user_id);
-      }else if(user && !userId){
-        setLoading(false)
-        fetchUser(user_id)
       }
-    },1000)
-  },[user,user])
-
-  const fetchUser = async (id) => {
-    try{
-      // const id = user ? user_id : isCurrentUser ? other_user_id : null;
-      const userDoc = doc(db,'users',id)
-      const userDocRef = await getDoc(userDoc);
-      if(userDocRef.exists()){
-        setUsers(userDocRef.data())
-      }
-      console.log('acc3:',userDocRef.data())
-    }catch(error){
-      console.error(`No such document ${error}`)
     }
-  }
 
-  const handleScroll = (event) => {
-    const offsetX = event.nativeEvent.contentOffset.x;
-    const contentWidth = width * totalPages; // Total scrollable width
-    const percentage = Math.min((offsetX / (contentWidth - width)) * 100, 100);
-    setScrollPercentage(percentage);
-  };
+    fetchUser()
+  },[])
+
+
+
   
 
 
@@ -179,7 +170,9 @@ const AccountScreen = () => {
         onPress2={() => navigation.navigate('Message')}
         />
         {isloading ? <ActivityIndicator size='large'color='#fff'/> :
-        <ScrollView>
+        <ScrollView
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+        >
         <View style={styles.profileContainer}>
           <View style={{flexDirection:'row', justifyContent:'space-between',paddingLeft:20}}>
           <Image

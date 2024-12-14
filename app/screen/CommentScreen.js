@@ -14,17 +14,6 @@ import color from '../../config/color';
 import { useNavigation } from '@react-navigation/native';
 const CommentComponent = lazy(() => import('../components/CommentComponent'))
 const PostComponent = lazy(() => import('../components/PostComponent'))
-const list_comments = [
-  {
-    id: '1',
-    parent_id: '0',
-    name: 'david',
-    image: '',
-    text: 'this is parent cooment 1',
-  }, 
-];
-
-// fixed the functionality of the comment sending to the firebase and then rednering on the screen, depending on render may add a lazy affect
 
 const CommentScreen = () => {
   const {user} = useAuth()
@@ -61,23 +50,6 @@ const CommentScreen = () => {
       ) 
     }
   }
-  // const grabComment = async () => { //grabbing all of the comments, will take a postId to grab comments only for a certain post
-  //   try{
-  //     const docRef = doc(db,'post','postID')
-  //     const comment = collection(docRef,'post-messages')
-  //     const comment_message = doc(comment,'sPgBSFVL9frm0RLgoikW')
-  //     const message_comment = collection(comment_message,'comment-message')
-  //     const q = query(message_comment,orderBy('createdAt', 'desc'));
-  //     const querySnapShot = await getDocs(q);
-  //     let data = [];
-  //     querySnapShot.forEach(doc => {
-  //       data.push({ ...doc.data(),id:doc.id });
-  //     })
-  //     setComment([...data]);
-  //   }  catch (e) {
-  //   console.log(`Error: ${e}`);
-  // }
-  // }
   const handlePress = () => {
     navigation.navigate('Main');
   }

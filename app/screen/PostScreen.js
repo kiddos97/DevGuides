@@ -27,6 +27,9 @@ const PostScreen = () => {
             id:user?.userId,
             name: user?.username,
             content:text,
+            like_count:null,
+            comment_count:null,
+            liked_by:null,
             createdAt: Timestamp.fromDate(new Date())
           })
           await updateDoc(newDoc,{

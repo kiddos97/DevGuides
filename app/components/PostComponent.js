@@ -7,17 +7,54 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons'
 import { useAuth } from '../authContext';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
+import { collection, runTransaction,doc } from "firebase/firestore";
+import { db } from '../../FireBase/FireBaseConfig';
 
 const PostComponent = ({content,date,name,id}) => {
 
     const [press,setIsPress] = useState(false)
     const [count, setCount] = useState(0)
+    const [isloading,setLoading] = useState(false)
     const {user} = useAuth();
 
     const navigation = useNavigation();
 
-    const handleLike = () => {
-        setCount(count + 1)
+    const handleLike = async () => {
+      if(isloading) return
+
+      setLoading(true)
+      try{
+        const docRef = doc(db, 'posts',id);;
+        await runTransaction(db,async (transaction)=>{
+          const doc = await transaction.get(docRef)
+          if (!doc.exists()) throw new Error ('Document doesnt exists');
+
+          const currentLikes = doc.data().like_count || 0
+          const likeBy = doc.data().liked_by || []
+          const hasliked = likeBy.includes(user.userId)
+
+          let newlike
+          let updatedLike
+
+          if(hasliked){
+            newlike = currentLikes - 1
+            updatedLike = likeBy.filter((id)=> id != user?.userId)
+          }else{
+            newlike = currentLikes + 1
+            updatedLike = [...likeBy,user.userId]
+          }
+          transaction.update(docRef,{
+            like_count:newlike,
+            liked_by:updatedLike
+          })
+          setCount(newlike)
+        })
+      }catch(err){
+        console.log('error liking comment:',err)
+      }finally{
+        setLoading(false)
+      }
+  
     }
   return (
     <View style={styles.card}>
@@ -39,9 +76,10 @@ const PostComponent = ({content,date,name,id}) => {
       <Text style={styles.postText}>{content}
       </Text>
       <Text style={styles.postDate}>{date}</Text>
-      <View style={{borderBottomColor:'#8a8a8a',borderBottomWidth:'0.5px',marginTop:30}}></View>
+      <View style={{borderBottomColor:'#8a8a8a',borderBottomWidth:0.5,marginTop:30}}></View>
       <View style={styles.reactionContainer}>
     <TouchableHighlight
+                  disabled={isloading}
                  onShowUnderlay={() => setIsPress(true)}
                  onHideUnderlay={() => setIsPress(false)}
                  underlayColor='#0097b2'
@@ -56,13 +94,13 @@ const PostComponent = ({content,date,name,id}) => {
         <TouchableOpacity onPress={() => navigation.navigate('Comment',{id})} style={styles.reactionIcon}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <MaterialCommunityIcons name="comment-processing-outline" size={20} color='#ffffff'/>
-            <Text style={styles.reactionText}>{count}</Text>
+            <Text style={styles.reactionText}>10</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={styles.reactionIcon}>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <EvilIcons name='retweet' size={20} color='#ffffff'/>
-          <Text style={styles.reactionText}>{count}</Text>
+          <Text style={styles.reactionText}>10</Text>
           </View>
         </TouchableOpacity>
       </View>

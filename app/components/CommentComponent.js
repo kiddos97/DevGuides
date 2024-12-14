@@ -90,7 +90,7 @@ const CommentComponent = ({content,name}) => {
       <TouchableOpacity onPress={() => setShowReply(!showReply)}>
         <View style={styles.replycontainer}>
         <Text style={styles.replies}>
-          <View style={{borderBottomWidth:'0.5px',width:25,borderColor:'#8a8a8a '}}/>    view 0 replies</Text>
+          <View style={{borderBottomWidth:0.5,width:25,borderColor:'#8a8a8a '}}/>    view 0 replies</Text>
         </View>
       </TouchableOpacity>
       { showReply && reply.map((replies,index) => {

@@ -117,7 +117,7 @@ const ChatScreen = () => {
       title={item?.name}
       backgroundColor={color.button} 
       icon='keyboard-backspace'
-      onPress={() => navigation.navigate('Message')}/>
+      onPress={() => navigation.goBack()}/>
       <View style={styles.messagesContainer}>
         <MessageList messages={messages} currentUser={user} />
       </View>

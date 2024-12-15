@@ -15,9 +15,7 @@ import { blurhash } from '../../utils/index';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 
-const separator = () => {
-    return <View style={{height:1,width:'100%',backgroundColor:'#8a8a8a',marginTop:5}}/>
-  }
+
 
   const Sections = [
     {
@@ -75,27 +73,35 @@ const sections = [
           id:1,
           icon:'person',
           name:'Isa Kuhn',
+          type:'Username',
+          screen:'EditUser',
           color:'#fff',
           nav:'keyboard-arrow-right'
       },
       {
           id:2,
           icon:'email',
-          name:'Isa Kuhn',
+          name:'isakuhn@gmail.com',
+          type:'Email',
+          screen:'EditEmail',
           color:'#fff',
           nav:'keyboard-arrow-right'
       },
       {
           id:3,
           icon:'phone',
-          name:'Isa Kuhn',
+          name:'734-431-8504',
+          type:'Phone',
+          screen:'EditPhone',
           color:'#fff',
           nav:'keyboard-arrow-right'
       },
       {
           id:4,
           icon:'work',
-          name:'Isa Kuhn',
+          name:'Front-End Developer',
+          type:'Job title',
+          screen:'EditJob',
           color:'#fff',
           nav:'keyboard-arrow-right'
       }
@@ -121,31 +127,9 @@ const EditScreen = () => {
         showCollaborators:true,
         accessibilityMode: false
     })
-    const [name,setName] = useState('')
-    const [username,setUsername] = useState('')
-    const [password,setPassword] = useState('')
-    const [jobtitle,setJobTitle] = useState('')
-    const [focus,setFocus] = useState('')
-    const [isloading,setLoading] = useState(false)
+  
+  
 
-    const handleSubmit = async () =>{
-        setLoading(true)
-        try{
-           const docRef = doc(db,'users',user.userId)
-            await updateDoc(docRef,{
-                    name:name,
-                    username:username,
-                    password:password,
-                    jobtitle:jobtitle
-            })
-             updatePassword(currentuser.currentUser,password)
-        }catch(e){
-            console.log(`Error sending updates:${e}`)
-        }
-        finally{
-            setLoading(false)
-        }
-    }
   return (
     <View style={styles.screen}>
         <ChatRoomHeader 
@@ -155,7 +139,12 @@ const EditScreen = () => {
         icon='keyboard-backspace' 
         onPress2={() => navigation.navigate('Message')}
         />
-        <ScrollView>
+        <ScrollView
+        contentContainerStyle={{paddingBottom:30}}
+        zoomScale={1.0}
+        showsVerticalScrollIndicator
+        alwaysBounceVertical
+        >
         <View style={{padding:40}}>
         <View style={{flexDirection:'row'}}>
         <Image
@@ -173,8 +162,8 @@ const EditScreen = () => {
                      <Text key={header} style={{color:'#fff',fontSize:20}}>
                   {header}
                         </Text>
-                {items.map(({id,icon,nav,name})=>(
-                     <TouchableOpacity onPress={()=>console.log('pressed')}>
+                {items.map(({id,icon,nav,name,type,screen})=>(
+                     <TouchableOpacity onPress={()=>navigation.navigate(screen)}>
                       <View key={icon} style={{ marginTop: 30, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                       <View style={{ backgroundColor: '#3b3b3b', borderRadius: 5, width: 30, padding: 5 }}>
                           <View style={{ alignItems: 'center' }}>
@@ -184,7 +173,7 @@ const EditScreen = () => {
                       <View style={{ paddingLeft: 10, flex: 1 }}>
                       <Text style={{ fontSize: 18,color:'#fff' }}>@{name}</Text>
                       <View style={{ marginTop: 3 }}>
-                      <Text style={{ fontSize: 12,color:'#fff' }}>Username</Text>
+                      <Text style={{ fontSize: 12,color:'#fff' }}>{type}</Text>
                       </View>
                       </View>
                       <View style={{ backgroundColor: '#3b3b3b', borderRadius: 5, width: 30, padding: 5 }}>

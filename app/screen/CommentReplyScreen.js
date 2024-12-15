@@ -54,12 +54,12 @@ const handleCancel = () => {
         {
           text: 'Discard',
           style: 'destructive',
-          onPress: () => navigation.navigate('Comment'), // Navigate only if user confirms
+          onPress: () => navigation.goBack(), // Navigate only if user confirms
         },
       ]
     );
   } else {
-    navigation.navigate('Welcome'); // No unsaved changes, navigate immediately
+    navigation.goBack(); // No unsaved changes, navigate immediately
   }
 }
   return (<CustomKeyboardView

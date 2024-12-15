@@ -50,7 +50,7 @@ const CommentScreen = () => {
     }
   }
   const handlePress = () => {
-    navigation.navigate('Main');
+    navigation.goBack();
   }
 
   const handleSend = async () => { // will handle sending the comment to firebase, and parentId key and set value to postId ( id of post)
@@ -100,12 +100,12 @@ const grabCurrentPost = async () => {
 
       <KeyboardAvoidingView
     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    keyboardVerticalOffset={0} 
+    keyboardVerticalOffset={60} 
     style={styles.container}
     >
        <ChatRoomHeader onPress={handlePress} icon='keyboard-backspace' backgroundColor={color.button}/>
        <ScrollView
-       keyboardShouldPersistTaps="handled">
+       keyboardShouldPersistTaps="never">
        <View>
         {currentComment.map((comment) => {
           return <Suspense key={comment.id} fallback={<ActivityIndicator size='small' color='#fff'/>}>
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     marginRight:3,
     marginLeft:3,
     padding:5,
-    paddingBottom:70
+    paddingBottom:30
   },
   
 })

@@ -8,17 +8,9 @@ import { ActivityIndicator } from 'react-native';
 
 const Drawer = createDrawerNavigator();
 
-const SettingsScreen = lazy(() => import('../screen/SettingsScreen'))
+
 const TabNavigation = lazy(() => import('./TabNavigation'))
-// const SettingsScreenWrapper = (props) => {
-  
-//   return (
 
-//   <Suspense fallback={<ActivityIndicator size='small' color='#000' />}>
-//     <SettingsScreen {...props}/>
-//   </Suspense>
-
-// )}
 
 const TabNavigationWrapper = (props) =>{
   return (

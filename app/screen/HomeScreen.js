@@ -11,6 +11,8 @@ import {  collection, onSnapshot, orderBy,query, } from "firebase/firestore";
 import {db} from '../../FireBase/FireBaseConfig';
 import { useDispatch} from 'react-redux';
 import { addId } from '../features/user/userSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const PostComponent = lazy(() => import('../components/PostComponent'))
 const Cards = lazy(() => import('../components/Cards'))
@@ -62,14 +64,17 @@ const HomeScreen = () => {
   const [post, setPost] = useState([])
   const [mount, setMount] = useState(false)
 
+  
+
   useEffect(() => { 
     setMount(true)
     dispatch(addId({currentuserID:user.userId}))
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setMount(false)
       fetchPosts();
     },1000)
       
+    return () => clearTimeout(timer)
   }, []); 
   
 

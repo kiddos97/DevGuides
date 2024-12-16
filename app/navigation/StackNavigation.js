@@ -19,6 +19,7 @@ const EditInputScreen = lazy(() => import('../screen/EditInputScreen'))
 const EditEmailScreen = lazy(() => import('../screen/EditEmailScreen'))
 const EditPhoneScreen = lazy(() => import('../screen/EditPhoneScreen'))
 const EditJobScreen = lazy(() => import('../screen/EditJobScreen'))
+
 const ChatScreenWrapper = (props) => {
   
   return (
@@ -84,7 +85,7 @@ const HomeScreenWrapper = (props) => {
   
   return(
     <Suspense fallback={<ActivityIndicator size='small' color='"#000'/>}>
-    <HomeScreen {...props}/>
+    <HomeScreen/>
   </Suspense>
   )}
 
@@ -155,14 +156,6 @@ const Stack = createNativeStackNavigator();
 const StackNavigation = () => {
 
   const navigation = useNavigation();
-
-
-  const handlePress = () => {
-    navigation.navigate('Main');
-  }
-  const handleComment = () => {
-    navigation.navigate('Comment')
-  }
 
   return (
     <Stack.Navigator
